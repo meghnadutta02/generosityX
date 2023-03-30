@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-
 import { Typography, Pagination } from "@mui/material";
 import axios from "axios";
+
 export default function CampaignsPage() {
   const [campaigns, setCampaigns] = useState([]);
   const [selectedCity, setSelectedCity] = useState("");
@@ -23,19 +23,18 @@ export default function CampaignsPage() {
     };
     fetchData();
   }, [selectedCity]);
- 
 
-  const totalItems =campaigns.length;
+  const totalItems = campaigns.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentItems =campaigns.slice(startIndex, endIndex);
+  const currentItems = campaigns.slice(startIndex, endIndex);
 
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
   };
   return (
-    <div className="container px-16 lg:px-24 ">
+    <div className="container px-16 lg:px-24 pt-24">
       <h2 className="text-3xl text-center font-bold tracking-tight text-gray-900 m-8">
         Campaigns
       </h2>
@@ -83,7 +82,8 @@ export default function CampaignsPage() {
                   ${campaign.goal}
                 </p>
                 <p className="mt-1 text-lg font-bold text-gray-800">
-                  {campaign.startDate.replaceAll("-","/").substring(5,10)}-{campaign.endDate.replaceAll("-","/").substring(5,10)}
+                  {campaign.startDate.replaceAll("-", "/").substring(5, 10)}-
+                  {campaign.endDate.replaceAll("-", "/").substring(5, 10)}
                 </p>
               </div>
             </Link>

@@ -2,7 +2,7 @@
 
 export default function CreateFundraiserPage() {
   return (
-    <div className="container p-20 lg:px-60">
+    <div className="container p-28 lg:px-60">
       <form>
         <div className="space-y-12">
           <div className="border-b border-gray-900/10 pb-12">
@@ -105,10 +105,6 @@ export default function CreateFundraiserPage() {
                 </label>
                 <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
                   <div className="text-center">
-                    <PhotoIcon
-                      className="mx-auto h-12 w-12 text-gray-300"
-                      aria-hidden="true"
-                    />
                     <div className="mt-4 flex text-sm leading-6 text-gray-600">
                       <label
                         htmlFor="file-upload"

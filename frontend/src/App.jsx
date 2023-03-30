@@ -18,17 +18,19 @@ export default function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        {/* <Route path="/about" element={<About />} /> */}
 
-        {/*         <Route element={<ProtectedRoutes admin={false} />}> */}
+        {/* <Route element={<ProtectedRoutes admin={false} />}> */}
         <Route path="/items-donate" element={<ItemDonationPage />} />
         <Route path="/money-donate" element={<MoneyDonationPage />} />
         <Route path="/create-fundraiser" element={<CreateFundraiserPage />} />
         <Route path="/help-fundraiser" element={<HelpFundraiserPage />} />
         <Route path="/campaigns" element={<CampaignsPage />} />
         {/*         </Route> */}
-        <Route path="/campaigns/:id" element={<CampaignDetailsPage/>} />
-        <Route path="/help-fundraiser/:id" element={<FundraiserDetailsPage/>} />
+        <Route path="/campaigns/:id" element={<CampaignDetailsPage />} />
+        <Route
+          path="/help-fundraiser/:id"
+          element={<FundraiserDetailsPage />}
+        />
         <Route path="/register" element={<LoginPage />} />
       </Routes>
     </>
