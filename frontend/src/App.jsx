@@ -7,6 +7,7 @@ import CreateFundraiserPage from "./pages/CreateFundraiserPage";
 import FundraiserDetailsPage from "./FundraiserDetailsPage";
 import HelpFundraiserPage from "./pages/HelpFundraiserPage";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 import HomePage from "./pages/HomePage";
 import CampaignsPage from "./pages/CampaignsPage";
 import LoginPage from "./pages/LoginPage";
@@ -33,6 +34,7 @@ export default function App() {
         />
         <Route path="/register" element={<LoginPage />} />
       </Routes>
+      <Footer />
     </>
   );
 }
