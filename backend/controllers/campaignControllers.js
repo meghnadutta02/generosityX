@@ -15,7 +15,7 @@ const getCampaigns = async (req, res, next) => {
     const campaigns = await Campaign.find(query,select)
       .sort({ score: -1 })
       .orFail()
-      .select("name goal startDate endDate");
+      .select("name goal city startDate endDate");
       res.status(200).send(campaigns
       );
   } catch (err) {
