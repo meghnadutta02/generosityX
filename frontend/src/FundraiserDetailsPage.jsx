@@ -7,13 +7,9 @@ import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
-import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
-import { red } from "@mui/material/colors";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
 import { useParams } from "react-router-dom";
+
 export default function FundraiserDetailsPage() {
   const { id } = useParams();
 
@@ -31,47 +27,35 @@ export default function FundraiserDetailsPage() {
     : "";
 
   return (
-    <>
-      <h2 className="text-2xl my-8">Help us</h2>
-      <div className="grid md:grid-cols-2 gap-6">
-        <Card className="border-2 border-red-300">
+    <div className="p-24 bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900">
+      <div className="p-8 mt-8 grid md:grid-cols-2 gap-6 bg-gray-400 rounded-md bg-clip-padding backdrop-filter backdrop-blur-3xl bg-opacity-50 border border-gray-100">
+        <div className="">
           <CardHeader
             title={
-              <Typography variant="h5" fontWeight="bold">
+              <Typography variant="h4" fontWeight="bold">
                 {fundraiser.title}
               </Typography>
             }
           />
-          {fundraiser.image && fundraiser.image.map((i, index) => (
-            <CardMedia
-              key={index}
-              component="img"
-              height="194"
-              image={i.path}
-              alt="fundraiser image"
-            />
-          ))}
+          {fundraiser.image &&
+            fundraiser.image.map((i, index) => (
+              <CardMedia
+                key={index}
+                component="img"
+                height="194"
+                image={i.path}
+                alt="fundraiser image"
+              />
+            ))}
 
           <CardContent>
-            <Typography
-              variant="body1"
-              color="text.secondary"
-              fontWeight="bold"
-            >
-              Funds raised : ${fundraiser.currentAmount}{" "}
+            <Typography variant="h5" color="text.secondary" fontWeight="bold">
+              Target : ${fundraiser.currentAmount}{" "}
             </Typography>
-            <Typography
-              variant="body1"
-              color="text.secondary"
-              fontWeight="bold"
-            >
-              Target : ${fundraiser.goalAmount}{" "}
+            <Typography variant="h5" color="text.secondary" fontWeight="bold">
+              Funds raised : ${fundraiser.goalAmount}{" "}
             </Typography>
-            <Typography
-              variant="body1"
-              color="text.secondary"
-              fontWeight="bold"
-            >
+            <Typography variant="h5" color="text.secondary" fontWeight="bold">
               Deadline : {endDate}{" "}
             </Typography>
           </CardContent>
@@ -87,7 +71,7 @@ export default function FundraiserDetailsPage() {
             </Typography>
             <Typography paragraph>{fundraiser.description}</Typography>
           </CardContent>
-        </Card>
+        </div>
         <form>
           <div className="space-y-4 px-4">
             <div className="pb-2">
@@ -99,7 +83,7 @@ export default function FundraiserDetailsPage() {
                 <div className="sm:col-span-4 ">
                   <label
                     htmlFor="username"
-                    className="block text-sm font-medium leading-6 text-gray-900"
+                    className="block text-lg font-medium leading-6 text-gray-900"
                   >
                     Enter amount to contritbute
                   </label>
@@ -110,7 +94,7 @@ export default function FundraiserDetailsPage() {
                       name="amount"
                       id="amount"
                       autoComplete="amount"
-                      className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                      className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-lg sm:leading-6"
                       placeholder="10"
                     />
                   </div>
@@ -118,7 +102,7 @@ export default function FundraiserDetailsPage() {
                 <div className="col-span-full">
                   <label
                     htmlFor="about"
-                    className="block text-sm font-medium leading-6 text-gray-900"
+                    className="block text-lg font-medium leading-6 text-gray-900"
                   >
                     Your reason to help
                   </label>
@@ -127,7 +111,7 @@ export default function FundraiserDetailsPage() {
                       id="about"
                       name="about"
                       rows={3}
-                      className="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:py-1.5 sm:text-sm sm:leading-6"
+                      className="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:py-1.5 sm:text-lg sm:leading-6"
                       defaultValue={""}
                     />
                   </div>
@@ -136,14 +120,14 @@ export default function FundraiserDetailsPage() {
             </div>
 
             <div className="pb-4">
-              <h2 className="text-base font-semibold leading-7 text-gray-900">
+              <h2 className="text-2xl font-semibold leading-7 text-gray-900">
                 Personal Information
               </h2>
               <div className="mt-10 grid grid-cols-1 gap-y-8 gap-x-6 sm:grid-cols-6">
                 <div className="sm:col-span-3">
                   <label
                     htmlFor="first-name"
-                    className="block text-sm font-medium leading-6 text-gray-900"
+                    className="block text-lg font-medium leading-6 text-gray-900"
                   >
                     Full name
                   </label>
@@ -153,7 +137,7 @@ export default function FundraiserDetailsPage() {
                       name="first-name"
                       id="first-name"
                       autoComplete="given-name"
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-lg sm:leading-6"
                     />
                   </div>
                 </div>
@@ -161,7 +145,7 @@ export default function FundraiserDetailsPage() {
                 <div className="sm:col-span-4">
                   <label
                     htmlFor="email"
-                    className="block text-sm font-medium leading-6 text-gray-900"
+                    className="block text-lg font-medium leading-6 text-gray-900"
                   >
                     Email address
                   </label>
@@ -171,7 +155,7 @@ export default function FundraiserDetailsPage() {
                       name="email"
                       type="email"
                       autoComplete="email"
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-lg sm:leading-6"
                     />
                   </div>
                 </div>
@@ -179,7 +163,7 @@ export default function FundraiserDetailsPage() {
                 <div className="sm:col-span-2">
                   <label
                     htmlFor="postal-code"
-                    className="block text-sm font-medium leading-6 text-gray-900"
+                    className="block text-lg font-medium leading-6 text-gray-900"
                   >
                     Phone number
                   </label>
@@ -189,7 +173,7 @@ export default function FundraiserDetailsPage() {
                       name="postal-code"
                       id="postal-code"
                       autoComplete="postal-code"
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-lg sm:leading-6"
                     />
                   </div>
                 </div>
@@ -197,22 +181,22 @@ export default function FundraiserDetailsPage() {
             </div>
           </div>
 
-          <div className="mt-6 flex items-center justify-end gap-x-6">
+          <div className="m-16 flex items-center justify-end gap-x-6">
             <button
               type="button"
-              className="text-sm font-semibold leading-6 text-gray-900"
+              className="text-lg font-semibold leading-6 text-gray-900"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="rounded-md bg-indigo-600 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="rounded-md bg-indigo-600 py-2 px-3 text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
               Submit
             </button>
           </div>
         </form>
       </div>
-    </>
+    </div>
   );
 }

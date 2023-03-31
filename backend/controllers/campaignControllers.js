@@ -12,12 +12,11 @@ const getCampaigns = async (req, res, next) => {
     };
   }
   try {
-    const campaigns = await Campaign.find(query,select)
+    const campaigns = await Campaign.find(query, select)
       .sort({ score: -1 })
       .orFail()
-      .select("name goal startDate endDate");
-      res.status(200).send(campaigns
-      );
+      .select("name goal city startDate endDate");
+    res.status(200).send(campaigns);
   } catch (err) {
     next(err);
   }
@@ -146,16 +145,16 @@ const button = async (req, res) => {
     res.status(500).json({ message: "Failed to send RSVP." });
   }
 };
-const getMyEvents=async(req,res,next)=>{
-  try
-  {
-    const campaigns = await Campaign.find({ attendees: { $elemMatch: { email: req.user.email } } }).select("name goal startDate endDate");;
-    res.status(200).json(campaigns)
-  }catch(err)
-  {
+const getMyEvents = async (req, res, next) => {
+  try {
+    const campaigns = await Campaign.find({
+      attendees: { $elemMatch: { email: req.user.email } },
+    }).select("name goal startDate endDate");
+    res.status(200).json(campaigns);
+  } catch (err) {
     next(err);
   }
-}
+};
 const rsvped = async (req, res, next) => {
   try {
     const campaignId = req.params.campaignId;
@@ -170,7 +169,10 @@ const rsvped = async (req, res, next) => {
     }
 
     // add the attendee to the attendees array
-    campaign.attendees.push({ name: user.firstname+" "+user.lastName, email: email });
+    campaign.attendees.push({
+      name: user.firstname + " " + user.lastName,
+      email: email,
+    });
     campaign.save();
     res.send("RSVP confirmed");
   } catch (err) {
@@ -185,5 +187,5 @@ module.exports = {
   createCampaigns,
   button,
   rsvped,
-  getMyEvents
+  getMyEvents,
 };

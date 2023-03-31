@@ -3,7 +3,6 @@ import CampaignCarousel from "../components/CampaignCarousel";
 import FundRaiserGrid from "../components/FundRaiserGrid";
 import DonationGrid from "../components/DonationGrid";
 import Hero from "../components/Hero";
-import Footer from "../components/Footer";
 import Contact from "../components/Contact";
 import About from "../components/About";
 
@@ -20,7 +19,6 @@ export default function HomePage() {
           <Contact />
         </div>
       </div>
-      <Footer />
     </>
   );
 }
