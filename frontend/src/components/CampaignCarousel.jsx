@@ -13,7 +13,7 @@ export default function CampaignCarousel() {
         <div className="mt-4 p-8 flex overflow-x-auto">
           {products.slice(0, 5).map((product) => (
             <div
-              className="bg-purple-300 rounded-md mr-4 hover:border-2 hover:border-black min-h-50 shadow-lg shadow-blue-600 hover:scale-110 transition ease-in-out delay-50"
+              className="bg-orange-200 rounded-md mr-4 hover:border-2 hover:border-black min-h-50 shadow-lg shadow-blue-600 hover:scale-110 transition ease-in-out delay-50"
               key={product.id}
             >
               <Link to={`/campaigns/${product.id}`}>

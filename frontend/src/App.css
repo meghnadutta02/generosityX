@@ -1,0 +1,23 @@
+.custom-mesh {
+  /* mesh bg on homepage components */
+  background-color: rgb(255, 255, 255);
+  background-image: radial-gradient(
+      at 3% 36%,
+      rgb(187, 247, 208) 0,
+      transparent 24%
+    ),
+    radial-gradient(at 74% 43%, rgb(103, 232, 249) 0, transparent 26%),
+    radial-gradient(at 26% 100%, rgb(217, 249, 157) 0, transparent 25%),
+    radial-gradient(at 92% 5%, rgb(153, 246, 228) 0, transparent 14%);
+}
+
+.fundraiser-mesh {
+  background-color: rgb(229, 231, 235);
+  background-image: radial-gradient(
+      at 0% 9%,
+      rgb(167, 243, 208) 0,
+      transparent 33%
+    ),
+    radial-gradient(at 100% 31%, rgb(5, 150, 105) 0, transparent 53%),
+    radial-gradient(at 24% 100%, rgb(240, 171, 252) 0, transparent 33%);
+}

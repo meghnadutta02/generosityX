@@ -1,9 +1,10 @@
-// import { PhotoIcon } from '@heroicons/react/24/solid'
+import React from "react";
 
 export default function ItemDonationPage() {
   return (
-    <div className="container p-28 lg:px-60 relative bg-[url(https://donatekart.com/blog/wp-content/uploads/2022/03/iStock-1163228217-scaled-oxcp7dlxlvswkph8bb90c293mgxqktrf4yozycc460.jpg)] bg-cover bg-center">
-      <form>
+    // bg-[url(https://img.freepik.com/free-vector/purple-green-background_23-2150260672.jpg?size=626&ext=jpg)] bg-center bg-no-repeat bg-cover
+    <div className="container p-28 lg:px-60  bg-[url(https://img.freepik.com/free-vector/purple-green-background_23-2150260672.jpg?size=626&ext=jpg)] bg-center bg-no-repeat bg-cover">
+      <form className="relative ">
         <div className="space-y-12 p-8 bg-gray rounded-xl bg-clip-padding backdrop-filter backdrop-blur-3xl bg-opacity-50 border border-black">
           <div className="border-b border-black/10 pb-12">
             <h1 className="text-center font-bold text-4xl">Donate Items</h1>

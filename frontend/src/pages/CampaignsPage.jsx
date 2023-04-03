@@ -34,7 +34,7 @@ export default function CampaignsPage() {
     setCurrentPage(value);
   };
   return (
-    <div className=" container pt-10 relative bg-[url(https://assets2.hrc.org/files/images/resources/Zoom_Background_HRC_Pattern_Preview.png)]">
+    <div className=" container pt-10 relative bg-[url(https://img.freepik.com/free-vector/sketches-modern-city-background_23-2147556600.jpg?w=740&t=st=1680546909~exp=1680547509~hmac=dd976456aa5dddd4d07e0ed31480b8a92ed472851ab9b91a49b48f2851f1899b)]">
       <div className="lg:px-24 inset-0 bg-white/75 sm:bg-transparent sm:bg-gradient-to-b sm:from-white/60 sm:to-white/25">
         <h2 className="text-4xl text-center font-bold tracking-tight text-gray-900 m-8 pt-12">
           Campaigns
@@ -95,12 +95,7 @@ export default function CampaignsPage() {
           ))}
         </div>
         <div className="py-8">
-          <Typography
-            variant="body1"
-            className="text-white"
-            component="div"
-            align="center"
-          >
+          <Typography variant="body1" component="div" align="center">
             Page {currentPage} of {totalPages}
           </Typography>
           <div className="pb-8 px-96">

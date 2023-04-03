@@ -18,7 +18,7 @@ function Footer() {
               href="#"
               className="text-base leading-6 text-white hover:text-gray-900"
             >
-              Blog
+              Services
             </a>
           </div>
           <div className="px-5 py-2">
@@ -26,7 +26,7 @@ function Footer() {
               href="#"
               className="text-base leading-6 text-white hover:text-gray-900"
             >
-              Team
+              Home
             </a>
           </div>
           <div className="px-5 py-2">
@@ -34,7 +34,7 @@ function Footer() {
               href="#"
               className="text-base leading-6 text-white hover:text-gray-900"
             >
-              Pricing
+              Awards
             </a>
           </div>
           <div className="px-5 py-2">
@@ -128,7 +128,7 @@ function Footer() {
           </a>
         </div>
         <p className="mt-8 text-base leading-6 text-center text-white">
-          © 2021 SomeCompany, Inc. All rights reserved.
+          © 2023 SomeCompany, Inc. All rights reserved.
         </p>
       </div>
     </section>

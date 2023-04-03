@@ -1,21 +1,18 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
-import Collapse from "@mui/material/Collapse";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import PaymentsIcon from "@mui/icons-material/Payments";
 import { Link } from "react-router-dom";
+import "../App.css";
 
 export default function HelpFundraiserPage() {
   const [fundraisers, setFundraisers] = useState([]);
@@ -29,13 +26,13 @@ export default function HelpFundraiserPage() {
   }, []);
 
   return (
-    <div className="container p-16 py-24 lg:px-60 bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900">
-      <h2 className="text-4xl font-bold text-center text-white mb-8">
+    <div className="container p-16 py-24 lg:px-60 fundraiser-mesh">
+      <h2 className="text-4xl font-bold text-center mb-8">
         Help these fundraisers
       </h2>
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {fundraisers.map((fundraiser) => (
-          <div className="rounded-lg border-red-300 shadow-lg shadow-red-400">
+          <div className="rounded-lg border-red-500 shadow-lg shadow-red-400">
             <Card sx={{ maxWidth: 345 }} className="rounded-2xl p-2">
               <CardHeader
                 avatar={
