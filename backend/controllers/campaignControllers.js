@@ -65,7 +65,7 @@ const getRecentCampaigns = async (req, res) => {
     const campaigns = await Campaign.find({})
       .sort({ createdAt: "desc" })
       .limit(5)
-      .select("name goal startDate endDate");
+      .select("name goal city startDate endDate");
     res.json(campaigns);
   } catch (err) {
     console.error(err);
