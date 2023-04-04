@@ -53,12 +53,13 @@ export default function HelpFundraiserPage() {
                 alt="Fundraiser image"
               />
               <CardContent>
-                <Typography variant="body2" color="text.secondary">
-                  Funds raised : {fundraiser.currentAmount}{" "}
+              <Typography variant="body2" color="text.secondary">
+                  Target : {fundraiser.currentAmount}{" "}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Target : {fundraiser.goalAmount}{" "}
+                  Funds raised : {fundraiser.goalAmount}{" "}
                 </Typography>
+                
               </CardContent>
               <CardActions disableSpacing>
                 <Link

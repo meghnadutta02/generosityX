@@ -1,41 +1,54 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { products } from "../CampaignsDB.js";
+import axios from "axios";
 
 export default function CampaignCarousel() {
+  const [campaigns, setCampaigns] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      let url = "/api/campaigns/recent";
+      const result = await axios.get(url);
+      setCampaigns(result.data);
+    };
+    fetchData();
+  }, []);
+
   return (
     <>
-      <div name="campaigns" className="py-8">
-        <h2 className="text-4xl font-bold  inline border-b-4 border-blue-600 tracking-tight text-gray-900">
-          Campaigns
+      <div className="py-8">
+        <h2 className="text-3xl font-bold tracking-tight text-gray-900">
+          Upcoming Campaigns
         </h2>
 
-        <div className="mt-4 p-8 flex overflow-x-auto">
-          {products.slice(0, 5).map((product) => (
+        <div className="mt-6 p-8 flex overflow-x-auto">
+          {campaigns.map((campaign) => (
             <div
-              className="bg-purple-300 rounded-md mr-4 hover:border-2 hover:border-black min-h-50 shadow-lg shadow-blue-600 hover:scale-110 transition ease-in-out delay-50"
-              key={product.id}
+              className="bg-purple-300 rounded-md mr-4 border-2 border-black min-h-50 hover:drop-shadow-lg hover:scale-110 transition ease-in-out delay-50"
+              key={campaign.id}
             >
-              <Link to={`/campaigns/${product.id}`}>
-                <div className="min-h-80 w-full overflow-hidden p-4">
+              <Link to={`/campaigns/${campaign._id}`}>
+                <div className="h-40 flex justify-center">
                   <img
-                    src={product.imageSrc}
-                    alt={product.imageAlt}
-                    className="h-50 w-full object-cover object-center rounded-md"
+                    src={campaign.image}
+                    alt="Campaign image"
+                    className="h-full object-cover object-center"
                   />
                 </div>
-                <div className="p-4 flex justify-between">
-                  <div>
-                    <h3 className="text-sm text-gray-700">
-                      <span aria-hidden="true" className="absolute" />
-                      {product.name}
-                    </h3>
-                    <p className="mt-1 text-sm text-gray-500">
-                      {product.color}
-                    </p>
-                  </div>
-                  <p className="text-sm font-medium text-gray-900">
-                    {product.price}
+                <div className="mt-2">
+                  <h3 className="text-lg font-bold text-gray-800">
+                    {campaign.name}
+                  </h3>
+                  <p className="mt-1 text-lg text-gray-600">{campaign.city}</p>
+                  <p className="mt-1 text-lg font-semibold text-gray-800">
+                    ${campaign.goal}
+                  </p>
+                  <p className="mt-1 text-lg text-gray-800">
+                    Date :
+                    {campaign.startDate
+                      .replaceAll("-", "/")
+                      .substring(5, 10)}-
+                    {campaign.endDate.replaceAll("-", "/").substring(5, 10)}
                   </p>
                 </div>
               </Link>
@@ -44,12 +57,10 @@ export default function CampaignCarousel() {
         </div>
       </div>
       <div className="flex justify-center mb-24">
-        <Link to="/campaigns">
-          <div className="text-sm font-medium hover:bg-pink-300 border-2 border-red-400 rounded-md p-2">
-            View All Campaigns
-          </div>
-        </Link>
-      </div>
+          <Link to='/campaigns' >
+            <div className="text-sm font-medium hover:bg-pink-300 border-2 border-red-400 rounded-md p-2">View All Campaigns</div>
+          </Link>
+        </div>
     </>
   );
 }

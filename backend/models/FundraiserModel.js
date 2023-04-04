@@ -53,6 +53,7 @@ const fundraiserSchema = new mongoose.Schema(
         },
       },
     ],
+    //certifications
     isVerified: {
       type: Boolean,
       required: true,
