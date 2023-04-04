@@ -16,12 +16,7 @@ const getCampaigns = async (req, res, next) => {
       .sort({ score: -1 })
       .orFail()
       .select("name goal city startDate endDate");
-<<<<<<< HEAD
-      res.status(200).send(campaigns
-      );
-=======
     res.status(200).send(campaigns);
->>>>>>> c30031eedcd283a05fcd027595edb2aaadc3c9d1
   } catch (err) {
     next(err);
   }

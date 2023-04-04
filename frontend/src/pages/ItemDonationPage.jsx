@@ -1,6 +1,66 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
+import { FaSpinner } from "react-icons/fa";
 
 export default function ItemDonationPage() {
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [address, setAddress] = useState("");
+  const [pincode, setPincode] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [country, setCountry] = useState("");
+
+  const fetchLocationDetails = () => {
+    setIsLoading(true);
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setLocation({ latitude, longitude });
+          setError(null);
+
+          axios
+            .get(
+              `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=pk.eyJ1IjoiYW5rdXNocm95MDgiLCJhIjoiY2xmeHlydmV5MDV6cDNvbXNqYmM3ejR5bCJ9.Y-mQFNAzEIiDg37errtwOg`
+            )
+            .then((response) => {
+              const { features } = response.data;
+              const address = features[0].text + features[2].text;
+              const pincode = features[1].text;
+              const city = features[3].text;
+              const state = features[4].text;
+              const country = features[5].text;
+              setAddress(address);
+              setPincode(pincode);
+              setCity(city);
+              setState(state);
+              setCountry(country);
+
+              setIsLoading(false);
+              console.log(features);
+            })
+            .catch((error) => {
+              setLocation(null);
+              setIsLoading(false);
+              setAddress("");
+              setError("Failed to fetch location details");
+            });
+        },
+        (error) => {
+          setLocation(null);
+          setIsLoading(false);
+          setError(error.message);
+        }
+      );
+    } else {
+      setLocation(null);
+      setIsLoading(false);
+      setError("Geolocation is not supported by this browser");
+    }
+  };
+
   return (
     // bg-[url(https://img.freepik.com/free-vector/purple-green-background_23-2150260672.jpg?size=626&ext=jpg)] bg-center bg-no-repeat bg-cover
     <div className="container p-28 lg:px-60  bg-[url(https://img.freepik.com/free-vector/purple-green-background_23-2150260672.jpg?size=626&ext=jpg)] bg-center bg-no-repeat bg-cover">
@@ -156,6 +216,20 @@ export default function ItemDonationPage() {
                 </div>
               </div>
 
+              {error && <div>{error}</div>}
+              <button
+                className="bg-blue-400 rounded-xl hover:bg-blue-500"
+                onClick={fetchLocationDetails}
+              >
+                Use current location
+              </button>
+              {isLoading && (
+                <span className="text-center">
+                  <FaSpinner className="animate-spin text-blue-500 inline-block mx-auto" />{" "}
+                  Loading...
+                </span>
+              )}
+
               <div className="sm:col-span-3">
                 <label
                   htmlFor="country"
@@ -164,16 +238,14 @@ export default function ItemDonationPage() {
                   Country
                 </label>
                 <div className="mt-2">
-                  <select
+                  <input
                     id="country"
                     name="country"
                     autoComplete="country-name"
                     className="block w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-black focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-md sm:leading-6"
-                  >
-                    <option>United States</option>
-                    <option>Canada</option>
-                    <option>Mexico</option>
-                  </select>
+                    value={country}
+                    onChange={(e) => setCountry(e.target.value)}
+                  />
                 </div>
               </div>
 
@@ -191,6 +263,8 @@ export default function ItemDonationPage() {
                     id="street-address"
                     autoComplete="street-address"
                     className="block w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-black placeholder:text-black focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-md sm:leading-6"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
                   />
                 </div>
               </div>
@@ -209,6 +283,8 @@ export default function ItemDonationPage() {
                     id="city"
                     autoComplete="address-level2"
                     className="block w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-black placeholder:text-black focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-md sm:leading-6"
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
                   />
                 </div>
               </div>
@@ -227,6 +303,8 @@ export default function ItemDonationPage() {
                     id="region"
                     autoComplete="address-level1"
                     className="block w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-black placeholder:text-black focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-md sm:leading-6"
+                    value={state}
+                    onChange={(e) => setState(e.target.value)}
                   />
                 </div>
               </div>
@@ -245,6 +323,8 @@ export default function ItemDonationPage() {
                     id="postal-code"
                     autoComplete="postal-code"
                     className="block w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-black placeholder:text-black focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-md sm:leading-6"
+                    value={pincode}
+                    onChange={(e) => setPincode(e.target.value)}
                   />
                 </div>
               </div>
