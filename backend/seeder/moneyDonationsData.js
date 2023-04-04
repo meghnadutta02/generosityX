@@ -18,7 +18,7 @@ const moneyDonations = [
     {
       _id:new ObjectId("641ea7034c371df75d4ba1c8"),
       user: "Emily Lee",
-      amount: 750,
+      amount: 150,
       comments: "Wishing you all the best.",
       donatedTo:new ObjectId("64214bc9ce4062ec41233966")
     },
