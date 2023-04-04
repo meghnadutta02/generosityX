@@ -48,7 +48,7 @@ export default function CampaignDetailsPage(props) {
 
   return (
     <div
-      className="pt-24 bg-[url(https://assets2.hrc.org/files/images/resources/Zoom_Background_HRC_Pattern_Preview.png)]
+      className="pt-24 bg-[url(https://img.freepik.com/free-vector/sketches-modern-city-background_23-2147556600.jpg?w=740&t=st=1680546909~exp=1680547509~hmac=dd976456aa5dddd4d07e0ed31480b8a92ed472851ab9b91a49b48f2851f1899b)]
     bg-center bg-cover bg-no-repeat fixed;"
     >
       <h2 className="text-4xl font-bold my-8 text-center">
@@ -82,9 +82,7 @@ export default function CampaignDetailsPage(props) {
           </div>
         </div>
         <div className="p-4">
-          <p className="text-2xl text-white flex justify-center mb-4">
-            Campaign details
-          </p>
+          <p className="text-2xl flex justify-center mb-4">Campaign details</p>
           <div
             className="border-2 rounded-xl mx-8 border-black  backdrop-blur-lg
                [ p-8 md:p-10 lg:p-10 ]

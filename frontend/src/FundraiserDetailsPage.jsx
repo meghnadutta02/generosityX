@@ -27,7 +27,7 @@ export default function FundraiserDetailsPage() {
     : "";
 
   return (
-    <div className="p-24 bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900">
+    <div className="p-24 fundraiser-mesh">
       <div className="p-8 mt-8 grid md:grid-cols-2 gap-6 bg-gray-400 rounded-md bg-clip-padding backdrop-filter backdrop-blur-3xl bg-opacity-50 border border-gray-100">
         <div className="">
           <CardHeader
