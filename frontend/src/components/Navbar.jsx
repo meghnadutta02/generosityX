@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch,useSelector,useNavigate } from "react-redux";
 import {
   FaLinkedin,
   FaFacebook,
@@ -9,13 +10,17 @@ import {
 } from "react-icons/fa";
 import { HiOutlineMail } from "react-icons/hi";
 import { Link as ScrolLink } from "react-scroll";
-
+import { logout,reset } from "../redux/authSlice";
 export default function Navbar() {
+  const navigate=useNavigate();
+  const dispatch=useDispatch();
+  const {user}=useSelector((state)=>state.auth)
   const [nav, setNav] = useState(false);
   const handleClick = () => setNav(!nav);
   return (
     <>
       {/* Sidebar */}
+      {user ? () : ()}
       <div className=" md:flex fixed flex-col top-[35%] right-0 z-10">
         <ul>
           <li className="w-[160px] h-[60px] flex justify-between items-center mr-[-100px] hover:ml-[-100px] duration-300 bg-blue-600 px-4">

@@ -28,6 +28,12 @@ export const register = createAsyncThunk(
     }
   }
 );
+export const logout=createAsyncThunk('auth/logout',async()=>
+{
+  await localStorage.removeItem('user');
+  return null;
+
+})
 export const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -39,7 +45,7 @@ export const authSlice = createSlice({
         (state.message = "");
     },
   },
-  extraReducers: (builder) => {
+  extraReducers: (builder) => {   //to handle createAsyncThunk
     builder
       .addCase(register.pending, (state) => {
         state.isLoading = true;
@@ -54,7 +60,11 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.message = action.payload; //err message
         state.user=null
-      });
+      })
+      .addCase(logout.fulfilled,(state,action)=>
+      {
+        state.user=action.payload
+      })
   },
 });
 export const { reset } = authSlice.actions;

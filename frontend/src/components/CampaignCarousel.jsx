@@ -24,13 +24,8 @@ export default function CampaignCarousel() {
         <div className="mt-6 p-8 flex overflow-x-auto">
           {campaigns.map((campaign) => (
             <div
-<<<<<<< HEAD
-              className="bg-purple-300 rounded-md mr-4 border-2 border-black min-h-50 hover:drop-shadow-lg hover:scale-110 transition ease-in-out delay-50"
-              key={campaign.id}
-=======
               className="bg-orange-200 rounded-md mr-4 hover:border-2 hover:border-black min-h-50 shadow-lg shadow-blue-600 hover:scale-110 transition ease-in-out delay-50"
-              key={product.id}
->>>>>>> af73a1ec614c8b0bebe40e4da6300e25f4a09427
+              key={campaign._id}
             >
               <Link to={`/campaigns/${campaign._id}`}>
                 <div className="h-40 flex justify-center">
