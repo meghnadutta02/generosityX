@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch,useSelector,useNavigate } from "react-redux";
+import { FaUser } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   FaLinkedin,
   FaFacebook,
@@ -10,17 +12,22 @@ import {
 } from "react-icons/fa";
 import { HiOutlineMail } from "react-icons/hi";
 import { Link as ScrolLink } from "react-scroll";
-import { logout,reset } from "../redux/authSlice";
+import { logout, reset } from "../redux/authSlice";
 export default function Navbar() {
-  const navigate=useNavigate();
-  const dispatch=useDispatch();
-  const {user}=useSelector((state)=>state.auth)
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
   const [nav, setNav] = useState(false);
   const handleClick = () => setNav(!nav);
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  const handleDropdownToggle = () => {
+    setShowDropdown(!showDropdown);
+  };
+
   return (
     <>
       {/* Sidebar */}
-      {user ? () : ()}
       <div className=" md:flex fixed flex-col top-[35%] right-0 z-10">
         <ul>
           <li className="w-[160px] h-[60px] flex justify-between items-center mr-[-100px] hover:ml-[-100px] duration-300 bg-blue-600 px-4">
@@ -112,21 +119,72 @@ export default function Navbar() {
                 Home
               </Link>
             </div>
-
-            <div className="hidden sm:flex sm:items-center">
-              <Link
-                to="/register"
-                className="text-white text-lg font-semibold hover:text-red-400 mr-4"
-              >
-                Sign in
-              </Link>
-              <Link
-                to="/register"
-                className="text-white text-lg font-semibold border px-4 py-2 rounded-lg hover:text-red-400 hover:border-purple-600"
-              >
-                Sign up
-              </Link>
-            </div>
+            {user ? (
+              <div className="relative">
+                <button
+                  onClick={handleDropdownToggle}
+                  className="flex items-center text-white hover:text-red-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white rounded-full p-1"
+                >
+                  <FaUser className="w-6 h-6" />
+                </button>
+                {showDropdown && (
+                  <div className="absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10">
+                    <div
+                      className="py-1"
+                      role="menu"
+                      aria-orientation="vertical"
+                      aria-labelledby="user-menu"
+                    >
+                      <Link
+                        to="/my-fundraisers"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                        role="menuitem"
+                      >
+                        My Fundraisers
+                      </Link>
+                      <Link
+                        to="/my-donations"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                        role="menuitem"
+                      >
+                        My Donations
+                      </Link>
+                      <Link
+                        to="/my-events"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                        role="menuitem"
+                      >
+                        My Events
+                      </Link>
+                      <button
+                        onClick={() => {
+                          dispatch(logout());
+                          dispatch(reset());
+                        }}
+                        className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white"
+                      >
+                        Sign Out
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="hidden sm:flex sm:items-center">
+                <Link
+                  to="/register"
+                  className="text-white text-lg font-semibold hover:text-red-400 mr-4"
+                >
+                  Sign in
+                </Link>
+                <Link
+                  to="/register"
+                  className="text-white text-lg font-semibold border px-4 py-2 rounded-lg hover:text-red-400 hover:border-purple-600"
+                >
+                  Sign up
+                </Link>
+              </div>
+            )}
 
             <div className="sm:hidden cursor-pointer">
               <div onClick={handleClick} className="md:hidden z-10">
@@ -168,20 +226,52 @@ export default function Navbar() {
               >
                 Home
               </Link>
-              <div className="flex justify-center items-center border-t-2 pt-2">
-                <a
-                  href="#"
-                  className="text-white text-md font-semibold hover:text-red-400 mr-4"
+              {user ? (
+                <div className="flex justify-center items-center border-t-2 pt-2">
+                  <a
+                    href="/my-fundraisers"
+                    className="text-white text-md font-semibold hover:text-red-400 mr-4 px-4 py-2 rounded-lg"
+                  >
+                    My Fundraisers
+                  </a>
+                  <a
+                    href="/my-donations"
+                    className="text-white text-md font-semibold hover:text-red-400 mr-4 px-4 py-2 rounded-lg"
+                  >
+                    My Donations
+                  </a>
+                  <a
+                    href="/my-events"
+                    className="text-white text-md font-semibold hover:text-red-400 mr-4 px-4 py-2 rounded-lg"
+                  >
+                    My Events
+                  </a>
+                  <button
+                    onClick={() => {
+                      dispatch(logout());
+                      dispatch(reset());
+                    }}
+                    className="text-white text-md font-semibold border px-4 py-2 rounded-lg hover:text-red-400 hover:border-purple-600"
+                  >
+                    Sign Out
+                  </button>
+                </div>
+              ) : (
+                <div className="flex justify-center items-center border-t-2 pt-2">
+                <Link
+                  to="/register"
+                  className="text-white text-lg font-semibold hover:text-red-400 mr-4"
                 >
-                  Sign in
-                </a>
-                <a
-                  href="#"
-                  className="text-white text-md font-semibold border px-4 py-1 rounded-lg hover:text-red-400 hover:border-purple-600"
+                    Sign in
+                  </Link>
+                  <Link
+                  to="/register"
+                  className="text-white text-lg font-semibold hover:text-red-400 mr-4"
                 >
-                  Sign up
-                </a>
-              </div>
+                    Sign up
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         </div>

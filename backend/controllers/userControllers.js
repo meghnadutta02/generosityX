@@ -48,13 +48,13 @@ const registerUser = async (req, res, next) => {
         )
         .status(201)
         .json({
-          userCreated: {
+          
             _id: user._id,
             name: user.firstname,
             lastName: user.lastName,
             email: user.email,
             isAdmin: user.isAdmin,
-          },
+        
         });
     }
   } catch (err) {

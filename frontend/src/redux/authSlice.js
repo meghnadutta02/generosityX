@@ -10,13 +10,19 @@ const initialState = {
   message: "",
 };
 //Register User
+
 export const register = createAsyncThunk(
   "auth/register",
   async (userData, thunkAPI) => {
     try {
-      const res = await axios.post("/api/users/register", userData);
+      const res = await axios.post("/api/users/register", userData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       if (res.data) {
-        localStorage.setItem("user", JSON.stringify(res.data));
+        localStorage.setItem("user",JSON.stringify(res.data));
+        
       }
       return res.data;
     } catch (err) {

@@ -39,7 +39,6 @@ const Register = () => {
   }, [user, isError, message, isSuccess, dispatch, navigate]);
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (userData.password !== userData.confirmPassword) {
       setError("Passwords do not match.");
       return;
@@ -72,7 +71,7 @@ const Register = () => {
             id="firstname"
             name="firstname"
             type="text"
-            value={userData.name}
+            value={userData.firstname}
             onChange={handleChange}
             required
           />
@@ -83,7 +82,7 @@ const Register = () => {
             id="lastName"
             name="lastName"
             type="text"
-            value={userData.name}
+            value={userData.lastName}
             onChange={handleChange}
             required
           />
