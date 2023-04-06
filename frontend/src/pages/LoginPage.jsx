@@ -11,6 +11,7 @@ import {
   Box,
   Paper,
 } from "@mui/material";
+import { toast } from "react-toastify";
 import { login, reset } from "../redux/authSlice";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -45,7 +46,7 @@ const LoginPageComponent = () => {
   };
 
   useEffect(() => {
-    if (isError) setError(message);
+    if (isError) toast.error(message);
     if (isSuccess || user) navigate("/");
     dispatch(reset());
   }, [user, isError, message, isSuccess, dispatch, navigate]);
@@ -114,11 +115,11 @@ const LoginPageComponent = () => {
             )}
             Login
           </Button>
-          {error && (
+          {/* {error && (
             <Typography variant="body1" color="error" align="center" sx={{ mt: 2 }}>
               {error}
             </Typography>
-          )}
+          )} */}
         </Box>
       </Paper>
     </Container>

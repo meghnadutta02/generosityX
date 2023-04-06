@@ -107,7 +107,7 @@ const loginUser = async (req, res, next) => {
           },
         });
     } else {
-      res.status(401).send("Wrong Credentials");
+      res.status(401).json({error:"Wrong Credentials"});
     }
   } catch (err) {
     next(err);

@@ -94,8 +94,15 @@ export const authSlice = createSlice({
       })
       .addCase(logout.fulfilled, (state, action) => {
         state.user = action.payload;
-      });
+      })
+      .addCase(login.rejected, (state, action) => {
+        state.isError = true;
+        state.isLoading = false;
+        state.message = action.payload; //err message
+        state.user = null;
+      })
   },
-});
+  },
+);
 export const { reset } = authSlice.actions;
 export const authReducer = authSlice.reducer;
