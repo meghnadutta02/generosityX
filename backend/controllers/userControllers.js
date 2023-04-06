@@ -16,6 +16,12 @@ const registerUser = async (req, res, next) => {
     if (!firstname || !lastName || !email || !password || !phoneNumber)
      return res.status(400).send("All input fields are required");
     const hashedPassword = hashPassword(password);
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ error: "Invalid email format!" });
+    }
+    
     const userExists = await User.findOne({ email: email });
     if (userExists) {
       res.status(400).json({ error: "User already exists!" });
