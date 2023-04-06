@@ -24,7 +24,7 @@ export default function CampaignCarousel() {
         <div className="mt-6 p-8 flex overflow-x-auto">
           {campaigns.map((campaign) => (
             <div
-              className="bg-orange-200 rounded-md mr-4 hover:border-2 hover:border-black min-h-50 shadow-lg shadow-blue-600 hover:scale-110 transition ease-in-out delay-50"
+              className="bg-orange-200 rounded-md mr-4 border-2 border-black min-h-50 shadow-lg shadow-blue-600 hover:scale-110 transition ease-in-out delay-50"
               key={campaign._id}
             >
               <Link to={`/campaigns/${campaign._id}`}>
@@ -35,19 +35,15 @@ export default function CampaignCarousel() {
                     className="h-full object-cover object-center"
                   />
                 </div>
-                <div className="mt-2">
-                  <h3 className="text-lg font-bold text-gray-800">
-                    {campaign.name}
-                  </h3>
-                  <p className="mt-1 text-lg text-gray-600">{campaign.city}</p>
-                  <p className="mt-1 text-lg font-semibold text-gray-800">
+                <div className="mx-4 px-4">
+                  <h3 className="text-lg font-bold">{campaign.name}</h3>
+                  <p className="mt-1 text-lg font-medium">{campaign.city}</p>
+                  {/* <p className="mt-1 text-lg font-semibold text-gray-800">
                     ${campaign.goal}
-                  </p>
-                  <p className="mt-1 text-lg text-gray-800">
+                  </p> */}
+                  <p className="mt-1 text-lg font-normal">
                     Date :
-                    {campaign.startDate
-                      .replaceAll("-", "/")
-                      .substring(5, 10)}-
+                    {campaign.startDate.replaceAll("-", "/").substring(5, 10)}-
                     {campaign.endDate.replaceAll("-", "/").substring(5, 10)}
                   </p>
                 </div>
@@ -57,10 +53,12 @@ export default function CampaignCarousel() {
         </div>
       </div>
       <div className="flex justify-center mb-24">
-          <Link to='/campaigns' >
-            <div className="text-sm font-medium hover:bg-pink-300 border-2 border-red-400 rounded-md p-2">View All Campaigns</div>
-          </Link>
-        </div>
+        <Link to="/campaigns">
+          <div className="text-sm font-medium hover:bg-pink-300 border-2 border-red-400 rounded-md p-2">
+            View All Campaigns
+          </div>
+        </Link>
+      </div>
     </>
   );
 }

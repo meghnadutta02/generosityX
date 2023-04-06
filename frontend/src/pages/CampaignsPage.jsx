@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Typography, Pagination } from "@mui/material";
 import axios from "axios";
+import { FaSpinner } from "react-icons/fa";
 
 export default function CampaignsPage() {
   const [campaigns, setCampaigns] = useState([]);
@@ -9,9 +10,49 @@ export default function CampaignsPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
 
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleCityChange = (e) => {
     setSelectedCity(e.target.value);
   };
+
+  const fetchLocationDetails = () => {
+    setIsLoading(true);
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setError(null);
+
+          axios
+            .get(
+              `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=pk.eyJ1IjoiYW5rdXNocm95MDgiLCJhIjoiY2xmeHlydmV5MDV6cDNvbXNqYmM3ejR5bCJ9.Y-mQFNAzEIiDg37errtwOg`
+            )
+            .then((response) => {
+              const { features } = response.data;
+              const selectedCity = features[3].text;
+              setSelectedCity(selectedCity);
+              setIsLoading(false);
+              console.log(features);
+            })
+            .catch((error) => {
+              setIsLoading(false);
+              setAddress("");
+              setError("Failed to fetch location details");
+            });
+        },
+        (error) => {
+          setIsLoading(false);
+          setError(error.message);
+        }
+      );
+    } else {
+      setIsLoading(false);
+      setError("Geolocation is not supported by this browser");
+    }
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       let url = "/api/campaigns/search";
@@ -56,10 +97,24 @@ export default function CampaignsPage() {
               onClick={() => {
                 setSelectedCity("");
               }}
-              className="px-4 py-2 rounded-md bg-gray-200 text-gray-800 hover:bg-gray-300"
+              className="p-2 mr-4 rounded-md bg-gray-400 text-gray-800 hover:bg-gray-300"
             >
               Reset
             </button>
+
+            {error && <div>{error}</div>}
+            <button
+              className="p-2 bg-blue-400 rounded-lg hover:bg-blue-500"
+              onClick={fetchLocationDetails}
+            >
+              Use current location
+            </button>
+            {isLoading && (
+              <span className="text-center">
+                <FaSpinner className="animate-spin text-blue-500 inline-block mx-auto" />{" "}
+                Loading...
+              </span>
+            )}
           </div>
         </div>
         <div className="px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">

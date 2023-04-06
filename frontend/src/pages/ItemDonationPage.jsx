@@ -12,13 +12,13 @@ export default function ItemDonationPage() {
   const [state, setState] = useState("");
   const [country, setCountry] = useState("");
 
-  const fetchLocationDetails = () => {
+  const fetchLocationDetails = (event) => {
+    event.preventDefault();
     setIsLoading(true);
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
-          setLocation({ latitude, longitude });
           setError(null);
 
           axios
@@ -42,20 +42,17 @@ export default function ItemDonationPage() {
               console.log(features);
             })
             .catch((error) => {
-              setLocation(null);
               setIsLoading(false);
               setAddress("");
               setError("Failed to fetch location details");
             });
         },
         (error) => {
-          setLocation(null);
           setIsLoading(false);
           setError(error.message);
         }
       );
     } else {
-      setLocation(null);
       setIsLoading(false);
       setError("Geolocation is not supported by this browser");
     }
@@ -86,6 +83,7 @@ export default function ItemDonationPage() {
                       togethergrow.com/
                     </span>
                     <input
+                      required
                       type="text"
                       name="username"
                       id="username"
@@ -136,6 +134,7 @@ export default function ItemDonationPage() {
                       >
                         <span>Upload a file</span>
                         <input
+                          required
                           id="file-upload"
                           name="file-upload"
                           type="file"
@@ -145,7 +144,7 @@ export default function ItemDonationPage() {
                       <p className="pl-1">or drag and drop</p>
                     </div>
                     <p className="text-xs leading-5 text-black">
-                      PNG, JPG, GIF up to 10MB
+                      PNG, JPG up to 2MB
                     </p>
                   </div>
                 </div>
@@ -171,6 +170,7 @@ export default function ItemDonationPage() {
                 </label>
                 <div className="mt-2">
                   <input
+                    required
                     type="text"
                     name="first-name"
                     id="first-name"
@@ -189,6 +189,7 @@ export default function ItemDonationPage() {
                 </label>
                 <div className="mt-2">
                   <input
+                    required
                     type="text"
                     name="last-name"
                     id="last-name"
@@ -207,6 +208,7 @@ export default function ItemDonationPage() {
                 </label>
                 <div className="mt-2">
                   <input
+                    required
                     id="email"
                     name="email"
                     type="email"
@@ -215,20 +217,6 @@ export default function ItemDonationPage() {
                   />
                 </div>
               </div>
-
-              {error && <div>{error}</div>}
-              <button
-                className="bg-blue-400 rounded-xl hover:bg-blue-500"
-                onClick={fetchLocationDetails}
-              >
-                Use current location
-              </button>
-              {isLoading && (
-                <span className="text-center">
-                  <FaSpinner className="animate-spin text-blue-500 inline-block mx-auto" />{" "}
-                  Loading...
-                </span>
-              )}
 
               <div className="sm:col-span-3">
                 <label
@@ -239,16 +227,31 @@ export default function ItemDonationPage() {
                 </label>
                 <div className="mt-2">
                   <input
+                    required
                     id="country"
                     name="country"
                     autoComplete="country-name"
-                    className="block w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-black focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-md sm:leading-6"
+                    className="block w-full rounded-md border-0 p-1.5 text-black shadow-sm ring-1 ring-inset ring-black focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-md sm:leading-6"
                     value={country}
                     onChange={(e) => setCountry(e.target.value)}
                   />
                 </div>
               </div>
-
+              <div className="flex mt-6">
+                {error && <div>{error}</div>}
+                <button
+                  className="flex-shrink-0 px-2 bg-pink-400 rounded-xl hover:bg-purple-500"
+                  onClick={fetchLocationDetails}
+                >
+                  Use current location
+                </button>
+                {isLoading && (
+                  <span className="text-center ml-4">
+                    <FaSpinner className="animate-spin text-blue-400 inline-block mx-auto" />{" "}
+                    Locating...
+                  </span>
+                )}
+              </div>
               <div className="col-span-full">
                 <label
                   htmlFor="street-address"
@@ -258,6 +261,7 @@ export default function ItemDonationPage() {
                 </label>
                 <div className="mt-2">
                   <input
+                    required
                     type="text"
                     name="street-address"
                     id="street-address"
@@ -278,6 +282,7 @@ export default function ItemDonationPage() {
                 </label>
                 <div className="mt-2">
                   <input
+                    required
                     type="text"
                     name="city"
                     id="city"
@@ -298,6 +303,7 @@ export default function ItemDonationPage() {
                 </label>
                 <div className="mt-2">
                   <input
+                    required
                     type="text"
                     name="region"
                     id="region"
@@ -318,6 +324,7 @@ export default function ItemDonationPage() {
                 </label>
                 <div className="mt-2">
                   <input
+                    required
                     type="text"
                     name="postal-code"
                     id="postal-code"

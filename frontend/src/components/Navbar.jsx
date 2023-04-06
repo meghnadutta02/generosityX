@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { FaUser } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
@@ -9,6 +8,7 @@ import {
   FaTwitter,
   FaBars,
   FaTimes,
+  FaUser,
 } from "react-icons/fa";
 import { HiOutlineMail } from "react-icons/hi";
 import { Link as ScrolLink } from "react-scroll";
@@ -90,7 +90,7 @@ export default function Navbar() {
                 to="about"
                 smooth={true}
                 duration={500}
-                className="text-white text-lg font-semibold hover:text-red-400 mr-4"
+                className="text-white text-lg font-semibold hover:text-amber-400 mr-4"
               >
                 About
               </ScrolLink>
@@ -99,7 +99,7 @@ export default function Navbar() {
                   to="contact"
                   smooth={true}
                   duration={500}
-                  className="text-white text-lg font-semibold hover:text-red-400 mr-4"
+                  className="text-white text-lg font-semibold hover:text-amber-400 mr-4"
                 >
                   Contact
                 </ScrolLink>
@@ -108,13 +108,13 @@ export default function Navbar() {
                 to="campaigns"
                 smooth={true}
                 duration={500}
-                className="text-white text-lg font-semibold hover:text-red-400 mr-4"
+                className="text-white text-lg font-semibold hover:text-amber-400 mr-4"
               >
                 Services
               </ScrolLink>
               <Link
                 to="/"
-                className="text-white text-lg font-semibold hover:text-red-400"
+                className="text-white text-lg font-semibold hover:text-amber-400"
               >
                 Home
               </Link>
@@ -123,9 +123,9 @@ export default function Navbar() {
               <div className="relative">
                 <button
                   onClick={handleDropdownToggle}
-                  className="flex items-center text-white hover:text-red-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white rounded-full p-1"
+                  className="flex items-center text-white hover:text-amber-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white rounded-full p-1"
                 >
-                  <FaUser className="w-6 h-6" />
+                  <FaUser className="sm:block hidden w-6 h-6" />
                 </button>
                 {showDropdown && (
                   <div className="absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10">
@@ -137,21 +137,21 @@ export default function Navbar() {
                     >
                       <Link
                         to="/my-fundraisers"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-300 hover:text-gray-900"
                         role="menuitem"
                       >
                         My Fundraisers
                       </Link>
                       <Link
                         to="/my-donations"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-300 hover:text-gray-900"
                         role="menuitem"
                       >
                         My Donations
                       </Link>
                       <Link
                         to="/my-events"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-300 hover:text-gray-900"
                         role="menuitem"
                       >
                         My Events
@@ -173,13 +173,13 @@ export default function Navbar() {
               <div className="hidden sm:flex sm:items-center">
                 <Link
                   to="/register"
-                  className="text-white text-lg font-semibold hover:text-red-400 mr-4"
+                  className="text-white text-lg font-semibold hover:text-amber-400 mr-4"
                 >
                   Sign in
                 </Link>
                 <Link
                   to="/register"
-                  className="text-white text-lg font-semibold border px-4 py-2 rounded-lg hover:text-red-400 hover:border-purple-600"
+                  className="text-white text-lg font-semibold border px-4 py-2 rounded-lg hover:text-amber-400 hover:border-purple-600"
                 >
                   Sign up
                 </Link>
@@ -187,8 +187,8 @@ export default function Navbar() {
             )}
 
             <div className="sm:hidden cursor-pointer">
-              <div onClick={handleClick} className="md:hidden z-10">
-                {!nav ? <FaBars /> : <FaTimes />}
+              <div onClick={handleClick} className="md:hidden z-10 text-3xl">
+                {!nav ? <FaBars style={{ color: "white" }} /> : <FaTimes />}
               </div>
             </div>
           </div>
@@ -198,7 +198,7 @@ export default function Navbar() {
             <div className="flex flex-col">
               <Link
                 to="/about"
-                className="text-white text-md text-center font-semibold hover:text-red-400 mb-1"
+                className="text-white text-lg text-center font-semibold hover:text-amber-400 mb-1"
               >
                 About
               </Link>
@@ -207,7 +207,7 @@ export default function Navbar() {
                 to="contact"
                 smooth={true}
                 duration={500}
-                className="text-white text-md text-center font-semibold hover:text-red-400 mb-1"
+                className="text-white text-lg text-center font-semibold hover:text-amber-400 mb-1"
               >
                 Contact
               </ScrolLink>
@@ -216,13 +216,13 @@ export default function Navbar() {
                 to="campaigns"
                 smooth={true}
                 duration={500}
-                className="text-white text-md text-center font-semibold hover:text-red-400 mb-1"
+                className="text-white text-lg text-center font-semibold hover:text-amber-400 mb-1"
               >
                 Services
               </ScrolLink>
               <Link
                 to="/"
-                className="text-white text-md text-center font-semibold hover:text-red-400 mb-1"
+                className="text-white text-lg text-center font-semibold hover:text-amber-400 mb-1"
               >
                 Home
               </Link>
@@ -230,19 +230,19 @@ export default function Navbar() {
                 <div className="flex justify-center items-center border-t-2 pt-2">
                   <a
                     href="/my-fundraisers"
-                    className="text-white text-md font-semibold hover:text-red-400 mr-4 px-4 py-2 rounded-lg"
+                    className="text-white text-lg font-semibold hover:text-amber-400 mr-4 px-4 py-2 rounded-lg"
                   >
                     My Fundraisers
                   </a>
                   <a
                     href="/my-donations"
-                    className="text-white text-md font-semibold hover:text-red-400 mr-4 px-4 py-2 rounded-lg"
+                    className="text-white text-lg font-semibold hover:text-amber-400 mr-4 px-4 py-2 rounded-lg"
                   >
                     My Donations
                   </a>
                   <a
                     href="/my-events"
-                    className="text-white text-md font-semibold hover:text-red-400 mr-4 px-4 py-2 rounded-lg"
+                    className="text-white text-lg font-semibold hover:text-amber-400 mr-4 px-4 py-2 rounded-lg"
                   >
                     My Events
                   </a>
@@ -251,23 +251,23 @@ export default function Navbar() {
                       dispatch(logout());
                       dispatch(reset());
                     }}
-                    className="text-white text-md font-semibold border px-4 py-2 rounded-lg hover:text-red-400 hover:border-purple-600"
+                    className="text-white text-lg font-semibold border px-4 py-2 rounded-lg hover:text-amber-400 hover:border-purple-600"
                   >
                     Sign Out
                   </button>
                 </div>
               ) : (
                 <div className="flex justify-center items-center border-t-2 pt-2">
-                <Link
-                  to="/register"
-                  className="text-white text-lg font-semibold hover:text-red-400 mr-4"
-                >
+                  <Link
+                    to="/register"
+                    className="text-white text-lg font-semibold hover:text-amber-400 mr-4"
+                  >
                     Sign in
                   </Link>
                   <Link
-                  to="/register"
-                  className="text-white text-lg font-semibold hover:text-red-400 mr-4"
-                >
+                    to="/register"
+                    className="text-white text-lg font-semibold hover:text-amber-400 mr-4"
+                  >
                     Sign up
                   </Link>
                 </div>
