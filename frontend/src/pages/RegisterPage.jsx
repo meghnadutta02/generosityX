@@ -45,9 +45,7 @@ const Register = () => {
     }
 
     try {
-      const data=await dispatch(register(userData));
-      if(data && data.error)
-      toast.error(data.error)
+      await dispatch(register(userData));
     } catch (err) {
       setError(err.message || "An error occurred. Please try again.");
     }

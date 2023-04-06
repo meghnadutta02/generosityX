@@ -36,6 +36,26 @@ export const logout = createAsyncThunk("auth/logout", async () => {
   await localStorage.removeItem("user");
   return null;
 });
+export const login = createAsyncThunk("auth/login", async (user, thunkAPI) => {
+  try {
+    const { data } =await axios.post("/api/users/login", user);
+    if (user.doNotLogout) {
+      await localStorage.setItem("user", JSON.stringify(user));
+    }
+    else
+    await sessionStorage.setItem("user", JSON.stringify(user));
+    return data;
+  } catch (err) {
+    var msg;
+    if (err.response.status === 401) msg = err.response.data.error;
+    else
+      msg =
+        (err.response && err.response.data && err.response.data.message) ||
+        err.message ||
+        err.toString();
+    return thunkAPI.rejectWithValue(msg);
+  }
+});
 export const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -53,7 +73,15 @@ export const authSlice = createSlice({
       .addCase(register.pending, (state) => {
         state.isLoading = true;
       })
+      .addCase(login.pending, (state) => {
+        state.isLoading = true;
+      })
       .addCase(register.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.user = action.payload;
+      })
+      .addCase(login.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
         state.user = action.payload;

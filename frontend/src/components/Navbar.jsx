@@ -172,7 +172,7 @@ export default function Navbar() {
             ) : (
               <div className="hidden sm:flex sm:items-center">
                 <Link
-                  to="/register"
+                  to="/login"
                   className="text-white text-lg font-semibold hover:text-amber-400 mr-4"
                 >
                   Sign in
@@ -259,7 +259,7 @@ export default function Navbar() {
               ) : (
                 <div className="flex justify-center items-center border-t-2 pt-2">
                   <Link
-                    to="/register"
+                    to="/login"
                     className="text-white text-lg font-semibold hover:text-amber-400 mr-4"
                   >
                     Sign in

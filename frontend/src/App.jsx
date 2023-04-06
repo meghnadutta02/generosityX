@@ -36,6 +36,7 @@ export default function App() {
           element={<FundraiserDetailsPage />}
         />
         <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<LoginPage />} />
       </Routes>
       <ToastContainer/>
       <Footer />
