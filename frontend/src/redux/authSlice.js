@@ -25,7 +25,7 @@ export const register = createAsyncThunk(
       if (err.response.status === 400) msg = err.response.data.error;
       else
         msg =
-          (err.response && err.response.data && err.response.data.message) ||
+          (err.response && err.response.data && err.response.data.error) ||
           err.message ||
           err.toString();
       return thunkAPI.rejectWithValue(msg);
@@ -33,6 +33,7 @@ export const register = createAsyncThunk(
   }
 );
 export const logout = createAsyncThunk("auth/logout", async () => {
+  await axios.get("/api/logout");
   await localStorage.removeItem("user");
   return null;
 });
@@ -40,17 +41,17 @@ export const login = createAsyncThunk("auth/login", async (user, thunkAPI) => {
   try {
     const { data } =await axios.post("/api/users/login", user);
     if (user.doNotLogout) {
-      await localStorage.setItem("user", JSON.stringify(user));
+      await localStorage.setItem("user", JSON.stringify(data));
     }
     else
-    await sessionStorage.setItem("user", JSON.stringify(user));
+    await sessionStorage.setItem("user", JSON.stringify(data));
     return data;
   } catch (err) {
     var msg;
-    if (err.response.status === 401) msg = err.response.data.error;
+    if (err.response.status === 401 ||err.response.status === 400) msg = err.response.data.error;
     else
       msg =
-        (err.response && err.response.data && err.response.data.message) ||
+        (err.response && err.response.data && err.response.data.error) ||
         err.message ||
         err.toString();
     return thunkAPI.rejectWithValue(msg);

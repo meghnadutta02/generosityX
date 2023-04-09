@@ -2,33 +2,43 @@ import { Outlet, Navigate } from "react-router-dom";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import LoginPage from "../pages/LoginPage";
+import { Alert } from "@mui/material";
 
 const ProtectedRoutes = ({ admin }) => {
-  const [isAuth, setIsAuth] = useState();
+  const [isAuth, setIsAuth] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-     axios.get("/api/get-token").then(function (data) {
-         if (data.data.token) {
-             setIsAuth(data.data.token);
-         }
-         return isAuth;
-     }) 
-  }, [isAuth])
+    const fetchToken = async () => {
+      try {
+        const { data } = await axios.get("/api/get-token");
+        if (data.token) {
+          setIsAuth(data.token);
+          setIsAdmin(data.isAdmin);
+        }
+      } catch (err) {
+        setIsAuth(null);
+        setIsAdmin(false);
+      }
+    };
+    fetchToken();
+  }, []);
 
-  if (isAuth === undefined) return <LoginPage />;
-
-  return isAuth && admin && isAuth !== "admin" ? (
-       <Navigate to="/register" />
-  ) : isAuth && admin ? (
+  return (
+    isAuth &&
+    (isAdmin && admin ? (
       <Outlet />
-  ) : isAuth && !admin ? (
-      <>
-      <UserChatComponent />
+    ) : !isAdmin && !admin ? (
       <Outlet />
-      </>
-  ) : (
-       <Navigate to="/register" />
-  )
+    ) : (
+      <Alert severity="warning" sx={{height:"80vh", display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",fontSize:"1.5rem"}}>
+        You are trying to access restricted routes.
+      </Alert>
+    ))
+  );
 };
 
 export default ProtectedRoutes;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Typography, Pagination } from "@mui/material";
+import { Typography, Pagination, Alert, AlertTitle } from "@mui/material";
 import axios from "axios";
 import { FaSpinner } from "react-icons/fa";
 
@@ -11,6 +11,7 @@ export default function CampaignsPage() {
   const itemsPerPage = 8;
 
   const [error, setError] = useState(null);
+  const [isError, setIsError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleCityChange = (e) => {
@@ -59,8 +60,13 @@ export default function CampaignsPage() {
       if (selectedCity) {
         url = `/api/campaigns/search/?city=${selectedCity}`;
       }
-      const result = await axios.get(url);
-      setCampaigns(result.data);
+      try {
+        const result = await axios.get(url);
+        setCampaigns(result.data);
+      } catch (error) {
+        setCampaigns([]);
+        setIsError("No campaigns found");
+      }
     };
     fetchData();
   }, [selectedCity]);
@@ -117,39 +123,61 @@ export default function CampaignsPage() {
             )}
           </div>
         </div>
-        <div className="px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {currentItems.map((campaign) => (
-            <div
-              key={campaign._id}
-              className="bg-white border-2 border-gray-700 rounded-xl shadow-md p-4 transition-all duration-300 hover:shadow-lg"
-            >
-              <Link to={`/campaigns/${campaign._id}`}>
-                <div className="h-40 flex justify-center">
-                  <img
-                    src={campaign.image}
-                    alt="Campaign image"
-                    className="h-full object-cover object-center"
-                  />
+        {isError ? (
+          <Alert
+            severity="info"
+            sx={{
+              height: "50vh",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              fontSize: "1.5rem",
+              backgroundColor: "transparent", 
+            }}
+          >
+            No campaigns were found
+          </Alert>
+        ) : (
+          <>
+            <div className="px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              {currentItems.map((campaign) => (
+                <div
+                  key={campaign._id}
+                  className="bg-white border-2 border-gray-700 rounded-xl shadow-md p-4 transition-all duration-300 hover:shadow-lg"
+                >
+                  <Link to={`/campaigns/${campaign._id}`}>
+                    <div className="h-40 flex justify-center">
+                      <img
+                        src={campaign.image}
+                        alt="Campaign image"
+                        className="h-full object-cover object-center"
+                      />
+                    </div>
+                    <div className="mt-2">
+                      <h3 className="text-lg font-bold text-gray-800">
+                        {campaign.name}
+                      </h3>
+                      <p className="mt-1 text-lg text-gray-600">
+                        {campaign.city}
+                      </p>
+                      <p className="mt-1 text-lg font-semibold text-gray-800">
+                        ${campaign.goal}
+                      </p>
+                      <p className="mt-1 text-lg  text-gray-800">
+                        Date :
+                        {campaign.startDate
+                          .replaceAll("-", "/")
+                          .substring(5, 10)}
+                        -
+                        {campaign.endDate.replaceAll("-", "/").substring(5, 10)}
+                      </p>
+                    </div>
+                  </Link>
                 </div>
-                <div className="mt-2">
-                  <h3 className="text-lg font-bold text-gray-800">
-                    {campaign.name}
-                  </h3>
-                  <p className="mt-1 text-lg text-gray-600">{campaign.city}</p>
-                  <p className="mt-1 text-lg font-semibold text-gray-800">
-                    ${campaign.goal}
-                  </p>
-                  <p className="mt-1 text-lg  text-gray-800">
-                    Date :
-                    {campaign.startDate.replaceAll("-", "/").substring(5, 10)}-
-                    {campaign.endDate.replaceAll("-", "/").substring(5, 10)}
-                  </p>
-                </div>
-              </Link>
+              ))}
             </div>
-          ))}
-        </div>
-        <div className="py-8">
+            <div className="py-8">
           <Typography variant="body1" component="div" align="center">
             Page {currentPage} of {totalPages}
           </Typography>
@@ -162,6 +190,10 @@ export default function CampaignsPage() {
             />
           </div>
         </div>
+          </>
+        )}
+
+        
       </div>
     </div>
   );
