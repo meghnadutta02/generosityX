@@ -35,75 +35,56 @@ export default function HelpFundraiserPage() {
   }, []);
 
   return (
-    <div className="container p-16 py-24 lg:px-60 fundraiser-mesh">
+    <div
+      style={{ minHeight: "70vh" }}
+      className="container p-16 py-24 lg:px-60 fundraiser-mesh"
+    >
       <h2 className="text-4xl font-bold text-center mb-8">
         Help these fundraisers
       </h2>
-      {loading ? (
-        <div className="flex justify-center">
-          <CircularProgress />
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {fundraisers.map((fundraiser) => (
-            <div
-              key={fundraiser._id}
-              className="rounded-lg border-red-500 shadow-lg shadow-red-400"
-            >
-              <Card
-                sx={{ maxWidth: 345 }}
-                className="rounded-2xl p-2"
-              >
-                <CardHeader
-                  avatar={
-                    <Avatar
-                      sx={{ bgcolor: red[500] }}
-                      aria-label="recipe"
-                    >
-                      {fundraiser.creator.name.charAt(0)}
-                    </Avatar>
-                  }
-                  title={fundraiser.title}
-                  subheader={fundraiser.creator.name}
-                />
-                <CardMedia
-                  component="img"
-                  height="194"
-                  image={fundraiser.image[0].path}
-                  alt="Fundraiser image"
-                />
-                <CardContent>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                  >
-                    Target: {fundraiser.currentAmount}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                  >
-                    Funds raised: {fundraiser.goalAmount}
-                  </Typography>
-                </CardContent>
-                <CardActions disableSpacing>
-                  <Link
-                    to={`/help-fundraiser/${fundraiser._id}`}
-                    className=" bg-blue-300 rounded-md hover:scale-110 transition ease-in-out delay-100"
-                  >
-                    <IconButton aria-label="add to favorites">
-                      <PaymentsIcon />{" "}
-                      <span className="text-base ml-2">
-                        Contribute
-                      </span>
-                    </IconButton>
-                  </Link>
-                </CardActions>
-              </Card>
-            </div>
-          ))}
-        </div>
-      )}
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {fundraisers.map((fundraiser) => (
+          <div className="rounded-lg border-red-500 shadow-lg shadow-red-400">
+            <Card sx={{ maxWidth: 345 }} className="rounded-2xl p-2">
+              <CardHeader
+                avatar={
+                  <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                    {fundraiser.creator.name.charAt(0)}
+                  </Avatar>
+                }
+                title={fundraiser.title}
+                subheader={fundraiser.creator.name}
+              />
+              <CardMedia
+                component="img"
+                height="194"
+                image={fundraiser.image[0].path}
+                alt="Fundraiser image"
+              />
+              <CardContent>
+              <Typography variant="body2" color="text.secondary">
+                  Target : {fundraiser.currentAmount}{" "}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Funds raised : {fundraiser.goalAmount}{" "}
+                </Typography>
+                
+              </CardContent>
+              <CardActions disableSpacing>
+                <Link
+                  to={`/help-fundraiser/${fundraiser._id}`}
+                  className=" bg-blue-300 rounded-md hover:scale-110 transition ease-in-out delay-100"
+                >
+                  <IconButton aria-label="add to favorites">
+                    <PaymentsIcon />{" "}
+                    <span className="text-base ml-2">Contribute</span>
+                  </IconButton>
+                </Link>
+              </CardActions>
+            </Card>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

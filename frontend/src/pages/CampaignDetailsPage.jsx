@@ -11,7 +11,9 @@ export default function CampaignDetailsPage(props) {
   const { id } = useParams();
   const [buttonText, setButtonText] = useState("RSVP");
   const [campaign, setCampaign] = useState({});
-  const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [buttonDisabled, setButtonDisabled] = useState(
+    localStorage.getItem("buttonDisabled") === "true"
+  );
   const apiCall = async () => {
     console.log("here");
     await axios.get(`/api/campaigns/attend/${id}`);
@@ -37,6 +39,7 @@ export default function CampaignDetailsPage(props) {
     setAlertOpen(true);
     setButtonText("Submitted");
     setButtonDisabled(true);
+    localStorage.setItem("buttonDisabled", "true");
   };
 
   return (
