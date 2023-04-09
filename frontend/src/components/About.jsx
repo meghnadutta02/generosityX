@@ -14,6 +14,10 @@ const About = () => {
         <div className="max-w-[1000px] w-full grid sm:grid-cols-2 gap-8 px-4">
           <div className="sm:text-right text-4xl font-bold">
             <p>Good deeds to help those who need</p>
+            <img
+              src="https://img.freepik.com/free-vector/man-woman-touching-each-other-when-work-is-done_1150-35029.jpg?w=1060&t=st=1681027076~exp=1681027676~hmac=353f4a3ef180cf55ba11e946d6d98984dc3f9a8e42bf836118ed48f7f10ee6c6"
+              alt=""
+            />
           </div>
           <div>
             <p className="text-xl mb-4">
