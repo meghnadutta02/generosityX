@@ -10,6 +10,7 @@ import FundraiserDetailsPage from "./FundraiserDetailsPage";
 import HelpFundraiserPage from "./pages/HelpFundraiserPage";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import Chatbot from "./components/Chatbot";
 import HomePage from "./pages/HomePage";
 import CampaignsPage from "./pages/CampaignsPage";
 import LoginPage from "./pages/LoginPage";
@@ -23,6 +24,7 @@ export default function App() {
   return (
     <>
       <Navbar />
+      <Chatbot />
       <Routes>
         <Route path="/" element={<HomePage />} />
 

@@ -3,13 +3,6 @@ import Button from "@mui/material/Button";
 import Alert from "@mui/material/Alert";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
-import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
-import Avatar from "@mui/material/Avatar";
-import Typography from "@mui/material/Typography";
-import { red } from "@mui/material/colors";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
@@ -18,7 +11,9 @@ export default function CampaignDetailsPage(props) {
   const { id } = useParams();
   const [buttonText, setButtonText] = useState("RSVP");
   const [campaign, setCampaign] = useState({});
-  const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [buttonDisabled, setButtonDisabled] = useState(
+    localStorage.getItem("buttonDisabled") === "true"
+  );
   const apiCall = async () => {
     console.log("here");
     await axios.get(`/api/campaigns/attend/${id}`);
@@ -44,6 +39,7 @@ export default function CampaignDetailsPage(props) {
     setAlertOpen(true);
     setButtonText("Submitted");
     setButtonDisabled(true);
+    localStorage.setItem("buttonDisabled", "true");
   };
 
   return (
