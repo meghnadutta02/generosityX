@@ -15,9 +15,9 @@ import HomePage from "./pages/HomePage";
 import CampaignsPage from "./pages/CampaignsPage";
 import LoginPage from "./pages/LoginPage";
 import ProtectedRoutes from "./components/ProtectedRoutes";
-import MyEvents from "./pages/user/MyEvents";
 
 import Register from "./pages/RegisterPage";
+import MyEventsPage from "./pages/user/MyEventsPage";
 export default function App() {
   return (
     <>
@@ -35,7 +35,7 @@ export default function App() {
         {/* user protected routes */}
         <Route element={<ProtectedRoutes admin={false} />}>
           <Route path="/items-donate" element={<ItemDonationPage />} />
-          <Route path="/my-events" element={<MyEvents />} />
+          <Route path="/my-events" element={<MyEventsPage />} />
           <Route path="/money-donate" element={<MoneyDonationPage />} />
           <Route path="/create-fundraiser" element={<CreateFundraiserPage />} />
         </Route>

@@ -150,7 +150,7 @@ const button = async (req, res) => {
 const getMyEvents = async (req, res, next) => {
   try {
     const campaigns = await Campaign.find({
-      attendees: { $elemMatch: { email: req.user.email } },
+      attendees: { $elemMatch: { email: req.user.email } },endDate:{$lt:new Date()}
     }).select("name goal startDate endDate");
     res.status(200).json(campaigns);
   } catch (err) {
@@ -180,6 +180,17 @@ const rsvped = async (req, res, next) => {
     next(err);
   }
 };
+const getAttendedEvents = async (req, res, next) => {
+  try {
+    const attendedCampaigns = await Campaign.find({
+      attendees: { $elemMatch: { email: req.user.email } },endDate:{$gt:new Date()}
+    }).select("name goal startDate endDate");
+
+    res.status(200).json(attendedCampaigns);
+  } catch (err) {
+    next(err);
+  }
+};
 
 module.exports = {
   getCampaigns,
@@ -189,4 +200,5 @@ module.exports = {
   button,
   rsvped,
   getMyEvents,
+  getAttendedEvents
 };
