@@ -1,7 +1,7 @@
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import CampaignDetailsPage from "./CampaignDetailsPage";
 import ItemDonationPage from "./pages/ItemDonationPage";
 import MoneyDonationPage from "./pages/MoneyDonationPage";
@@ -15,6 +15,9 @@ import CampaignsPage from "./pages/CampaignsPage";
 import LoginPage from "./pages/LoginPage";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import Register from "./pages/RegisterPage";
+import MyEvents from "./user-pages/MyEvents";
+import MyDonations from "./user-pages/MyDonations";
+import MyFundraisers from "./user-pages/MyFundraisers";
 
 export default function App() {
   return (
@@ -37,8 +40,12 @@ export default function App() {
         />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<LoginPage />} />
+
+        <Route path="/my-donations" element={<MyDonations />} />
+        <Route path="/my-fundraisers" element={<MyFundraisers />} />
+        <Route path="/my-events" element={<MyEvents />} />
       </Routes>
-      <ToastContainer/>
+      <ToastContainer />
       <Footer />
     </>
   );
