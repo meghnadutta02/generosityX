@@ -16,6 +16,8 @@ const getCampaigns = async (req, res, next) => {
       .sort({ score: -1 })
       .orFail()
       .select("name goal city startDate endDate");
+      if(!campaigns)
+      res.status(404).send('No campaigns in your city')
     res.status(200).send(campaigns);
   } catch (err) {
     next(err);
@@ -119,7 +121,7 @@ const button = async (req, res) => {
         accessToken: accessToken,
       },
     });
-    const rsvpLink = `http://localhost:5000/api/campaigns/rsvp/${campaign.id}/${email}`;
+    const rsvpLink = `http://localhost:5000/rsvp/${campaign.id}/${email}`;
     const mailOptions = {
       from: "Fundraiser <meghnakha18@gmail.com>",
       to: `${email}`,
@@ -142,7 +144,7 @@ const button = async (req, res) => {
   } catch (error) {
     // Handle any errors that occur during the RSVP process
     console.error(error);
-    res.status(500).json({ message: "Failed to send RSVP." });
+    res.status(500).json({ message:error.message });
   }
 };
 const getMyEvents = async (req, res, next) => {
@@ -159,7 +161,6 @@ const rsvped = async (req, res, next) => {
   try {
     const campaignId = req.params.campaignId;
     const email = req.params.email;
-    const name = req.params.name;
     // find the campaign by id
     const campaign = await Campaign.findById(campaignId);
     const user = await User.findOne({ email: email }).orFail();

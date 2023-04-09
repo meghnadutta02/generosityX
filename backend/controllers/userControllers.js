@@ -71,7 +71,7 @@ const loginUser = async (req, res, next) => {
   try {
     const { email, password, doNotLogout } = req.body;
     if (!email || !password)
-      res.status(400).send("All input fields are required");
+      res.status(400).json({error:"All input fields are required"});
     const user = await User.findOne({ email: email }).orFail();
     if (user && comparePasswords(password, user.password)) {
       let cookieParams = {
@@ -96,16 +96,15 @@ const loginUser = async (req, res, next) => {
         )
         .status(200)
         .json({
-          sucess: "user logged in",
-          userLoggedIn: {
+        
             _id: user._id,
             name: user.firstname,
             lastName: user.lastName,
             email: user.email,
             isAdmin: user.isAdmin,
-            doNotLogout,
-          },
-        });
+            doNotLogout
+          }
+        );
     } else {
       res.status(401).json({error:"Wrong Credentials"});
     }
