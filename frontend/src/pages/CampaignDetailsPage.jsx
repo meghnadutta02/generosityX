@@ -16,7 +16,7 @@ export default function CampaignDetailsPage(props) {
   );
   const apiCall = async () => {
     console.log("here");
-    await axios.get(`/api/campaigns/attend/${id}`);
+    await axios.post(`/api/campaigns/attend/${id}`);
   };
   const [alertOpen, setAlertOpen] = useState(false);
   useEffect(() => {
@@ -27,7 +27,7 @@ export default function CampaignDetailsPage(props) {
     };
     fetchData();
   }, []);
-  // The issue with campaign.startDate might be related to the fact that it is accessed inside the useEffect hook which runs only once after the component mounts. At that point, campaign is an empty object because the API call has not completed yet.
+  
   const startDate = campaign.startDate
     ? campaign.startDate.replaceAll("-", "/").substring(0, 10)
     : "";

@@ -67,10 +67,10 @@ export default function HelpFundraiserPage() {
               />
               <CardContent>
                 <Typography variant="body2" color="text.secondary">
-                  Target : {fundraiser.currentAmount}{" "}
+                  Target : {fundraiser.goalAmount.toLocaleString("en-US")}{" "}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Funds raised : {fundraiser.goalAmount}{" "}
+                  Funds raised : {fundraiser.currentAmount.toLocaleString("en-US")}{" "}
                 </Typography>
               </CardContent>
               <CardActions disableSpacing>

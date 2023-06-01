@@ -12,7 +12,7 @@ const fundraisers = [
       phoneNumber: "123-456-7890",
     },
     donations: ["641ea7034c371df75d4ba1c9"],
-    endDate: "2023-06-30T00:00:00.000Z",
+    endDate: "2023-08-30T00:00:00.000Z",
     image: [
       {
         path: "/images/school.jpg",
@@ -33,7 +33,7 @@ const fundraisers = [
       phoneNumber: "123-456-7890",
     },
     donations: ["641ea7034c371df75d4ba1c7"],
-    endDate: "2023-09-30T00:00:00.000Z",
+    endDate: "2023-09-22T00:00:00.000Z",
     image: [
       {
         path: "/images/food.jpg",
@@ -56,7 +56,7 @@ const fundraisers = [
     donations: [
       "641ea7034c371df75d4ba1c6"
     ],
-    endDate: "2023-05-31T00:00:00.000Z",
+    endDate: "2023-10-22T00:00:00.000Z",
     image: [
       {
         path: "/images/tumor.jpg"
@@ -77,7 +77,7 @@ const fundraisers = [
       phoneNumber: "123-456-7890",
     },
     donations: ["641ea7034c371df75d4ba1c8"],
-    endDate: "2023-11-30T00:00:00.000Z",
+    endDate: "2023-11-05T00:00:00.000Z",
     image: [
       {
         path: "/images/mental-health.jpg",

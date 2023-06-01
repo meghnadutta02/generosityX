@@ -5,7 +5,8 @@ const getFundraisers = async (req, res, next) => {
     const recordsPerPage = 4;
     const totalFundraisers=await Fundraiser.countDocuments({isVerified:true});
     const pageNum = Number(req.query.pageNum) || 1;
-    const fundraisers = await Fundraiser.find({ isVerified: true })
+    const date=new Date();
+    const fundraisers = await Fundraiser.find({ isVerified: true})
       .populate("donations", "-user -comments -createdAt -updatedAt -__v")
       .sort({ goalAmount: -1 })
       .limit(recordsPerPage)
