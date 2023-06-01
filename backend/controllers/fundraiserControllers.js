@@ -3,35 +3,51 @@ const imageValidate = require("../utils/imageValidate");
 const getFundraisers = async (req, res, next) => {
   try {
     const recordsPerPage = 4;
-    const totalFundraisers=await Fundraiser.countDocuments({isVerified:true});
+    const totalFundraisers = await Fundraiser.countDocuments({
+      isVerified: true,
+    });
     const pageNum = Number(req.query.pageNum) || 1;
-    const date=new Date();
-    const fundraisers = await Fundraiser.find({ isVerified: true})
+    const currentDate = new Date();
+    const fundraisers = await Fundraiser.find({
+      isVerified: true,
+      endDate: { $gte: currentDate },
+    })
       .populate("donations", "-user -comments -createdAt -updatedAt -__v")
       .sort({ goalAmount: -1 })
       .limit(recordsPerPage)
       .skip(recordsPerPage * (pageNum - 1))
       .orFail();
-    //fundraisers is an array
-    fundraisers.map((fundraiser) => {
-      fundraiser.donations.map((donation) => {
-        fundraiser.currentAmount += donation.amount;
-      });
-      fundraiser.save();
+
+    for (const fundraiser of fundraisers) {
+      let currentAmount = 0;//everytime the page is refreshed
+      for (const donation of fundraiser.donations) {
+        currentAmount += donation.amount; 
+      }
+      fundraiser.currentAmount = currentAmount;
+      await fundraiser.save();
+    }
+
+    res.status(200).json({
+      fundraisers: fundraisers,
+      pageNum: pageNum,
+      paginationLinks: Math.ceil(totalFundraisers / recordsPerPage),
     });
-    res.status(200).json({ fundraisers: fundraisers,pageNum:pageNum,paginationLinks:Math.ceil(totalFundraisers/recordsPerPage) });
   } catch (err) {
     next(err);
   }
 };
+
 const getFundraiserDetails = async (req, res, next) => {
   try {
     const fundraiser = await Fundraiser.findOne({ _id: req.params.id })
       .populate("donations")
       .orFail();
-    res
-      .status(200)
-      .json(fundraiser);
+      fundraiser.currentAmount=0;
+      fundraiser.donations.map((donation)=>{
+        fundraiser.currentAmount+=donation.amount
+      })
+      await fundraiser.save();
+    res.status(200).json(fundraiser);
   } catch (err) {
     next(err);
   }
@@ -129,10 +145,12 @@ const deleteImage = async (req, res, next) => {
     next(err);
   }
 };
-const unverifiedFundraisers=async (req, res, next) => {
+const unverifiedFundraisers = async (req, res, next) => {
   try {
     const recordsPerPage = 4;
-    const totalFundraisers=await Fundraiser.countDocuments({isVerified:false});
+    const totalFundraisers = await Fundraiser.countDocuments({
+      isVerified: false,
+    });
     const pageNum = Number(req.query.pageNum) || 1;
     const fundraisers = await Fundraiser.find({ isVerified: true })
       .populate("donations", "-user -comments -createdAt -updatedAt -__v")
@@ -147,7 +165,13 @@ const unverifiedFundraisers=async (req, res, next) => {
       });
       fundraiser.save();
     });
-    res.status(200).json({ fundraisers: fundraisers,pageNum:pageNum,paginationLinks:Math.ceil(totalFundraisers/recordsPerPage) });
+    res
+      .status(200)
+      .json({
+        fundraisers: fundraisers,
+        pageNum: pageNum,
+        paginationLinks: Math.ceil(totalFundraisers / recordsPerPage),
+      });
   } catch (err) {
     next(err);
   }
@@ -160,5 +184,5 @@ module.exports = {
   verifyFundraiser,
   uploadImage,
   deleteImage,
-  unverifiedFundraisers
+  unverifiedFundraisers,
 };

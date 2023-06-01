@@ -6,6 +6,11 @@ const donationSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    name:
+    {
+      required: true,
+      type:String,
+    },
     amount: {
       type: Number,
       required: true,
@@ -13,6 +18,14 @@ const donationSchema = new mongoose.Schema(
     comments: {
       type: String,
       required: false,
+    },
+    phoneNumber:
+    {
+      type:Number
+    },
+    email:
+    {
+      type:String
     },
     donatedTo:
     {

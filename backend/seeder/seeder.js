@@ -22,10 +22,10 @@ const importData = async () => {
     await DonateMoney.collection.deleteMany({});
     await DonateItem.collection.deleteMany({});
     await Review.collection.deleteMany({});
-    await User.collection.deleteMany({});
+    //await User.collection.deleteMany({});
     await Fundraiser.collection.deleteMany({});
     await Campaign.insertMany(campaignsData);
-    await User.insertMany(userData);
+    //await User.insertMany(userData);
     await DonateFood.insertMany(foodDonationsData);
     await DonateItem.insertMany(itemDonationsData);
     await DonateMoney.insertMany(moneyDonationsData);

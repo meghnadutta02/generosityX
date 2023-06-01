@@ -28,19 +28,21 @@ const getmyDonations = async (req, res, next) => {
 };
 const donateMoney = async (req, res, next) => {
   try {
-    const { amount, comments } = req.body;
+    const { name,email,phoneNumber,amount, comments } = req.body;
     const id = req.params.id;
     const donation = new DonateMoney();
     donation.user = req.user.name + " " + req.user.lastName;
     donation.amount = amount;
     donation.comments = comments || donation.comments;
-
+    donation.name=name;
+    donation.phoneNumber=phoneNumber;
+    donation.email=req.user.email || email;
     const fundraiser = await Fundraiser.findOne({ _id: id });
     fundraiser.donations.push(donation._id);
     donation.donatedTo = fundraiser.id;
     donation.save();
     fundraiser.save();
-    res.status(201).json({ donation, donation_id: donation._id });
+    res.status(201).json({ successful:true, donation_id: donation._id });
   } catch (err) {
     next(err);
   }

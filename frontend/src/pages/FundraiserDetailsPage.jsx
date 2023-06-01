@@ -13,7 +13,11 @@ export default function FundraiserDetailsPage() {
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState(true);
   const [fundraiser, setFundraiser] = useState({});
-
+  const [donated, setDonated] = useState(false);
+  function donate()
+  {
+    setDonated(true);
+  }
   useEffect(() => {
     const fetchData = async () => {
       let url = `/api/fundraisers/getOne/${id}`;
@@ -22,7 +26,7 @@ export default function FundraiserDetailsPage() {
       setIsLoading(false);
     };
     fetchData();
-  }, []);
+  }, [donated]);
 
   const endDate = fundraiser.endDate ? fundraiser.endDate.replaceAll("-", "/").substring(0, 10) : "";
 
@@ -62,7 +66,7 @@ export default function FundraiserDetailsPage() {
                   Funds raised: ${fundraiser.currentAmount.toLocaleString("en-US")}
                 </Typography>
                 <Typography variant="h5" color="text.secondary" fontWeight="bold">
-                  Deadline: {(new Date(endDate)).toLocaleDateString("en-GB")}
+                  Deadline: {(new Date(fundraiser.endDate)).toLocaleDateString("en-GB")}
                 </Typography>
               </CardContent>
               <CardContent>
@@ -78,7 +82,7 @@ export default function FundraiserDetailsPage() {
                 <Typography paragraph>{fundraiser.description}</Typography>
               </CardContent>
             </div>
-            <MoneyDonationPage />
+            <MoneyDonationPage donate={donate} />
           </div>
         </div>
       )}
