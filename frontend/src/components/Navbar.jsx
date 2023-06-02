@@ -85,7 +85,7 @@ export default function Navbar() {
                 </svg>
               </div>
             </Link>
-            <div className="hidden sm:flex sm:items-center">
+            <div className="hover:cursor-pointer hidden sm:flex sm:items-center">
               <ScrolLink
                 to="about"
                 smooth={true}
@@ -94,16 +94,14 @@ export default function Navbar() {
               >
                 About
               </ScrolLink>
-              <Link to="/home">
-                <ScrolLink
-                  to="contact"
-                  smooth={true}
-                  duration={500}
-                  className="text-white text-lg font-semibold hover:text-amber-400 mr-4"
-                >
-                  Contact
-                </ScrolLink>
-              </Link>
+              <ScrolLink
+                to="contact"
+                smooth={true}
+                duration={500}
+                className="text-white text-lg font-semibold hover:text-amber-400 mr-4"
+              >
+                Contact
+              </ScrolLink>
               <ScrolLink
                 to="campaigns"
                 smooth={true}
@@ -137,21 +135,21 @@ export default function Navbar() {
                     >
                       <Link
                         to="/my-fundraisers"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-300 hover:text-gray-900"
+                        className="block px-4 py-2 text-md text-gray-700 hover:bg-gray-300 hover:text-gray-900"
                         role="menuitem"
                       >
                         My Fundraisers
                       </Link>
                       <Link
                         to="/my-donations"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-300 hover:text-gray-900"
+                        className="block px-4 py-2 text-md text-gray-700 hover:bg-gray-300 hover:text-gray-900"
                         role="menuitem"
                       >
                         My Donations
                       </Link>
                       <Link
                         to="/my-events"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-300 hover:text-gray-900"
+                        className="block px-4 py-2 text-md text-gray-700 hover:bg-gray-300 hover:text-gray-900"
                         role="menuitem"
                       >
                         My Events
