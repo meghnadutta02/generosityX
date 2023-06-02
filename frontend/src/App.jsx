@@ -18,9 +18,11 @@ import ProtectedRoutes from "./components/ProtectedRoutes";
 
 import Register from "./pages/RegisterPage";
 import MyEventsPage from "./pages/user/MyEventsPage";
+
 export default function App() {
   return (
     <>
+      {" "}
       <Navbar />
       <Chatbot />
       <Routes>
@@ -36,14 +38,23 @@ export default function App() {
         <Route element={<ProtectedRoutes admin={false} />}>
           <Route path="/items-donate" element={<ItemDonationPage />} />
           <Route path="/my-events" element={<MyEventsPage />} />
-          <Route path="/money-donate" element={<MoneyDonationPage />} />
+
+          <Route
+            path="/money-donate"
+            element={
+              
+                <MoneyDonationPage />
+            
+            }
+          />
+
           <Route path="/create-fundraiser" element={<CreateFundraiserPage />} />
         </Route>
         {/* <Route element={<ProtectedRoutes admin={true} />}> */}
-          <Route
-            path="/help-fundraiser/:id"
-            element={<FundraiserDetailsPage />}
-          />
+        <Route
+          path="/help-fundraiser/:id"
+          element={<FundraiserDetailsPage />}
+        />
         {/* </Route> */}
       </Routes>
       <ToastContainer />

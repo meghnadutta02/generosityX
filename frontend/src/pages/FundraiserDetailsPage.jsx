@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
-
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+const stripePromise = loadStripe(
+  "pk_test_51NERLdSFxAjVW5eERempDWfaqRaaKgPdpRnstt1USpb2otO24cAePcHgX7IolWJiHF0aeb9l45jf10wx1ywHUGx500a1GKlHXl"
+);
 import axios from "axios";
 import { CircularProgress } from "@mui/material";
 import CardHeader from "@mui/material/CardHeader";
@@ -82,7 +86,9 @@ export default function FundraiserDetailsPage() {
                 <Typography paragraph>{fundraiser.description}</Typography>
               </CardContent>
             </div>
+            <Elements stripe={stripePromise}>
             <MoneyDonationPage donate={donate} />
+            </Elements>
           </div>
         </div>
       )}

@@ -1,19 +1,14 @@
 import axios from "axios";
-import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Alert, AlertTitle } from "@mui/material";
 import { useParams } from "react-router-dom";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import Divider from "@mui/material/Divider";
-import ListItemText from "@mui/material/ListItemText";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import Avatar from "@mui/material/Avatar";
-import Typography from "@mui/material/Typography";
 import CommentPage from "./CommentPage";
+import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 export default function MoneyDonationPage(props) {
   const { id } = useParams();
   const [submit, setSubmit] = useState(false);
+
+  const [clientSecret, setClientSecret] = useState("");
   const [data, setData] = useState({
     amount: "",
     name: "",
@@ -21,12 +16,15 @@ export default function MoneyDonationPage(props) {
     email: "",
     phoneNumber: "",
   });
+  const stripe = useStripe();
+  const elements = useElements();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setData((prevData) => ({ ...prevData, [name]: value }));
   };
   const [donated, setDonated] = useState(false);
+  const [failed, setFailed] = useState(false);
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmit(true);
@@ -36,34 +34,81 @@ export default function MoneyDonationPage(props) {
     const fetchData = async () => {
       if (submit) {
         try {
-          const url = `/api/donations/donate/money/${id}`;
+          const url = `/api/donations/request/money/${id}`;
           const response = await axios.post(url, data);
-          const { successful } = response.data;
-          if (successful) {
-            setDonated(true);
-            props.donate();
-          }
+          setClientSecret(response.data.clientSecret);
         } catch (error) {
+          setFailed(true);
+          console.log(error);
+          setSubmit(false);
           alert("Something went wrong");
         }
       }
     };
 
     fetchData();
-  }, [submit]);
+  }, [submit, failed]);
+  useEffect(() => {
+    const confirmPayment = async () => {
+      if (!clientSecret || !submit) return;
+
+      try {
+        const result = await stripe.confirmCardPayment(clientSecret, {
+          payment_method: {
+            card: elements.getElement(CardElement),
+          },
+        });
+
+        if (result.error) {
+          // Handle payment error
+          console.log("Payment failed:", result.error.message);
+          setFailed(true);
+        } else {
+          // Payment succeeded
+          const url = `/api/donations/donate/money/${id}`;
+          const response = await axios.post(url, data);
+          console.log("Payment succeeded:", response.data);
+          setDonated(true);
+          setFailed(false);
+          props.donate();
+        }
+        setSubmit(false); // Reset the submit state after payment confirmation for subsequent form submissions
+      } catch (error) {
+        // Handle any other errors
+        setSubmit(false);
+        console.log("An error occurred:", error.message);
+        setFailed(true);
+        setSubmit(false);
+      }
+    };
+
+    confirmPayment();
+  }, [clientSecret]);
 
   return (
     <div>
       {donated ? (
         <>
-          <Alert severity="success" style={{backgroundColor: "rgba(255, 255, 255, 0.2)",fontSize: "larger" }}>
+          <Alert
+            severity="success"
+            style={{
+              backgroundColor: "rgba(255, 255, 255, 0.2)",
+              fontSize: "larger",
+            }}
+          >
             <AlertTitle>Your payment was successful!</AlertTitle>
             <strong>Thank you for your contribution</strong>
           </Alert>
-          <CommentPage/>
+          <CommentPage />
         </>
       ) : (
-        <form onSubmit={handleSubmit}>
+        <form>
+          {failed && (
+            <Alert severity="error">
+              <AlertTitle>Payment failed!</AlertTitle>
+              <strong>Please try again</strong>
+            </Alert>
+          )}
           <div className="space-y-4 px-4">
             <div className="pb-2">
               <h1 className="text-center font-semibold text-3xl">
@@ -181,19 +226,34 @@ export default function MoneyDonationPage(props) {
               </div>
             </div>
           </div>
-
+          {/* Payment Method section */}
+          <div className="pb-4">
+            <h2 className="text-2xl font-semibold leading-7 text-gray-900">
+              Payment Method
+            </h2>
+            <div className="mt-10">
+              <div>
+                <p>Card Details</p>
+                {/* Card Element */}
+                <CardElement />
+              </div>
+            </div>
+          </div>
           <div className="m-16 flex items-center justify-end gap-x-6">
             <button
-              type="button"
-              className="text-lg font-semibold leading-6 text-gray-900"
-            >
-              Cancel
-            </button>
-            <button
               type="submit"
-              className="rounded-md bg-indigo-600 py-2 px-3 text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              disabled={submit} // Disable the button when submit is true
+              onClick={handleSubmit}
+              className="rounded-md bg-indigo-600 py-3 px-4 text-xl font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              style={{ display: "flex", alignItems: "center" }}
             >
-              Submit
+              Donate
+              <img
+                src="/images/heart.png"
+                alt="donate icon"
+                style={{ width: "1em", height: "1em", marginRight: "0.5em" }}
+                className="mx-2"
+              />
             </button>
           </div>
         </form>
