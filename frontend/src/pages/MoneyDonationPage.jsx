@@ -83,7 +83,7 @@ export default function MoneyDonationPage(props) {
     };
 
     confirmPayment();
-  }, [clientSecret]);
+  }, [clientSecret,id]);
 
   return (
     <div>

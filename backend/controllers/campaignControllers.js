@@ -126,7 +126,7 @@ const button = async (req, res) => {
       from: "Fundraiser <meghnakha18@gmail.com>",
       to: `${email}`,
       subject: `RSVP Confirmation for ${campaign.name}`,
-      text: `Thank you for registering for ${
+      text: `Thank you for registering for : ${
         campaign.name
       }!\n\nHere are the details for the campaign:\n- Name: ${
         campaign.name
@@ -140,7 +140,7 @@ const button = async (req, res) => {
     };
 
     const result = await transport.sendMail(mailOptions);
-    res.status(200).json(result);
+    res.status(200).json({result,successful:true});
   } catch (error) {
     // Handle any errors that occur during the RSVP process
     console.error(error);
