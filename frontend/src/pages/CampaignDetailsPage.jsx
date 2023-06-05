@@ -12,11 +12,22 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 export default function CampaignDetailsPage(props) {
   const { id } = useParams();
-  const userId = JSON.parse(localStorage.getItem("user"))._id;
+  let userId;
+  const localUser = localStorage.getItem("user");
+  const sessionUser = sessionStorage.getItem("user");
+
+  if (localUser) {
+    userId = JSON.parse(localUser)._id;
+  } else if (sessionUser) {
+    userId = JSON.parse(sessionUser)._id;
+  }
   const [buttonText, setButtonText] = useState("RSVP");
   const [campaign, setCampaign] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-  const [buttonDisabled, setButtonDisabled] =  (localStorage.getItem(`buttonDisabled_${id}_${userId}`) === "true")?useState(true):useState(false);
+  const [buttonDisabled, setButtonDisabled] =
+    localStorage.getItem(`buttonDisabled_${id}_${userId}`) === "true"
+      ? useState(true)
+      : useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertOpen1, setAlertOpen1] = useState(false);
   const apiCall = async () => {
@@ -45,8 +56,6 @@ export default function CampaignDetailsPage(props) {
       setCampaign(result.data);
     };
     fetchData();
-
-    
   }, []);
 
   const startDate = campaign.startDate
@@ -60,7 +69,9 @@ export default function CampaignDetailsPage(props) {
   return (
     <div className="pt-24 bg-[url(https://img.freepik.com/free-vector/sketches-modern-city-background_23-2147556600.jpg?w=740&t=st=1680546909~exp=1680547509~hmac=dd976456aa5dddd4d07e0ed31480b8a92ed472851ab9b91a49b48f2851f1899b)] bg-center bg-cover bg-no-repeat fixed;">
       <h2 className="text-4xl font-bold my-8 text-center">
-        <span className="p-4 shadow-lg shadow-gray-300 rounded ">{campaign.name}</span>
+        <span className="p-4 shadow-lg shadow-gray-300 rounded ">
+          {campaign.name}
+        </span>
       </h2>
       <Snackbar
         open={alertOpen}
@@ -117,10 +128,16 @@ export default function CampaignDetailsPage(props) {
           >
             <List sx={{ width: "100%" }}>
               <ListItem>
-                <ListItemText secondary={"$" + campaign.goal} primary="Goal Amount" />
+                <ListItemText
+                  secondary={"$" + campaign.goal}
+                  primary="Goal Amount"
+                />
               </ListItem>
               <ListItem>
-                <ListItemText secondary={campaign.description} primary="Description" />
+                <ListItemText
+                  secondary={campaign.description}
+                  primary="Description"
+                />
               </ListItem>
               <ListItem>
                 <ListItemText secondary={campaign.city} primary="City" />
@@ -135,13 +152,22 @@ export default function CampaignDetailsPage(props) {
                 <ListItemText secondary={endDate} primary="End Date" />
               </ListItem>
               <ListItem>
-                <ListItemText secondary={campaign.organizer} primary="Organizer" />
+                <ListItemText
+                  secondary={campaign.organizer}
+                  primary="Organizer"
+                />
               </ListItem>
               <ListItem>
-                <ListItemText secondary={campaign.contactEmail} primary="Email" />
+                <ListItemText
+                  secondary={campaign.contactEmail}
+                  primary="Email"
+                />
               </ListItem>
               <ListItem>
-                <ListItemText secondary={campaign.contactPhone} primary="Phone Number" />
+                <ListItemText
+                  secondary={campaign.contactPhone}
+                  primary="Phone Number"
+                />
               </ListItem>
             </List>
           </div>
