@@ -31,9 +31,12 @@ export default function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/help-fundraiser" element={<HelpFundraiserPage />} />
         <Route path="/campaigns" element={<CampaignsPage />} />
-        {/*         </Route> */}
         <Route path="/campaigns/:id" element={<CampaignDetailsPage />} />
-
+        <Route path="/money-donate" element={<MoneyDonationPage />} />
+        <Route
+          path="/help-fundraiser/:id"
+          element={<FundraiserDetailsPage />}
+        />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<LoginPage />} />
         {/* user protected routes */}
@@ -41,18 +44,12 @@ export default function App() {
           <Route path="/items-donate" element={<ItemDonationPage />} />
           <Route path="/my-events" element={<MyEventsPage />} />
           <Route path="/my-donations" element={<MyDonationsPage />} />
-          <Route path="/my-fundraisers" element={<MyFundraisersPage />} />
-
-          <Route path="/money-donate" element={<MoneyDonationPage />} />
 
           <Route path="/create-fundraiser" element={<CreateFundraiserPage />} />
         </Route>
-        {/* <Route element={<ProtectedRoutes admin={true} />}> */}
-        <Route
-          path="/help-fundraiser/:id"
-          element={<FundraiserDetailsPage />}
-        />
-        {/* </Route> */}
+        <Route element={<ProtectedRoutes admin={true} />}>
+          <Route path="/my-fundraisers" element={<MyFundraisersPage />} />
+        </Route>
       </Routes>
       <ToastContainer />
       <ToastContainer />

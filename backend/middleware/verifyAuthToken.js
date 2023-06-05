@@ -8,7 +8,6 @@ const verifyIfLoggedIn = (req, res, next) => {
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY); //when user logs in,a token is generated which lasts for 7 hours or 7 days
       req.user = decoded;
-     
       next();
     } catch (err) {
 

@@ -60,7 +60,7 @@ export default function CampaignDetailsPage(props) {
   return (
     <div className="pt-24 bg-[url(https://img.freepik.com/free-vector/sketches-modern-city-background_23-2147556600.jpg?w=740&t=st=1680546909~exp=1680547509~hmac=dd976456aa5dddd4d07e0ed31480b8a92ed472851ab9b91a49b48f2851f1899b)] bg-center bg-cover bg-no-repeat fixed;">
       <h2 className="text-4xl font-bold my-8 text-center">
-        <span className="p-4 shadow-lg shadow-gray-300 rounded bg-white">{campaign.name}</span>
+        <span className="p-4 shadow-lg shadow-gray-300 rounded ">{campaign.name}</span>
       </h2>
       <Snackbar
         open={alertOpen}
@@ -69,7 +69,7 @@ export default function CampaignDetailsPage(props) {
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
       >
         <Alert severity="success" sx={{ width: "100%" }}>
-          Thanks for joining us in this campaign!
+          Thanks for joining us!
         </Alert>
       </Snackbar>
 

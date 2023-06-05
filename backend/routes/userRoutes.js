@@ -8,7 +8,6 @@ router.post("/login",loginUser)
 router.use(verifyIfLoggedIn)
 router.put("/profile",updateUserProfile);//using the form
 router.get("/profile/:id",getUserProfile);
-//router.post("/review/:productId",writeReview);
 //admin routes
 router.use(verifyIfAdmin)
 router.get("/",getUsers)

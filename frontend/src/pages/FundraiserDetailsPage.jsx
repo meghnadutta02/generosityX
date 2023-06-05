@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-const stripePromise = loadStripe(
-  "pk_test_51NERLdSFxAjVW5eERempDWfaqRaaKgPdpRnstt1USpb2otO24cAePcHgX7IolWJiHF0aeb9l45jf10wx1ywHUGx500a1GKlHXl"
-);
 import axios from "axios";
 import { CircularProgress } from "@mui/material";
 import CardHeader from "@mui/material/CardHeader";
@@ -13,31 +10,35 @@ import Typography from "@mui/material/Typography";
 import { useParams } from "react-router-dom";
 import MoneyDonationPage from "./MoneyDonationPage";
 
+const stripePromise = loadStripe(
+  "pk_test_51NERLdSFxAjVW5eERempDWfaqRaaKgPdpRnstt1USpb2otO24cAePcHgX7IolWJiHF0aeb9l45jf10wx1ywHUGx500a1GKlHXl"
+);
+
 export default function FundraiserDetailsPage() {
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState(true);
   const [fundraiser, setFundraiser] = useState({});
   const [donated, setDonated] = useState(false);
-  function donate()
-  {
+
+  function donate() {
     setDonated(true);
   }
+
   useEffect(() => {
     const fetchData = async () => {
       let url = `/api/fundraisers/getOne/${id}`;
       const result = await axios.get(url);
+
       setFundraiser(result.data);
       setIsLoading(false);
     };
     fetchData();
   }, [donated]);
 
-  const endDate = fundraiser.endDate ? fundraiser.endDate.replaceAll("-", "/").substring(0, 10) : "";
-
   return (
-    <div>
+    <div style={{ minHeight: "60vh" }}>
       {isLoading ? (
-        <div className="flex justify-center">
+        <div className="flex justify-center" style={{padding:"20%"}}>
           <CircularProgress />
         </div>
       ) : (
@@ -63,14 +64,28 @@ export default function FundraiserDetailsPage() {
                 ))}
 
               <CardContent>
-                <Typography variant="h5" color="text.secondary" fontWeight="bold">
+                <Typography
+                  variant="h5"
+                  color="text.secondary"
+                  fontWeight="bold"
+                >
                   Target: ${fundraiser.goalAmount.toLocaleString("en-US")}
                 </Typography>
-                <Typography variant="h5" color="text.secondary" fontWeight="bold">
-                  Funds raised: ${fundraiser.currentAmount.toLocaleString("en-US")}
+                <Typography
+                  variant="h5"
+                  color="text.secondary"
+                  fontWeight="bold"
+                >
+                  Funds raised: $
+                  {fundraiser.currentAmount.toLocaleString("en-US")}
                 </Typography>
-                <Typography variant="h5" color="text.secondary" fontWeight="bold">
-                  Deadline: {(new Date(fundraiser.endDate)).toLocaleDateString("en-GB")}
+                <Typography
+                  variant="h5"
+                  color="text.secondary"
+                  fontWeight="bold"
+                >
+                  Deadline:{" "}
+                  {new Date(fundraiser.endDate).toLocaleDateString("en-GB")}
                 </Typography>
               </CardContent>
               <CardContent>
@@ -87,7 +102,7 @@ export default function FundraiserDetailsPage() {
               </CardContent>
             </div>
             <Elements stripe={stripePromise}>
-            <MoneyDonationPage donate={donate} />
+              <MoneyDonationPage donate={donate} />
             </Elements>
           </div>
         </div>

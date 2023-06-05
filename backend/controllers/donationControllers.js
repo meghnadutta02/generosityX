@@ -10,7 +10,7 @@ const getmyDonations = async (req, res, next) => {
   //make a carousel for this
   try {
     const moneydonations = await DonateMoney.find({
-      user: req.user.name + " " + req.user.lastName,
+      email:req.user.email
     })
       .populate("donatedTo", "title description")
       .sort({ createdAt: -1 });
@@ -60,7 +60,7 @@ const donateMoney = async (req, res, next) => {
     const { name, email, phoneNumber, amount, comments } = req.body;
     const id = req.params.id;
     const donation = new DonateMoney();
-    donation.user = req.user.name + " " + req.user.lastName;
+    donation.user = (req.user)?req.user.name + " " + req.user.lastName:"Anonymous";
     donation.amount = amount;
     donation.comments = comments || donation.comments;
     donation.name = name;

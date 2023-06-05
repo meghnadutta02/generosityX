@@ -44,7 +44,7 @@ export default function CreateFundraiserPage() {
                 </label>
                 <p className="mt-3 text-xl leading-6 text-black">
                   {" "}
-                  What are you starting the fundraiser ?
+                  Why are you starting the fundraiser ?
                 </p>
                 <div className="mt-2">
                   <textarea

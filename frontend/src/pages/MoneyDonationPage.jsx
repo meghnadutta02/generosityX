@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Alert, AlertTitle } from "@mui/material";
 import { useParams } from "react-router-dom";
 import CommentPage from "./CommentPage";
+import {toast } from "react-toastify";
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 export default function MoneyDonationPage(props) {
   const { id } = useParams();
@@ -27,8 +28,19 @@ export default function MoneyDonationPage(props) {
   const [failed, setFailed] = useState(false);
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const { amount } = data;
+    if (amount < 10 ) {
+      toast.error("Minimum donation amount is $10");
+      return;
+    }
+    else if(amount > 10000)
+    {
+      toast.error("Maximum donation amount is $10,000");
+      return;
+    }
     setSubmit(true);
   };
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,7 +53,7 @@ export default function MoneyDonationPage(props) {
           setFailed(true);
           console.log(error);
           setSubmit(false);
-          alert("Something went wrong");
+          toast.error("Something went wrong");
         }
       }
     };
@@ -70,7 +82,7 @@ export default function MoneyDonationPage(props) {
           console.log("Payment succeeded:", response.data);
           setDonated(true);
           setFailed(false);
-          props.donate();
+          await props.donate();
         }
         setSubmit(false); // Reset the submit state after payment confirmation for subsequent form submissions
       } catch (error) {
@@ -129,6 +141,8 @@ export default function MoneyDonationPage(props) {
                       type="number"
                       name="amount"
                       id="amount"
+                      min={10}
+                      max={10000}
                       onChange={handleChange}
                       value={data.amount}
                       autoComplete="amount"
