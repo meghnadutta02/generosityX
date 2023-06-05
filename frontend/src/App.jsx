@@ -11,6 +11,7 @@ import HelpFundraiserPage from "./pages/HelpFundraiserPage";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Chatbot from "./components/Chatbot";
+import ScrollToTop from "./components/ScrollToTop";
 import HomePage from "./pages/HomePage";
 import CampaignsPage from "./pages/CampaignsPage";
 import LoginPage from "./pages/LoginPage";
@@ -26,6 +27,7 @@ export default function App() {
     <>
       {" "}
       <Navbar />
+      <ScrollToTop />
       <Chatbot />
       <Routes>
         <Route path="/" element={<HomePage />} />
