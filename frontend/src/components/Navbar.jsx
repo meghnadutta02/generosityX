@@ -154,6 +154,13 @@ export default function Navbar() {
                       >
                         My Events
                       </Link>
+                      <Link
+                        to="/my-profile"
+                        className="block px-4 py-2 text-md text-gray-700 hover:bg-gray-300 hover:text-gray-900"
+                        role="menuitem"
+                      >
+                        My Profile
+                      </Link>
                       <button
                         onClick={() => {
                           dispatch(logout());

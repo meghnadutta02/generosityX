@@ -21,6 +21,7 @@ import Register from "./pages/RegisterPage";
 import MyEventsPage from "./pages/user/MyEventsPage";
 import MyDonationsPage from "./pages/user/MyDonationsPage";
 import MyFundraisersPage from "./pages/user/MyFundraisersPage";
+import MyProfilePage from "./pages/user/MyProfilePage";
 
 export default function App() {
   return (
@@ -33,24 +34,24 @@ export default function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/help-fundraiser" element={<HelpFundraiserPage />} />
         <Route path="/campaigns" element={<CampaignsPage />} />
-        <Route path="/campaigns/:id" element={<CampaignDetailsPage />} />
         <Route path="/money-donate" element={<MoneyDonationPage />} />
-        <Route
-          path="/help-fundraiser/:id"
-          element={<FundraiserDetailsPage />}
-        />
+
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<LoginPage />} />
         {/* user protected routes */}
         <Route element={<ProtectedRoutes admin={false} />}>
           <Route path="/items-donate" element={<ItemDonationPage />} />
           <Route path="/my-events" element={<MyEventsPage />} />
-          <Route path="/my-donations" element={<MyDonationsPage />} />
+          <Route path="/campaigns/:id" element={<CampaignDetailsPage />} />
 
-          <Route path="/create-fundraiser" element={<CreateFundraiserPage />} />
-        </Route>
-        <Route element={<ProtectedRoutes admin={true} />}>
+          <Route path="/my-donations" element={<MyDonationsPage />} />
           <Route path="/my-fundraisers" element={<MyFundraisersPage />} />
+          <Route path="/create-fundraiser" element={<CreateFundraiserPage />} />
+          <Route
+            path="/help-fundraiser/:id"
+            element={<FundraiserDetailsPage />}
+          />
+          <Route path="/my-profile" element={<MyProfilePage />} />
         </Route>
       </Routes>
       <ToastContainer />
