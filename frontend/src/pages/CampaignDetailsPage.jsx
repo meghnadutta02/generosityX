@@ -15,7 +15,6 @@ export default function CampaignDetailsPage(props) {
   let userId;
   const localUser = localStorage.getItem("user");
   const sessionUser = sessionStorage.getItem("user");
-
   if (localUser) {
     userId = JSON.parse(localUser)._id;
   } else if (sessionUser) {

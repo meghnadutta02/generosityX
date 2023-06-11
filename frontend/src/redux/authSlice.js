@@ -34,7 +34,12 @@ export const register = createAsyncThunk(
 );
 export const logout = createAsyncThunk("auth/logout", async () => {
   await axios.get("/api/logout");
-  await localStorage.removeItem("user");
+  const localUser = localStorage.getItem("user");
+  const sessionUser = sessionStorage.getItem("user");
+  if(localUser)
+    localStorage.removeItem("user");
+  else if(sessionUser)
+    sessionStorage.removeItem("user");
   return null;
 });
 export const login = createAsyncThunk("auth/login", async (user, thunkAPI) => {

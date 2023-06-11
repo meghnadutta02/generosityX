@@ -13,8 +13,8 @@ const imageValidate=(images)=>
         return {error:"Send only 3 images at once"}
     imagesTable.map((image)=>
     {
-        if(image.size>1048576)
-        return {error:"Size too large(above 1 MB)"};
+        if(image.size>5242880 )
+        return {error:"Size too large(above 5 MB)"};
         const filetypes=/jpg|jpeg|png/
         const mimetype=filetypes.test(image.mimetype);
         if(!mimetype)
