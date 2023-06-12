@@ -91,7 +91,7 @@ const loginUser = async (req, res, next) => {
             user.lastName,
             user.email,
             user.isAdmin,
-            user.doNotLogout,
+            doNotLogout
           ),
           cookieParams
         )

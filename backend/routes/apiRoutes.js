@@ -13,7 +13,7 @@ app.get("/get-token", (req, res) => {
   try {
     const accessToken =  req.cookies.access_token;
     const decoded = jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
-    return res.json({ token: decoded.name, isAdmin: decoded.isAdmin });
+    return res.json({ token: decoded.name, isAdmin: decoded.isAdmin,decoded});
   } catch (err) {
     return res.status(401).send("Unauthorized. Invalid Token");
   }

@@ -54,59 +54,63 @@ const getFundraiserDetails = async (req, res, next) => {
 };
 const startFundraisers = async (req, res, next) => {
   try {
-    const { title, description, goalAmount, endDate, phoneNumber } = req.body;
-    if (!(title && description && goalAmount && endDate))
+    const { title, description, target, deadline, phoneNumber,name,email } = req.body;
+    if (!(title && description && target && deadline))
       return res.status(400).send("All input fields are required");
     const fundraiser = await Fundraiser.create({
       title,
       description,
-      goalAmount,
-      endDate,
+      goalAmount:target,
+      endDate:new Date(deadline),
+      user:req.user._id,
       creator: {
-        name: req.user.name + " " + req.user.lastName,
-        email: req.user.email,
+        name,
+        email,
         phoneNumber,
       },
     });
-    console.log(fundraiser.creator);
-    res.status(201).json({ newFundraiser: fundraiser });
+    res.status(201).json({ id: fundraiser._id });
   } catch (err) {
     next(err);
   }
 };
 const uploadImage = async (req, res, next) => {
   try {
-    if (!req.files || !!req.files.images === false) {
-      return res.status(400).send("No files were uploaded");
-    }
-    const validateResult = imageValidate(req.files.images);
-    if (validateResult !== null) {
-      return res.status(400).send(validateResult.error);
-    }
-    const path = require("path");
-    const { v4: uuidv4 } = require("uuid");
-    const uploadDirectory = path.resolve(
-      __dirname,
-      "../../frontend/public/images/certifications"
-    );
-    let imagesTable = [];
-    if (Array.isArray(req.files.images)) {
-      imagesTable = req.files.images;
-    } else {
-      imagesTable.push(req.files.images);
-    }
     const id = req.query.id;
     const fundraiser = await Fundraiser.findById(id).orFail();
-    imagesTable.map((image) => {
-      const filename = uuidv4() + path.extname(image.name);
-      var uploadPath = uploadDirectory + "/" + filename;
-      fundraiser.image.push({ path: "/images/certifications/" + filename });
-      image.mv(uploadPath, function (err) {
-        if (err) res.status(500).send(err);
-        else res.send("Files uploaded");
-      });
-    });
+    fundraiser.image.push({path:req.body.url});
+    // if (!req.files || !!req.files.images === false) {
+    //   return res.status(400).send("No files were uploaded");
+    // }
+    // const validateResult = imageValidate(req.files.images);
+    // if (validateResult !== null) {
+    //   return res.status(400).send(validateResult.error);
+    // }
+    // const path = require("path");
+    // const { v4: uuidv4 } = require("uuid");
+    // const uploadDirectory = path.resolve(
+    //   __dirname,
+    //   "../../frontend/public/images/certifications"
+    // );
+    // let imagesTable = [];
+    // if (Array.isArray(req.files.images)) {
+    //   imagesTable = req.files.images;
+    // } else {
+    //   imagesTable.push(req.files.images);
+    // }
+    
+    
+    // imagesTable.map((image) => {
+    //   const filename = uuidv4() + path.extname(image.name);
+    //   var uploadPath = uploadDirectory + "/" + filename;
+    //   fundraiser.image.push({ path: "/images/certifications/" + filename });
+    //   image.mv(uploadPath, function (err) {
+    //     if (err) res.status(500).send(err);
+    //     else res.send("Files uploaded");
+    //   });
+    // });
     await fundraiser.save();
+    res.status(201).send("Images uploaded and fundraiser created");
   } catch (err) {
     next(err);
   }
@@ -122,6 +126,7 @@ const verifyFundraiser = async (req, res, next) => {
     next(err);
   }
 };
+
 const deleteImage = async (req, res, next) => {
   try {
     const imagePath = decodeURIComponent(req.params.imagePath);
