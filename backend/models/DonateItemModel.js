@@ -41,7 +41,9 @@ const donateSchema = new mongoose.Schema(
       {
         type: String,
         required: true,
+        default:[]
       },
+      
     ],
   },
   { timestamps: true }

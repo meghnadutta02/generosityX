@@ -16,7 +16,6 @@ import HomePage from "./pages/HomePage";
 import CampaignsPage from "./pages/CampaignsPage";
 import LoginPage from "./pages/LoginPage";
 import ProtectedRoutes from "./components/ProtectedRoutes";
-
 import Register from "./pages/RegisterPage";
 import MyEventsPage from "./pages/user/MyEventsPage";
 import MyDonationsPage from "./pages/user/MyDonationsPage";

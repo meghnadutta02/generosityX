@@ -1,5 +1,7 @@
 require("dotenv").config();
-const stripe = require("stripe")("sk_test_51NERLdSFxAjVW5eEGmmD0prvR7tqz32KyK8OtR33zPfHyuGCBR7C21XeRk59y7Y86FQ7NxnCcWPJm5F8knbhnTni00Ki3nUhuH");
+const stripe = require("stripe")(
+  "sk_test_51NERLdSFxAjVW5eEGmmD0prvR7tqz32KyK8OtR33zPfHyuGCBR7C21XeRk59y7Y86FQ7NxnCcWPJm5F8knbhnTni00Ki3nUhuH"
+);
 const DonateFood = require("../models/DonateFoodModel");
 const DonateItem = require("../models/DonateItemModel");
 const DonateMoney = require("../models/DonateMoneyModel");
@@ -10,7 +12,7 @@ const getmyDonations = async (req, res, next) => {
   //make a carousel for this
   try {
     const moneydonations = await DonateMoney.find({
-      email:req.user.email
+      email: req.user.email,
     })
       .populate("donatedTo", "title description")
       .sort({ createdAt: -1 });
@@ -31,27 +33,34 @@ const getmyDonations = async (req, res, next) => {
 };
 const requestPayment = async (req, res, next) => {
   try {
-    const { name,amount } = req.body;
+    const { name, amount } = req.body;
     const payment = await stripe.paymentIntents.create({
-      amount: amount*100,
+      amount: amount * 100,
       currency: "USD",
       description: "donation",
       shipping: {
         address: {
-          line1: '123 Main St',
-          city: 'San Francisco',
-          postal_code: '94105',
-          state: 'CA',
-          country: 'US',
+          line1: "123 Main St",
+          city: "San Francisco",
+          postal_code: "94105",
+          state: "CA",
+          country: "US",
         },
         name: name,
       },
-    
     });
     console.log("Requesting user to pay " + amount);
     res.status(201).json({ clientSecret: payment.client_secret });
   } catch (err) {
-    console.log('Error:', err);
+    console.log("Error:", err);
+    next(err);
+  }
+};
+const item = async (req, res, next) => {
+  try {
+    const itemdonation = await DonateItem.findOne({ _id: req.params.id }).orFail();
+    res.status(200).json(itemdonation);
+  } catch (err) {
     next(err);
   }
 };
@@ -60,7 +69,9 @@ const donateMoney = async (req, res, next) => {
     const { name, email, phoneNumber, amount, comments } = req.body;
     const id = req.params.id;
     const donation = new DonateMoney();
-    donation.user = (req.user)?req.user.name + " " + req.user.lastName:"Anonymous";
+    donation.user = req.user
+      ? req.user.name + " " + req.user.lastName
+      : "Anonymous";
     donation.amount = amount;
     donation.comments = comments || donation.comments;
     donation.name = name;
@@ -76,43 +87,20 @@ const donateMoney = async (req, res, next) => {
     next(err);
   }
 };
-const imageUpload = async (type, images, donation) => {
+const imageUpload = async (req, res, next) => {
   try {
-    const validateResult = imageValidate(images);
-    if (validateResult !== null) {
-      throw new Error(validateResult.error);
-    }
-    const path = require("path");
-    const { v4: uuidv4 } = require("uuid");
-    const uploadDirectory =
-      path.resolve(__dirname, "../../frontend/public/images/") +
-      (type === "item" ? "/donatedItems" : "/donatedFood");
-    let imagesTable = [];
-    if (Array.isArray(images)) {
-      imagesTable = images;
+    const type = req.query.type;
+    const id = req.params.id;
+    if (type === "item") {
+      const item = await DonateItem.findById(id).orFail();
+      item.images.push(req.body.url);
+      await item.save();
+      res.status(201).json({ item: item });
     } else {
-      imagesTable.push(images);
+      const food = await DonateFood.findById(id).orFail();
+      food.images.push(req.body.url);
+      await food.save;
     }
-    const promises = imagesTable.map((image) => {
-      const filename = uuidv4() + path.extname(image.name);
-      const uploadPath = uploadDirectory + "/" + filename;
-      donation.images.push({
-        path:
-          "/images/" +
-          (type === "item" ? "donatedItems" : "donatedFood") +
-          "/" +
-          filename,
-      });
-      return new Promise((resolve, reject) => {
-        image.mv(uploadPath, function (err) {
-          if (err) reject(err);
-          else resolve();
-        });
-      }); //By wrapping it in a Promise, we can use async/await syntax to wait for the function to complete before moving on to the next step.
-    });
-    //promise takes an array as an argument(iterable objects)
-    await Promise.all(promises);
-    return donation;
   } catch (err) {
     throw err;
   }
@@ -124,14 +112,8 @@ const donate = async (req, res, next) => {
       try {
         const { category, description, city, country, postal, state, street } =
           req.body;
-        if (!(category && description))
-          return res.status(400).send("All input fields are required");
-        if (!req.files || !!req.files.images === false) {
-          return res.status(400).send("No files were uploaded");
-        }
 
         const donation = new DonateItem();
-        await imageUpload(req.query.type, req.files.images, donation);
 
         donation.user = req.user._id;
         donation.category = category;
@@ -142,7 +124,7 @@ const donate = async (req, res, next) => {
         donation.pickupAddress.state = state;
         donation.pickupAddress.street = street;
         donation.save();
-        res.status(201).json({ donation, donation_id: donation._id });
+        res.status(201).json({ id: donation._id });
       } catch (err) {
         next(err);
       }
@@ -229,4 +211,6 @@ module.exports = {
   getDonationDetails,
   deleteItemImage,
   requestPayment,
+  item,
+  imageUpload,
 };

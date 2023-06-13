@@ -28,12 +28,11 @@ export default function CreateFundraiserPage() {
     }
   
     const validationErrors = [];
-  
+  console.log(imagesTable)
     imagesTable.forEach((image) => {
       if (image.size > 2097152) {
         validationErrors.push("Size too large (above 2 MB)");
       }
-  
       const filetypes = /jpg|jpeg|png/;
       const mimetype = filetypes.test(image.type);
       if (!mimetype) {
@@ -60,14 +59,15 @@ export default function CreateFundraiserPage() {
   
   const handleProofImageUpload = (event) => {
     const files = event.target.files;
-    const validateResult = imageValidate(files);
+    const updatedImages = Array.from(files);
+    const validateResult = imageValidate(updatedImages);
     if (validateResult !== null) {
       validateResult.errors.forEach((error) => {
         toast.error(error);
       });
       return;
     }
-    const updatedImages = Array.from(files);
+    
     const proofImages1 = [...proofImages, ...updatedImages];
     setProofImages(proofImages1);
   };
