@@ -3,6 +3,8 @@ import { TiImage, TiTimes } from "react-icons/ti";
 import { Alert, CircularProgress, AlertTitle } from "@mui/material";
 import { toast } from "react-toastify";
 import axios from "axios";
+import "../App.css";
+
 export default function CreateFundraiserPage() {
   const [proofImages, setProofImages] = useState([]);
   const [coverImage, setCoverImage] = useState(null);
@@ -26,9 +28,9 @@ export default function CreateFundraiserPage() {
     } else {
       imagesTable.push(images); //if we assign directly, imagesTable will become a string
     }
-  
+
     const validationErrors = [];
-  console.log(imagesTable)
+    console.log(imagesTable);
     imagesTable.forEach((image) => {
       if (image.size > 2097152) {
         validationErrors.push("Size too large (above 2 MB)");
@@ -36,13 +38,15 @@ export default function CreateFundraiserPage() {
       const filetypes = /jpg|jpeg|png/;
       const mimetype = filetypes.test(image.type);
       if (!mimetype) {
-        validationErrors.push("Incorrect file type (should be jpg, jpeg, or png)");
+        validationErrors.push(
+          "Incorrect file type (should be jpg, jpeg, or png)"
+        );
       }
     });
-  
+
     return validationErrors.length > 0 ? { errors: validationErrors } : null;
   };
-  
+
   const handleCoverImageUpload = (event) => {
     const file = event.target.files[0];
     const validateResult = imageValidate(file);
@@ -56,7 +60,7 @@ export default function CreateFundraiserPage() {
       setCoverImage(file);
     }
   };
-  
+
   const handleProofImageUpload = (event) => {
     const files = event.target.files;
     const updatedImages = Array.from(files);
@@ -67,11 +71,10 @@ export default function CreateFundraiserPage() {
       });
       return;
     }
-    
+
     const proofImages1 = [...proofImages, ...updatedImages];
     setProofImages(proofImages1);
   };
-  
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -80,31 +83,42 @@ export default function CreateFundraiserPage() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const requiredFields = ["title", "description", "target", "deadline", "name", "email", "phoneNumber"];
-    const invalidFields = requiredFields.filter(field => formData[field] === "");
-  
+    const requiredFields = [
+      "title",
+      "description",
+      "target",
+      "deadline",
+      "name",
+      "email",
+      "phoneNumber",
+    ];
+    const invalidFields = requiredFields.filter(
+      (field) => formData[field] === ""
+    );
+
     if (invalidFields.length > 1) {
-      toast.error(`Please fill in the following fields: ${invalidFields.join(", ")}`);
+      toast.error(
+        `Please fill in the following fields: ${invalidFields.join(", ")}`
+      );
       return;
     } else if (invalidFields.length === 1) {
       toast.error(`Please fill in the field: ${invalidFields[0]}`);
       return;
     }
-  
+
     if (!coverImage) {
       toast.error("Please upload a cover image");
       return;
     }
-  
+
     if (proofImages.length === 0) {
       toast.error("Please upload at least one proof image");
       return;
     }
-  
+
     setImages([coverImage, ...proofImages]);
     setSubmit(true);
   };
-  
 
   useEffect(() => {
     const createFundraiser = async () => {
@@ -125,8 +139,6 @@ export default function CreateFundraiserPage() {
 
     createFundraiser();
   }, [submit]);
-
-
 
   const handleDeleteProofImage = (event, index) => {
     event.preventDefault();
@@ -176,7 +188,7 @@ export default function CreateFundraiserPage() {
     setCoverImage(null);
   };
   return (
-    <div className="container px-8 py-24 md:py-28 md:px-16 lg:px-36 relative">
+    <div className="px-8 py-24 md:py-28 md:px-16 lg:px-40 relative create-fundraiser-bg">
       {isLoading ? (
         <div
           style={{ minHeight: "40vh", paddingTop: "100px" }}
@@ -198,7 +210,7 @@ export default function CreateFundraiserPage() {
         </div>
       ) : (
         <form>
-          <div className="space-y-12 lg:px-28 lg:py-10 bg-teal-100 rounded-md bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-80 border-2 border-gray-800 shadow-xl shadow-black">
+          <div className="space-y-12 lg:px-24 lg:py-10 bg-teal-100 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-50 border-2 border-gray-800 shadow-xl shadow-black">
             <div className="p-8 ">
               <h1 className="text-center font-bold text-4xl pt-8">
                 Create a Fundraiser

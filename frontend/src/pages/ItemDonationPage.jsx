@@ -5,6 +5,8 @@ import { FaSpinner } from "react-icons/fa";
 import { Alert, CircularProgress } from "@mui/material";
 import { toast } from "react-toastify";
 import ItemPageComponent from "./ItemPageComponent";
+import "../App.css";
+
 export default function ItemDonationPage() {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -220,7 +222,7 @@ export default function ItemDonationPage() {
   };
 
   return (
-    <div className="container p-28 lg:px-60 ">
+    <div className="pt-28 p-8 lg:px-32 donate-bg">
       {isLoading1 ? (
         <div
           style={{ minHeight: "40vh", paddingTop: "100px" }}
@@ -241,7 +243,7 @@ export default function ItemDonationPage() {
         </div>
       ) : (
         <form className="relative ">
-          <div className="space-y-12 p-8 bg-gray rounded-xl bg-clip-padding backdrop-filter backdrop-blur-3xl bg-opacity-50 border border-black">
+          <div className="space-y-12 p-12 bg-teal-100 rounded-lg bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-50 border-2 border-gray-800 shadow-xl shadow-black">
             <div className="border-b border-black/10 pb-12">
               <h1 className="text-center font-bold text-4xl">Donate Items</h1>
               <p className="mt-1 text-lg text-center text-black">
@@ -405,7 +407,7 @@ export default function ItemDonationPage() {
               </div>
             </div>
 
-            <div className="border-b border-black/10 pb-12">
+            <div className="border-b border-black/10 pb-8">
               <h2 className="text-3xl font-semibold leading-7 text-black">
                 Pickup Address
               </h2>
@@ -530,22 +532,22 @@ export default function ItemDonationPage() {
                 </div>
               </div>
             </div>
-          </div>
 
-          <div className="mt-6 flex items-center justify-end gap-x-6">
-            <button
-              type="button"
-              className="text-md font-semibold leading-6 text-black"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              onClick={handleSubmit}
-              className="rounded-md bg-indigo-600 py-2 px-3 text-md font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              Save
-            </button>
+            <div className=" flex items-center justify-end gap-x-6">
+              <button
+                type="button"
+                className="text-md font-semibold leading-6 text-black"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                onClick={handleSubmit}
+                className="rounded-md bg-indigo-600 py-2 px-3 text-md font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              >
+                Save
+              </button>
+            </div>
           </div>
         </form>
       )}

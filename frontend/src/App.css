@@ -21,3 +21,15 @@
     radial-gradient(at 100% 31%, rgb(5, 150, 105) 0, transparent 53%),
     radial-gradient(at 24% 100%, rgb(240, 171, 252) 0, transparent 33%);
 }
+
+.create-fundraiser-bg {
+  background-image: url("https://img.freepik.com/free-photo/colorful-abstract-textured-background-design_53876-108265.jpg?w=1060&t=st=1686771377~exp=1686771977~hmac=aa8e1aeddd43cab03bf2cb22a7a1e0e5f150059b0205666dbf7689184b95bb22");
+  /* background-repeat: repeat-y;
+  background-size: 100% auto; */
+  background-size: cover;
+}
+
+.donate-bg {
+  background-image: url("https://img.freepik.com/free-vector/low-poly-abstract-background_1048-7981.jpg?w=740&t=st=1686772477~exp=1686773077~hmac=527078b165df7fb374117bbdc9da191cfcdcf3ae339dcc8f5fd6e9567fb6de49");
+  background-size: cover;
+}
