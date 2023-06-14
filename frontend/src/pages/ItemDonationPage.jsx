@@ -22,7 +22,7 @@ export default function ItemDonationPage() {
     state: "",
     street: "",
   });
-  const [id,setId]=useState("");
+  const [id, setId] = useState("");
   const handleCChange = (event) => {
     const { value } = event.target;
     setFormData((prevData) => ({ ...prevData, category: value }));
@@ -76,6 +76,8 @@ export default function ItemDonationPage() {
     if (name === "category" && value === "other") {
       setIsOtherCategorySelected(true);
       return;
+    } else {
+      setIsOtherCategorySelected(false);
     }
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
@@ -122,7 +124,7 @@ export default function ItemDonationPage() {
             "/api/donations/donate?type=item",
             formData
           );
-        setId(data.id);
+          setId(data.id);
           if (data && data.id) {
             cloudinaryApiRequest(data.id, images);
           }
@@ -235,7 +237,7 @@ export default function ItemDonationPage() {
             <strong>Product created!</strong>
             <br />
           </Alert>
-          <ItemPageComponent id={id}/>
+          <ItemPageComponent id={id} />
         </div>
       ) : (
         <form className="relative ">
@@ -262,10 +264,12 @@ export default function ItemDonationPage() {
                         id="category"
                         autoComplete="category"
                         className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-black placeholder:text-black focus:ring-0 sm:text-md sm:leading-6"
-                        value={isOtherCategorySelected?"other":formData.category}
+                        value={
+                          isOtherCategorySelected ? "other" : formData.category
+                        }
                         onChange={handleChange}
+                        placeholder=">Select a category"
                       >
-                        <option value="">Select a category</option>
                         <option value="clothes">Clothes</option>
                         <option value="books">Books</option>
                         <option value="electronics">Electronics</option>
