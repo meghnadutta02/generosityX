@@ -5,6 +5,8 @@ import { FaSpinner } from "react-icons/fa";
 import { Alert, CircularProgress } from "@mui/material";
 import { toast } from "react-toastify";
 import ItemPageComponent from "./ItemPageComponent";
+import "../App.css";
+
 export default function ItemDonationPage() {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -22,7 +24,7 @@ export default function ItemDonationPage() {
     state: "",
     street: "",
   });
-  const [id,setId]=useState("");
+  const [id, setId] = useState("");
   const handleCChange = (event) => {
     const { value } = event.target;
     setFormData((prevData) => ({ ...prevData, category: value }));
@@ -76,6 +78,8 @@ export default function ItemDonationPage() {
     if (name === "category" && value === "other") {
       setIsOtherCategorySelected(true);
       return;
+    } else {
+      setIsOtherCategorySelected(false);
     }
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
@@ -122,7 +126,7 @@ export default function ItemDonationPage() {
             "/api/donations/donate?type=item",
             formData
           );
-        setId(data.id);
+          setId(data.id);
           if (data && data.id) {
             cloudinaryApiRequest(data.id, images);
           }
@@ -218,7 +222,7 @@ export default function ItemDonationPage() {
   };
 
   return (
-    <div className="container p-28 lg:px-60 ">
+    <div className="pt-28 p-8 lg:px-32 donate-bg">
       {isLoading1 ? (
         <div
           style={{ minHeight: "40vh", paddingTop: "100px" }}
@@ -228,18 +232,18 @@ export default function ItemDonationPage() {
         </div>
       ) : item ? (
         <div
-          style={{ minHeight: "40vh" }}
-          className="container p-16 py-10 lg:px-50"
+          style={{ minHeight: "70vh" }}
+          className="container p-12 py-10 lg:px-50"
         >
           <Alert severity="info" sx={{ fontSize: "larger" }}>
-            <strong>Product created!</strong>
+            <strong>Product added!</strong>
             <br />
           </Alert>
-          <ItemPageComponent id={id}/>
+          <ItemPageComponent id={id} />
         </div>
       ) : (
         <form className="relative ">
-          <div className="space-y-12 p-8 bg-gray rounded-xl bg-clip-padding backdrop-filter backdrop-blur-3xl bg-opacity-50 border border-black">
+          <div className="space-y-12 p-12 bg-teal-100 rounded-lg bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-50 border-2 border-gray-800 shadow-xl shadow-black">
             <div className="border-b border-black/10 pb-12">
               <h1 className="text-center font-bold text-4xl">Donate Items</h1>
               <p className="mt-1 text-lg text-center text-black">
@@ -250,11 +254,11 @@ export default function ItemDonationPage() {
                 <div className="sm:col-span-4">
                   <label
                     htmlFor="category"
-                    className="block text-md font-medium leading-6 text-black"
+                    className="block text-2xl font-semibold leading-6 text-black"
                   >
                     Category
                   </label>
-                  <div className="mt-2">
+                  <div className="mt-4">
                     <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-black focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
                       <select
                         required
@@ -262,10 +266,12 @@ export default function ItemDonationPage() {
                         id="category"
                         autoComplete="category"
                         className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-black placeholder:text-black focus:ring-0 sm:text-md sm:leading-6"
-                        value={isOtherCategorySelected?"other":formData.category}
+                        value={
+                          isOtherCategorySelected ? "other" : formData.category
+                        }
                         onChange={handleChange}
+                        placeholder=">Select a category"
                       >
-                        <option value="">Select a category</option>
                         <option value="clothes">Clothes</option>
                         <option value="books">Books</option>
                         <option value="electronics">Electronics</option>
@@ -279,7 +285,7 @@ export default function ItemDonationPage() {
                   <div className="sm:col-span-2">
                     <label
                       htmlFor="otherCategory"
-                      className="block text-md font-medium leading-6 text-black"
+                      className="block text-xl font-semibold leading-6 text-black"
                     >
                       Other Category
                     </label>
@@ -303,7 +309,7 @@ export default function ItemDonationPage() {
                 <div className="col-span-full">
                   <label
                     htmlFor="about"
-                    className="block text-md font-medium leading-6 text-black"
+                    className="block text-2xl font-semibold leading-6 text-black"
                   >
                     Item description
                   </label>
@@ -401,7 +407,7 @@ export default function ItemDonationPage() {
               </div>
             </div>
 
-            <div className="border-b border-black/10 pb-12">
+            <div className="border-b border-black/10 pb-8">
               <h2 className="text-3xl font-semibold leading-7 text-black">
                 Pickup Address
               </h2>
@@ -429,7 +435,7 @@ export default function ItemDonationPage() {
                 <div className="flex mt-6">
                   {error && <div>{error}</div>}
                   <button
-                    className="flex-shrink-0 px-2 bg-blue-600 rounded-xl hover:bg-blue-500 text-white"
+                    className="flex-shrink-0 px-2 bg-blue-500 rounded-lg hover:bg-blue-400 text-white"
                     onClick={fetchLocationDetails}
                   >
                     Use current location
@@ -526,16 +532,22 @@ export default function ItemDonationPage() {
                 </div>
               </div>
             </div>
-          </div>
 
-          <div className="mt-6 flex items-center justify-end gap-x-6">
-            <button
-              type="submit"
-              onClick={handleSubmit}
-              className="rounded-md bg-indigo-600 py-2 px-3 text-md font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              Save
-            </button>
+            <div className=" flex items-center justify-end gap-x-6">
+              <button
+                type="button"
+                className="text-md font-semibold leading-6 text-black"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                onClick={handleSubmit}
+                className="rounded-md bg-indigo-600 py-2 px-3 text-md font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              >
+                Save
+              </button>
+            </div>
           </div>
         </form>
       )}

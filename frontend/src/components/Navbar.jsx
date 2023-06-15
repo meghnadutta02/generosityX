@@ -126,51 +126,49 @@ export default function Navbar() {
                   <FaUser className="sm:block hidden w-6 h-6" />
                 </button>
                 {showDropdown && (
-                  <div className="absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10">
-                    <div
-                      className="py-1"
-                      role="menu"
-                      aria-orientation="vertical"
-                      aria-labelledby="user-menu"
+                  <div
+                    className="absolute border-2 right-0 text-md text-gray-700 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10"
+                    role="menu"
+                    aria-orientation="vertical"
+                    aria-labelledby="user-menu"
+                  >
+                    <Link
+                      to="/my-fundraisers"
+                      className="block p-1 hover:bg-gray-300"
+                      role="menuitem"
                     >
-                      <Link
-                        to="/my-fundraisers"
-                        className="block px-4 py-2 text-md text-gray-700 hover:bg-gray-300 hover:text-gray-900"
-                        role="menuitem"
-                      >
-                        My Fundraisers
-                      </Link>
-                      <Link
-                        to="/my-donations"
-                        className="block px-4 py-2 text-md text-gray-700 hover:bg-gray-300 hover:text-gray-900"
-                        role="menuitem"
-                      >
-                        My Donations
-                      </Link>
-                      <Link
-                        to="/my-events"
-                        className="block px-4 py-2 text-md text-gray-700 hover:bg-gray-300 hover:text-gray-900"
-                        role="menuitem"
-                      >
-                        My Events
-                      </Link>
-                      <Link
-                        to="/my-profile"
-                        className="block px-4 py-2 text-md text-gray-700 hover:bg-gray-300 hover:text-gray-900"
-                        role="menuitem"
-                      >
-                        My Profile
-                      </Link>
-                      <button
-                        onClick={() => {
-                          dispatch(logout());
-                          dispatch(reset());
-                        }}
-                        className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white"
-                      >
-                        Sign Out
-                      </button>
-                    </div>
+                      My Fundraisers
+                    </Link>
+                    <Link
+                      to="/my-donations"
+                      className="block p-1 hover:bg-gray-300 "
+                      role="menuitem"
+                    >
+                      My Donations
+                    </Link>
+                    <Link
+                      to="/my-events"
+                      className="block p-1 hover:bg-gray-300"
+                      role="menuitem"
+                    >
+                      My Events
+                    </Link>
+                    <Link
+                      to="/my-profile"
+                      className="block p-1 hover:bg-gray-300"
+                      role="menuitem"
+                    >
+                      My Profile
+                    </Link>
+                    <button
+                      onClick={() => {
+                        dispatch(logout());
+                        dispatch(reset());
+                      }}
+                      className="block w-full text-left p-1 hover:bg-indigo-500 hover:text-white"
+                    >
+                      Sign Out
+                    </button>
                   </div>
                 )}
               </div>
@@ -200,11 +198,8 @@ export default function Navbar() {
 
           {/* Mobile screen navbar */}
           <div className={!nav ? "hidden" : "block sm:hidden bg-teal-700 py-2"}>
-            <div className="flex flex-col">
-              <Link
-                to="/about"
-                className="text-white text-lg text-center font-semibold hover:text-amber-400 mb-1"
-              >
+            <div className="flex flex-col text-white text-center text-lg font-semibold">
+              <Link to="/about" className=" hover:text-amber-400 mb-1">
                 About
               </Link>
 
@@ -212,7 +207,7 @@ export default function Navbar() {
                 to="contact"
                 smooth={true}
                 duration={500}
-                className="text-white text-lg text-center font-semibold hover:text-amber-400 mb-1"
+                className=" hover:text-amber-400 mb-1"
               >
                 Contact
               </ScrolLink>
@@ -221,34 +216,22 @@ export default function Navbar() {
                 to="campaigns"
                 smooth={true}
                 duration={500}
-                className="text-white text-lg text-center font-semibold hover:text-amber-400 mb-1"
+                className="hover:text-amber-400 mb-1"
               >
                 Services
               </ScrolLink>
-              <Link
-                to="/"
-                className="text-white text-lg text-center font-semibold hover:text-amber-400 mb-1"
-              >
+              <Link to="/" className="hover:text-amber-400 mb-1">
                 Home
               </Link>
               {user ? (
-                <div className="flex justify-center items-center border-t-2 pt-2">
-                  <a
-                    href="/my-fundraisers"
-                    className="text-white text-lg font-semibold hover:text-amber-400 mr-4 px-4 py-2 rounded-lg"
-                  >
+                <div className="flex justify-center items-center border-t-2 py-4 ">
+                  <a href="/my-fundraisers" className="">
                     My Fundraisers
                   </a>
-                  <a
-                    href="/my-donations"
-                    className="text-white text-lg font-semibold hover:text-amber-400 mr-4 px-4 py-2 rounded-lg"
-                  >
+                  <a href="/my-donations" className="">
                     My Donations
                   </a>
-                  <a
-                    href="/my-events"
-                    className="text-white text-lg font-semibold hover:text-amber-400 mr-4 px-4 py-2 rounded-lg"
-                  >
+                  <a href="/my-events" className="">
                     My Events
                   </a>
                   <button
@@ -256,23 +239,17 @@ export default function Navbar() {
                       dispatch(logout());
                       dispatch(reset());
                     }}
-                    className="text-white text-lg font-semibold border px-4 py-2 rounded-lg hover:text-amber-400 hover:border-purple-600"
+                    className="border px-4 py-2 rounded-lg hover:text-amber-400 hover:border-purple-600"
                   >
                     Sign Out
                   </button>
                 </div>
               ) : (
                 <div className="flex justify-center items-center border-t-2 pt-2">
-                  <Link
-                    to="/login"
-                    className="text-white text-lg font-semibold hover:text-amber-400 mr-4"
-                  >
+                  <Link to="/login" className="hover:text-amber-400 mr-4">
                     Sign in
                   </Link>
-                  <Link
-                    to="/register"
-                    className="text-white text-lg font-semibold hover:text-amber-400 mr-4"
-                  >
+                  <Link to="/register" className="hover:text-amber-400 mr-4">
                     Sign up
                   </Link>
                 </div>

@@ -17,7 +17,7 @@ export default function CampaignCarousel() {
   return (
     <>
       <div name="campaigns" className="py-8">
-        <h2 className="text-3xl font-bold tracking-tight text-gray-900">
+        <h2 className="text-4xl font-bold  inline border-b-4 border-blue-600 tracking-tight text-gray-900">
           Upcoming Campaigns
         </h2>
 
