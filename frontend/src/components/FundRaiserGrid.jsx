@@ -9,7 +9,7 @@ export default function FundRaiserGrid() {
       <h2 className="text-4xl font-bold  inline border-b-4 border-blue-600 tracking-tight text-gray-900">
         Fundraisers
       </h2>
-      <Grid container spacing={4} className="">
+      <Grid container spacing={4}>
         <Grid item xs={12} md={6}>
           <div className="p-4 pt-12">
             <p className="mb-4 pt-4 text-xl">

@@ -29,9 +29,11 @@ const foodDonationSchema = new mongoose.Schema(
         required: true,
       },
     },
-    event: {
+    quantity:
+    {
       type: String,
-      required: true,
+      required:true,
+      
     },
     description: {
       type: String,

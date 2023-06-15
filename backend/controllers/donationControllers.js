@@ -64,6 +64,30 @@ const item = async (req, res, next) => {
     next(err);
   }
 };
+const food = async (req, res, next) => {
+  try {
+    const fooddonation = await DonateFood.findOne({ _id: req.params.id }).orFail();
+    res.status(200).json(fooddonation);
+  } catch (err) {
+    next(err);
+  }
+};
+const deleteProduct=async(req, res, next) => {
+  try {
+    if(req.query.type==="food")
+    {
+      const fooddonation = await DonateFood.findByIdAndDelete({ _id: req.params.id }).orFail();
+    res.status(201).json(fooddonation._id);
+    }else if(req.query.type==="item")
+    
+    {
+      const itemdonation = await DonateItem.findByIdAndDelete({ _id: req.params.id }).orFail();
+    res.status(201).json(itemdonation._id);
+    }
+  } catch (err) {
+    next(err);
+  }
+};
 const donateMoney = async (req, res, next) => {
   try {
     const { name, email, phoneNumber, amount, comments } = req.body;
@@ -96,10 +120,11 @@ const imageUpload = async (req, res, next) => {
       item.images.push(req.body.url);
       await item.save();
       res.status(201).json({ item: item });
-    } else {
+    } else if(type === "food")  {
       const food = await DonateFood.findById(id).orFail();
-      food.images.push(req.body.url);
-      await food.save;
+      food.images.push({path:req.body.url});
+      await food.save();
+      res.status(201).json({ item: item });
     }
   } catch (err) {
     throw err;
@@ -128,21 +153,17 @@ const donate = async (req, res, next) => {
       } catch (err) {
         next(err);
       }
-    } else {
+    } else if(req.query.type === "food") {
       try {
-        const { event, description, city, country, postal, state, street } =
+        const { quantity, description, city, country, postal, state, street } =
           req.body;
-        if (!(event && description))
+        if (!(quantity && description))
           return res.status(400).send("All input fields are required");
-        if (!req.files || !!req.files.images === false) {
-          return res.status(400).send("No files were uploaded");
-        }
 
         const donation = new DonateFood();
-        await imageUpload(req.query.type, req.files.images, donation);
 
         donation.user = req.user._id;
-        donation.event = event;
+        donation.quantity = quantity;
         donation.description = description;
         donation.pickupAddress.city = city;
         donation.pickupAddress.country = country;
@@ -150,7 +171,7 @@ const donate = async (req, res, next) => {
         donation.pickupAddress.state = state;
         donation.pickupAddress.street = street;
         donation.save();
-        res.status(201).json({ donation, donation_id: donation._id });
+        res.status(201).json({id: donation._id});
       } catch (err) {
         next(err);
       }
@@ -208,6 +229,8 @@ module.exports = {
   getmyDonations,
   donateMoney,
   donate,
+  food,
+  deleteProduct,
   getDonationDetails,
   deleteItemImage,
   requestPayment,

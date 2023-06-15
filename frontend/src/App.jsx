@@ -4,6 +4,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CampaignDetailsPage from "./pages/CampaignDetailsPage";
 import ItemDonationPage from "./pages/ItemDonationPage";
+import FoodDonationPage from "./pages/FoodDonationPage";
 import MoneyDonationPage from "./pages/MoneyDonationPage";
 import CreateFundraiserPage from "./pages/CreateFundraiserPage";
 import FundraiserDetailsPage from "./pages/FundraiserDetailsPage";
@@ -40,6 +41,7 @@ export default function App() {
         {/* user protected routes */}
         <Route element={<ProtectedRoutes admin={false} />}>
           <Route path="/items-donate" element={<ItemDonationPage />} />
+          <Route path="/food-donate" element={<FoodDonationPage />} />
           <Route path="/my-events" element={<MyEventsPage />} />
           <Route path="/campaigns/:id" element={<CampaignDetailsPage />} />
 

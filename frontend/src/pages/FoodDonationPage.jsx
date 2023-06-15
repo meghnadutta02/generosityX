@@ -4,17 +4,16 @@ import { TiImage, TiTimes } from "react-icons/ti";
 import { FaSpinner } from "react-icons/fa";
 import { Alert, CircularProgress } from "@mui/material";
 import { toast } from "react-toastify";
-import ItemPageComponent from "./ItemPageComponent";
-export default function ItemDonationPage() {
+import FoodPageComponent from "./FoodPageComponent";
+export default function FoodDonationPage() {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoading1, setIsLoading1] = useState(false);
-  const [item, setItem] = useState(false);
+  const [food, setFood] = useState(false);
   const [submit, setSubmit] = useState(false);
-  const [isOtherCategorySelected, setIsOtherCategorySelected] = useState(false);
   const [images, setImages] = useState([]);
   const [formData, setFormData] = useState({
-    category: "",
+    quantity: "",
     description: "",
     city: "",
     country: "",
@@ -22,11 +21,7 @@ export default function ItemDonationPage() {
     state: "",
     street: "",
   });
-  const [id,setId]=useState("");
-  const handleCChange = (event) => {
-    const { value } = event.target;
-    setFormData((prevData) => ({ ...prevData, category: value }));
-  };
+  const [id, setId] = useState("");
   const imageValidate = (images) => {
     let imagesTable = [];
     if (Array.isArray(images)) {
@@ -73,17 +68,13 @@ export default function ItemDonationPage() {
   };
   const handleChange = (event) => {
     const { name, value } = event.target;
-    if (name === "category" && value === "other") {
-      setIsOtherCategorySelected(true);
-      return;
-    }
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const requiredFields = [
-      "category",
+      "quantity",
       "description",
       "state",
       "country",
@@ -114,15 +105,15 @@ export default function ItemDonationPage() {
   };
 
   useEffect(() => {
-    const createItem = async () => {
+    const createFood = async () => {
       if (submit) {
         setIsLoading1(true);
         try {
           const { data } = await axios.post(
-            "/api/donations/donate?type=item",
+            "/api/donations/donate?type=food",
             formData
           );
-        setId(data.id);
+          setId(data.id);
           if (data && data.id) {
             cloudinaryApiRequest(data.id, images);
           }
@@ -133,7 +124,7 @@ export default function ItemDonationPage() {
       }
     };
 
-    createItem();
+    createFood();
   }, [submit]);
   const cloudinaryApiRequest = (productId, images) => {
     const url = "https://api.cloudinary.com/v1_1/dsjmm6114/image/upload";
@@ -154,13 +145,13 @@ export default function ItemDonationPage() {
           try {
             console.log(data.url);
             const response = await axios.post(
-              `/api/donations/image/${productId}?type=item`,
+              `/api/donations/image/${productId}?type=food`,
               data
             );
             if (response.status === 201) {
               setIsLoading1(false);
               setSubmit(false);
-              setItem(true);
+              setFood(true);
             } else {
               console.log("Upload failed:", response);
             }
@@ -226,91 +217,72 @@ export default function ItemDonationPage() {
         >
           <CircularProgress />
         </div>
-      ) : item ? (
+      ) : food ? (
         <div
           style={{ minHeight: "40vh" }}
           className="container p-16 py-10 lg:px-50"
         >
           <Alert severity="info" sx={{ fontSize: "larger" }}>
-            <strong>Product created!</strong>
+            <strong>Food donation successful!</strong>
             <br />
           </Alert>
-          <ItemPageComponent id={id}/>
+          <FoodPageComponent id={id} />
         </div>
       ) : (
-        <form className="relative ">
+        <form className="relative " style={{minHeight:"70vh"}}>
           <div className="space-y-12 p-8 bg-gray rounded-xl bg-clip-padding backdrop-filter backdrop-blur-3xl bg-opacity-50 border border-black">
             <div className="border-b border-black/10 pb-12">
-              <h1 className="text-center font-bold text-4xl">Donate Items</h1>
+              <h1 className="text-center font-bold text-4xl">
+                Contribute Food
+              </h1>
               <p className="mt-1 text-lg text-center text-black">
-                Thanks for choosing to help!
+                Your kindness will have a lasting impact!
               </p>
 
               <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                 <div className="sm:col-span-4">
                   <label
-                    htmlFor="category"
+                    htmlFor="quantity"
                     className="block text-md font-medium leading-6 text-black"
                   >
-                    Category
+                    Quantity
                   </label>
                   <div className="mt-2">
+                    <p className="text-sm text-gray-500">
+                      Approximate number of people the food can feed:
+                    </p>
                     <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-black focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
                       <select
                         required
-                        name="category"
-                        id="category"
-                        autoComplete="category"
+                        name="quantity"
+                        id="quantity"
+                        autoComplete="quantity"
                         className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-black placeholder:text-black focus:ring-0 sm:text-md sm:leading-6"
-                        value={isOtherCategorySelected?"other":formData.category}
+                        value={formData.quantity}
                         onChange={handleChange}
                       >
-                        <option value="">Select a category</option>
-                        <option value="clothes">Clothes</option>
-                        <option value="books">Books</option>
-                        <option value="electronics">Electronics</option>
-                        <option value="furniture">Furniture</option>
-                        <option value="other">Other</option>
+                        <option value="">Select quantity</option>
+                        <option value="10+">10+</option>
+                        <option value="25+">25+</option>
+                        <option value="50+">50+</option>
+                        <option value="100+">100+</option>
+                        <option value="300+">300+</option>
+                        <option value="500+">500+</option>
                       </select>
                     </div>
                   </div>
                 </div>
-                {isOtherCategorySelected && (
-                  <div className="sm:col-span-2">
-                    <label
-                      htmlFor="otherCategory"
-                      className="block text-md font-medium leading-6 text-black"
-                    >
-                      Other Category
-                    </label>
-                    <div className="mt-2">
-                      <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-black focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                        <input
-                          type="text"
-                          name="otherCategory"
-                          id="otherCategory"
-                          autoComplete="off"
-                          className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-black placeholder:text-black focus:ring-0 sm:text-md sm:leading-6"
-                          value={formData.category}
-                          onChange={handleCChange}
-                          placeholder="Enter category name"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                )}
 
                 <div className="col-span-full">
                   <label
                     htmlFor="about"
                     className="block text-md font-medium leading-6 text-black"
                   >
-                    Item description
+                    Food description
                   </label>
                   <p className="mt-3 text-md leading-6 text-black">
                     {" "}
-                    What are you donating, how does it help the community, how
-                    many people does it cater ?
+                    What are you donating? How does it help the community?
                   </p>
                   <div className="mt-2">
                     <textarea
@@ -330,7 +302,7 @@ export default function ItemDonationPage() {
                     htmlFor="images"
                     className="block text-2xl font-medium leading-6 text-black"
                   >
-                    Upload images of the item
+                    Upload images of the food items
                   </label>
                   <div className="mt-2 flex justify-center rounded-lg border border-dashed border-black px-6 py-10">
                     <div className="text-center">
@@ -340,7 +312,7 @@ export default function ItemDonationPage() {
                             <div key={index} className="relative w-20 h-20">
                               <img
                                 src={URL.createObjectURL(image)}
-                                alt={`item image ${index + 1}`}
+                                alt={`food image ${index + 1}`}
                                 className="object-cover w-full h-full rounded-md"
                               />
                               <button
@@ -356,7 +328,7 @@ export default function ItemDonationPage() {
                       <div
                         className="mt-4 flex text-xl leading-6 text-black"
                         style={{
-                          display: images.length === 4 ? "none" : "block",
+                          display: images.length === 3 ? "none" : "block",
                         }}
                       >
                         <label
@@ -377,7 +349,7 @@ export default function ItemDonationPage() {
                       </div>
                       <p
                         style={{
-                          display: images.length == 4 ? "none" : "block",
+                          display: images.length == 3 ? "none" : "block",
                         }}
                         className="text-xs leading-5 text-black my-1"
                       >
@@ -385,13 +357,13 @@ export default function ItemDonationPage() {
                       </p>
                     </div>
                   </div>
-                  {images.length > 4 && (
+                  {images.length > 3 && (
                     <Alert
                       severity="info"
                       sx={{
                         backgroundColor: "transparent",
                         padding: "0",
-                        display: images.length > 4 ? "none" : "default",
+                        display: images.length > 3 ? "none" : "default",
                       }}
                     >
                       Please upload a maximum of four images.
@@ -528,7 +500,7 @@ export default function ItemDonationPage() {
             </div>
           </div>
 
-          <div className="mt-6 flex items-center justify-end gap-x-6">
+          <div className="mt-6 flex foods-center justify-end gap-x-6">
             <button
               type="submit"
               onClick={handleSubmit}
