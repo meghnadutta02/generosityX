@@ -1,24 +1,34 @@
-import React, { useEffect } from "react";
-
+import React, { useState } from "react";
+import InsertCommentRoundedIcon from "@mui/icons-material/InsertCommentRounded";
 function Chatbot() {
-  useEffect(() => {
-    (function (d, m) {
-      var kommunicateSettings = {
-        appId: "2f5706667a8d911503a063ae4360bac0b",
-        popupWidget: true,
-        automaticChatOpenOnNavigation: true,
-      };
-      var s = document.createElement("script");
-      s.type = "text/javascript";
-      s.async = true;
-      s.src = "https://widget.kommunicate.io/v2/kommunicate.app";
-      var h = document.getElementsByTagName("head")[0];
-      h.appendChild(s);
-      window.kommunicate = m;
-      m._globals = kommunicateSettings;
-    })(document, window.kommunicate || {});
-  }, []);
-  return <div> </div>;
+  const [isOpen, setIsOpen] = useState(false);
+
+  const togglePopup = () => {
+    setIsOpen(!isOpen);
+  };
+  return (
+    <div>
+      <button
+        className="fixed bottom-8 bg-blue-700 rounded-full border-black border-2 right-6 p-3 z-10"
+        onClick={togglePopup}
+      >
+        <InsertCommentRoundedIcon
+          fontSize="large"
+          sx={{ color: "orange" }}
+        ></InsertCommentRoundedIcon>
+      </button>
+      {isOpen && (
+        <div className="popup fixed bottom-16 right-2 p-4 m-2 z-10">
+          <iframe
+            width="350"
+            height="430"
+            allow="microphone;"
+            src="https://console.dialogflow.com/api-client/demo/embedded/713f38ad-c406-441a-b49e-6f36dd5f1bd6"
+          ></iframe>
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default Chatbot;
