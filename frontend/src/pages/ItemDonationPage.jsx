@@ -232,11 +232,11 @@ export default function ItemDonationPage() {
         </div>
       ) : item ? (
         <div
-          style={{ minHeight: "40vh" }}
-          className="container p-16 py-10 lg:px-50"
+          style={{ minHeight: "70vh" }}
+          className="container p-12 py-10 lg:px-50"
         >
           <Alert severity="info" sx={{ fontSize: "larger" }}>
-            <strong>Product created!</strong>
+            <strong>Product added!</strong>
             <br />
           </Alert>
           <ItemPageComponent id={id} />
@@ -254,11 +254,11 @@ export default function ItemDonationPage() {
                 <div className="sm:col-span-4">
                   <label
                     htmlFor="category"
-                    className="block text-md font-medium leading-6 text-black"
+                    className="block text-2xl font-semibold leading-6 text-black"
                   >
                     Category
                   </label>
-                  <div className="mt-2">
+                  <div className="mt-4">
                     <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-black focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
                       <select
                         required
@@ -285,7 +285,7 @@ export default function ItemDonationPage() {
                   <div className="sm:col-span-2">
                     <label
                       htmlFor="otherCategory"
-                      className="block text-md font-medium leading-6 text-black"
+                      className="block text-xl font-semibold leading-6 text-black"
                     >
                       Other Category
                     </label>
@@ -309,7 +309,7 @@ export default function ItemDonationPage() {
                 <div className="col-span-full">
                   <label
                     htmlFor="about"
-                    className="block text-md font-medium leading-6 text-black"
+                    className="block text-2xl font-semibold leading-6 text-black"
                   >
                     Item description
                   </label>
@@ -435,7 +435,7 @@ export default function ItemDonationPage() {
                 <div className="flex mt-6">
                   {error && <div>{error}</div>}
                   <button
-                    className="flex-shrink-0 px-2 bg-blue-600 rounded-xl hover:bg-blue-500 text-white"
+                    className="flex-shrink-0 px-2 bg-blue-500 rounded-lg hover:bg-blue-400 text-white"
                     onClick={fetchLocationDetails}
                   >
                     Use current location

@@ -1,7 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Carousel } from "react-bootstrap";
 import { CircularProgress } from "@mui/material";
+import ImageList from "@mui/material/ImageList";
+import ImageListItem from "@mui/material/ImageListItem";
 
 export default function ItemPageComponent({ id }) {
   const [item, setItem] = useState(null);
@@ -30,21 +31,39 @@ export default function ItemPageComponent({ id }) {
           <CircularProgress />
         </div>
       ) : (
-        <div className="container">
+        <div className="flex p-4 flex-col lg:flex-row">
           {item && (
             <>
+              <div className="bg-white rounded-lg p-4 mb-auto md:mx-4 text-2xl">
+                <strong>Item : {item.category}</strong>
+                <p>Description : {item.description}</p>
+              </div>
               {item.images && item.images.length > 0 ? (
-                <Carousel>
+                <ImageList
+                  sx={{
+                    width: 600,
+                    height: 500,
+                    "@media (max-width: 599px)": {
+                      width: 240,
+                    },
+                    "@media (min-width: 600px)": {
+                      width: 600,
+                    },
+                  }}
+                  cols={2}
+                  rowHeight={300}
+                  className="sm:max-lg:mt-4"
+                >
                   {item.images.map((image, index) => (
-                    <Carousel.Item key={index}>
+                    <ImageListItem key={index}>
                       <img
                         className="d-block w-100"
                         src={image}
                         alt={`Image ${index + 1}`}
                       />
-                    </Carousel.Item>
+                    </ImageListItem>
                   ))}
-                </Carousel>
+                </ImageList>
               ) : (
                 <img
                   src={item.images[0]}
@@ -52,8 +71,6 @@ export default function ItemPageComponent({ id }) {
                   style={{ width: "100%", height: "auto" }}
                 />
               )}
-              <strong>{item.category}</strong>
-              <p>{item.description}</p>
             </>
           )}
         </div>
