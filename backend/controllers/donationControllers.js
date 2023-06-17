@@ -2,6 +2,13 @@ require("dotenv").config();
 const stripe = require("stripe")(
   "sk_test_51NERLdSFxAjVW5eEGmmD0prvR7tqz32KyK8OtR33zPfHyuGCBR7C21XeRk59y7Y86FQ7NxnCcWPJm5F8knbhnTni00Ki3nUhuH"
 );
+const cloudinary=require("cloudinary").v2;
+
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key:process.env.CLOUD_API ,
+  api_secret: process.env.CLOUD_SECRET
+});
 const DonateFood = require("../models/DonateFoodModel");
 const DonateItem = require("../models/DonateItemModel");
 const DonateMoney = require("../models/DonateMoneyModel");
@@ -72,22 +79,47 @@ const food = async (req, res, next) => {
     next(err);
   }
 };
-const deleteProduct=async(req, res, next) => {
+const deleteProduct = async (req, res, next) => {
   try {
-    if(req.query.type==="food")
-    {
+    if (req.query.type === "food") {
       const fooddonation = await DonateFood.findByIdAndDelete({ _id: req.params.id }).orFail();
-    res.status(201).json(fooddonation._id);
-    }else if(req.query.type==="item")
-    
-    {
+      await Promise.all(fooddonation.images.map((image) =>
+        new Promise((resolve, reject) => {
+          console.log(image.public_id);
+          cloudinary.uploader.destroy(image.public_id, (err, result) => {
+            if (err) {
+              console.error(err);
+              res.status(500).json({message: err.message });
+            } else {
+              resolve();
+            }
+          });
+        })
+      ));
+      res.status(201).json({ successful: true, cloud: true });
+    } else if (req.query.type === "item") {
       const itemdonation = await DonateItem.findByIdAndDelete({ _id: req.params.id }).orFail();
-    res.status(201).json(itemdonation._id);
+      await Promise.all(itemdonation.images.map((image) =>
+        new Promise((resolve, reject) => {
+          cloudinary.uploader.destroy(image.public_id, (err, result) => {
+            if (err) {
+              console.error(err);
+              res.status(500).json({message: err.message });
+            } else {
+              resolve();
+            }
+          });
+        })
+      ));
+      res.status(201).json({ successful: true, cloud: true });
     }
   } catch (err) {
     next(err);
   }
 };
+
+
+
 const donateMoney = async (req, res, next) => {
   try {
     const { name, email, phoneNumber, amount, comments } = req.body;
@@ -117,14 +149,14 @@ const imageUpload = async (req, res, next) => {
     const id = req.params.id;
     if (type === "item") {
       const item = await DonateItem.findById(id).orFail();
-      item.images.push(req.body.url);
+      item.images.push({path:req.body.url,public_id:req.body.public_id});
       await item.save();
       res.status(201).json({ item: item });
     } else if(type === "food")  {
       const food = await DonateFood.findById(id).orFail();
-      food.images.push({path:req.body.url});
+      food.images.push({path:req.body.url,public_id:req.body.public_id});
       await food.save();
-      res.status(201).json({ item: item });
+      res.status(201).json({ food: food });
     }
   } catch (err) {
     throw err;

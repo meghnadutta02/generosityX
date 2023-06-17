@@ -22,7 +22,8 @@ import MyEventsPage from "./pages/user/MyEventsPage";
 import MyDonationsPage from "./pages/user/MyDonationsPage";
 import MyFundraisersPage from "./pages/user/MyFundraisersPage";
 import MyProfilePage from "./pages/user/MyProfilePage";
-
+import FoodPageComponent from "./pages/FoodPageComponent";
+import ItemPageComponent from "./pages/ItemPageComponent";
 export default function App() {
   return (
     <>
@@ -44,7 +45,8 @@ export default function App() {
           <Route path="/food-donate" element={<FoodDonationPage />} />
           <Route path="/my-events" element={<MyEventsPage />} />
           <Route path="/campaigns/:id" element={<CampaignDetailsPage />} />
-
+          <Route path="/item/:pid" element={<ItemPageComponent/>}/>
+          <Route path="/food/:pid" element={<FoodPageComponent/>}/>
           <Route path="/my-donations" element={<MyDonationsPage />} />
           <Route path="/my-fundraisers" element={<MyFundraisersPage />} />
           <Route path="/create-fundraiser" element={<CreateFundraiserPage />} />

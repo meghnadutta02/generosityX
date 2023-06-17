@@ -2,14 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Alert, CircularProgress } from "@mui/material";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHandHoldingDollar,
   faBook,
   faUtensils,
 } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
-
 export default function MyDonationsPage() {
   const [moneyDonations, setMoneyDonations] = useState([]);
   const [itemDonations, setItemDonations] = useState([]);
@@ -35,14 +34,13 @@ export default function MyDonationsPage() {
 
   return (
     <div className=" py-16 px-4 sm:px-6 lg:px-8" style={{ minHeight: "80vh" }}>
-     
       {isLoading ? (
         <div className="flex mt-20 justify-center">
           <CircularProgress />
         </div>
       ) : (
         <>
-        <h2 className="text-4xl font-bold mt-10 mb-2">Previous Donations</h2>
+          <h2 className="text-4xl font-bold mt-10 mb-2">Previous Donations</h2>
           {moneyDonations.length > 0 ||
           foodDonations.length > 0 ||
           itemDonations.length > 0 ? (
@@ -76,51 +74,55 @@ export default function MyDonationsPage() {
                   ))}
                 {foodDonations.length > 0 &&
                   foodDonations.map((donation) => (
-                    <div
-                      key={donation._id}
-                      className="bg-white rounded-xl shadow-md p-4 transition-all duration-300 hover:shadow-lg relative"
-                      style={{
-                        boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.15)",
-                        borderBottom: "4px solid rgba(0, 0, 0, 0.3)",
-                      }}
-                    >
-                      <div className="absolute top-1 right-1">
-                        <FontAwesomeIcon
-                          icon={faUtensils}
-                          style={{ color: "#aeb3bc", fontSize: "160%" }}
-                        />
+                    <Link to={`/food/${donation._id}`}>
+                      <div
+                        key={donation._id}
+                        className="bg-white rounded-xl shadow-md p-4 transition-all duration-300 hover:shadow-lg relative"
+                        style={{
+                          boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.15)",
+                          borderBottom: "4px solid rgba(0, 0, 0, 0.3)",
+                        }}
+                      >
+                        <div className="absolute top-1 right-1">
+                          <FontAwesomeIcon
+                            icon={faUtensils}
+                            style={{ color: "#aeb3bc", fontSize: "160%" }}
+                          />
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-bold text-gray-800">
+                            {donation.event}
+                          </h3>
+                          {donation.description}
+                        </div>
                       </div>
-                      <div>
-                        <h3 className="text-lg font-bold text-gray-800">
-                          {donation.event}
-                        </h3>
-                        {donation.description}
-                      </div>
-                    </div>
+                    </Link>
                   ))}
                 {itemDonations.length > 0 &&
                   itemDonations.map((donation) => (
-                    <div
-                      key={donation._id}
-                      className="bg-white rounded-xl shadow-md p-4 transition-all duration-300 hover:shadow-lg relative"
-                      style={{
-                        boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.15)",
-                        borderBottom: "4px solid rgba(0, 0, 0, 0.3)",
-                      }}
-                    >
-                      <div className="absolute top-1 right-1">
-                        <FontAwesomeIcon
-                          icon={faBook}
-                          style={{ color: "#4c76bd", fontSize: "160%" }}
-                        />
+                    <Link to={`/item/${donation._id}`}>
+                      <div
+                        key={donation._id}
+                        className="bg-white rounded-xl shadow-md p-4 transition-all duration-300 hover:shadow-lg relative"
+                        style={{
+                          boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.15)",
+                          borderBottom: "4px solid rgba(0, 0, 0, 0.3)",
+                        }}
+                      >
+                        <div className="absolute top-1 right-1">
+                          <FontAwesomeIcon
+                            icon={faBook}
+                            style={{ color: "#4c76bd", fontSize: "160%" }}
+                          />
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-bold text-gray-800">
+                            {donation.category}
+                          </h3>
+                          {donation.description}
+                        </div>
                       </div>
-                      <div>
-                        <h3 className="text-lg font-bold text-gray-800">
-                          {donation.category}
-                        </h3>
-                        {donation.description}
-                      </div>
-                    </div>
+                    </Link>
                   ))}
               </div>
             </div>

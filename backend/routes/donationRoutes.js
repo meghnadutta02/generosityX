@@ -6,7 +6,7 @@ router.use(verifyIfLoggedIn);
 router.get("/",getmyDonations);
 router.post("/image/:id",imageUpload);
 router.post("/donate",donate);
-router.put("/delete/:id",deleteProduct)
+router.delete("/delete/:id",deleteProduct)
 router.get("/item/:id",item);
 router.get("/food/:id",food);
 router.post("/donate/money/:id",donateMoney);

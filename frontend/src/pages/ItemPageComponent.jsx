@@ -1,18 +1,28 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress,Button} from "@mui/material";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
-
-export default function ItemPageComponent({ id }) {
+import { useParams } from "react-router";
+export default function ItemPageComponent(props) {
+  const { id } = props;
+  const { pid } = useParams();
   const [item, setItem] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getItem = async () => {
       try {
-        const { data } = await axios.get(`/api/donations/item/${id}`);
-        console.log(data);
+        let response;
+        if (!id) {
+          
+          response = await axios.get(`/api/donations/item/${pid}`);
+          
+        } else {
+          response = await axios.get(`/api/donations/item/${id}`);
+        }
+        const { data } = response;
+       
         if (data) {
           setItem(data);
           setLoading(false);
@@ -22,21 +32,32 @@ export default function ItemPageComponent({ id }) {
       }
     };
     getItem();
-  }, []);
-
+  }, [id,pid]);
+  const handleDelete = async () => {
+    try {
+      const{data} =await axios.delete(`/api/donations/delete/${id}?type=item`);
+      if(data.successful)
+        props.delete();
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
-    <div>
+    <div style={{minHeight:"70vh"}}>
       {loading ? (
-        <div className="mt-4 flex justify-center">
+        <div className="mt-4 flex justify-center" style={{ paddingTop: "10%" }}>
           <CircularProgress />
         </div>
       ) : (
-        <div className="flex p-4 flex-col lg:flex-row">
+        <div className="flex p-4 flex-col lg:flex-row" style={{ padding: "10%" }}>
           {item && (
             <>
               <div className="bg-white rounded-lg p-4 mb-auto md:mx-4 text-2xl">
                 <strong>Item : {item.category}</strong>
                 <p>Description : {item.description}</p>
+                { id && <Button variant="contained" className="mt-3" onClick={handleDelete}>
+                  Cancel
+                </Button>}
               </div>
               {item.images && item.images.length > 0 ? (
                 <ImageList
@@ -58,7 +79,7 @@ export default function ItemPageComponent({ id }) {
                     <ImageListItem key={index}>
                       <img
                         className="d-block w-100"
-                        src={image}
+                        src={image.path}
                         alt={`Image ${index + 1}`}
                       />
                     </ImageListItem>
@@ -66,7 +87,7 @@ export default function ItemPageComponent({ id }) {
                 </ImageList>
               ) : (
                 <img
-                  src={item.images[0]}
+                  src={item.images[0].path}
                   alt="Item Image"
                   style={{ width: "100%", height: "auto" }}
                 />

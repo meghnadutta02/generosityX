@@ -1,19 +1,27 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Carousel } from "react-bootstrap";
 import { CircularProgress, Button } from "@mui/material";
-import MuiAlert from "@mui/material/Alert";
+import ImageList from "@mui/material/ImageList";
+import ImageListItem from "@mui/material/ImageListItem";
+import { useParams } from "react-router";
 
-export default function FoodPageComponent({ id }) {
+export default function FoodPageComponent(props) {
+  const { id } = props;
+  const { pid } = useParams();
   const [food, setFood] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [deletionSuccess, setDeletionSuccess] = useState(false);
-
+  const dependancy=id?id:pid;
   useEffect(() => {
     const getFood = async () => {
       try {
-        const { data } = await axios.get(`/api/donations/food/${id}`);
-        console.log(data);
+        let response;
+        if (!id) {
+          response = await axios.get(`/api/donations/food/${pid}`);
+        } else {
+          response = await axios.get(`/api/donations/food/${id}`);
+        }
+        const { data } = response;
+
         if (data) {
           setFood(data);
           setLoading(false);
@@ -23,69 +31,69 @@ export default function FoodPageComponent({ id }) {
       }
     };
     getFood();
-  }, []);
+  }, [dependancy]);
 
-  useEffect(() => {
-    if (deletionSuccess) {
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
-    }
-  }, [deletionSuccess]);
-
-  const handleCancel = async () => {
+  const handleDelete = async () => {
     try {
-      const response = await axios.put(`/api/donations/delete/${id}?type=food`);
-      if (response.status === 201) setDeletionSuccess(true);
+      const{data} =await axios.delete(`/api/donations/delete/${id}?type=food`);
+      if(data.successful)
+        props.delete();
     } catch (error) {
       console.error(error);
     }
   };
 
   return (
-    <div>
+    <div style={{ minHeight: "70vh" }}>
       {loading ? (
-        <div className="mt-4 flex justify-center">
+        <div className="mt-4 flex justify-center" style={{ paddingTop: "10%" }}>
           <CircularProgress />
         </div>
       ) : (
-        <div className="container">
+        <div className="flex flex-col lg:flex-row" style={{ padding: "10%" }}>
           {food && (
             <>
+              <div className="bg-white rounded-lg p-4 mb-auto md:mx-4 text-2xl">
+                <strong>
+                  Approximate number of people it can feed: {food.quantity}
+                </strong>
+                <p>Description: {food.description}</p>
+                { id && <Button variant="contained"className="mt-3" onClick={handleDelete}>
+                  Cancel
+                </Button>}
+              </div>
               {food.images && food.images.length > 0 ? (
-                <Carousel>
+                <ImageList
+                  sx={{
+                    width: 600,
+                    height: 500,
+                    "@media (max-width: 599px)": {
+                      width: 240,
+                    },
+                    "@media (min-width: 600px)": {
+                      width: 600,
+                    },
+                  }}
+                  cols={2}
+                  rowHeight={300}
+                  className="sm:max-lg:mt-4"
+                >
                   {food.images.map((image, index) => (
-                    <Carousel.Item key={index}>
+                    <ImageListItem key={index}>
                       <img
                         className="d-block w-100"
                         src={image.path}
                         alt={`Image ${index + 1}`}
                       />
-                    </Carousel.Item>
+                    </ImageListItem>
                   ))}
-                </Carousel>
+                </ImageList>
               ) : (
                 <img
                   src={food.images[0].path}
                   alt="Food Image"
                   style={{ width: "100%", height: "auto" }}
                 />
-              )}
-              <strong>{food.event}</strong>
-              <p>{food.description}</p>
-              <Button variant="contained" onClick={handleCancel}>
-                Cancel
-              </Button>
-              {deletionSuccess && (
-                <div className="alert-container">
-                  <MuiAlert
-                    onClose={() => setDeletionSuccess(false)}
-                    severity="success"
-                    sx={{ width: "100%",marginTop:"3%"}}
-                  >
-                    Food donation deleted successfully! Refreshing page...
-                  </MuiAlert>
-                </div>
               )}
             </>
           )}

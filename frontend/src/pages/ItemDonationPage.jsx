@@ -6,7 +6,7 @@ import { Alert, CircularProgress } from "@mui/material";
 import { toast } from "react-toastify";
 import ItemPageComponent from "./ItemPageComponent";
 import "../App.css";
-
+import DeletionPage from "./DeletionPage";
 export default function ItemDonationPage() {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -25,6 +25,10 @@ export default function ItemDonationPage() {
     street: "",
   });
   const [id, setId] = useState("");
+  const [deleted, setDeleted] = useState(false);
+  const handleDelete = () => {
+    setDeleted(true);
+  };
   const handleCChange = (event) => {
     const { value } = event.target;
     setFormData((prevData) => ({ ...prevData, category: value }));
@@ -78,8 +82,6 @@ export default function ItemDonationPage() {
     if (name === "category" && value === "other") {
       setIsOtherCategorySelected(true);
       return;
-    } else {
-      setIsOtherCategorySelected(false);
     }
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
@@ -95,6 +97,7 @@ export default function ItemDonationPage() {
       "postal",
       "street",
     ];
+    console.log(formData);
     const invalidFields = requiredFields.filter(
       (field) => formData[field] === ""
     );
@@ -226,7 +229,7 @@ export default function ItemDonationPage() {
       {isLoading1 ? (
         <div
           style={{ minHeight: "40vh", paddingTop: "100px" }}
-          className="container p-16 py-10 lg:px-50 flex justify-center"
+          className="container flex justify-center"
         >
           <CircularProgress />
         </div>
@@ -235,11 +238,17 @@ export default function ItemDonationPage() {
           style={{ minHeight: "70vh" }}
           className="container p-12 py-10 lg:px-50"
         >
-          <Alert severity="info" sx={{ fontSize: "larger" }}>
-            <strong>Product added!</strong>
-            <br />
-          </Alert>
-          <ItemPageComponent id={id} />
+          {!deleted ? (
+            <>
+              <Alert severity="info" sx={{ fontSize: "larger" }}>
+                <strong>Item donation successful!</strong>
+                <br />
+              </Alert>
+              <ItemPageComponent id={id} delete={handleDelete} />
+            </>
+          ) : (
+            <DeletionPage />
+          )}
         </div>
       ) : (
         <form className="relative ">
@@ -266,12 +275,11 @@ export default function ItemDonationPage() {
                         id="category"
                         autoComplete="category"
                         className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-black placeholder:text-black focus:ring-0 sm:text-md sm:leading-6"
-                        value={
-                          isOtherCategorySelected ? "other" : formData.category
-                        }
+                        value={formData.category}
                         onChange={handleChange}
-                        placeholder=">Select a category"
+                       
                       >
+                      <option value="">Select a category</option>
                         <option value="clothes">Clothes</option>
                         <option value="books">Books</option>
                         <option value="electronics">Electronics</option>

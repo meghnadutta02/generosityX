@@ -39,11 +39,9 @@ const donateSchema = new mongoose.Schema(
     },
     images: [
       {
-        type: String,
-        required: true,
-        default:[]
+        path: { type: String, required: false },
+        public_id:{type:String,required:false}
       },
-      
     ],
   },
   { timestamps: true }

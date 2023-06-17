@@ -42,6 +42,7 @@ const foodDonationSchema = new mongoose.Schema(
     images: [
       {
         path: { type: String, required: false },
+        public_id:{type:String,required:false}
       },
     ],
   },
