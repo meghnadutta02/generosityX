@@ -9,7 +9,7 @@ app.use(fileUpload());//to upload files
 app.use(cookieParser());
 const apiRoutes = require("./routes/apiRoutes");
 const {rsvped}=require("./controllers/campaignControllers");
-app.get("/rsvp/:campaignId/:email",rsvped)
+app.post("/rsvp",rsvped)
 app.get("/", async (req, res,next) => {
   
  res.json({ message: "API running" });

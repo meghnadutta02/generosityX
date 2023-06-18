@@ -16,8 +16,7 @@ const getCampaigns = async (req, res, next) => {
       .sort({ score: -1 })
       .orFail()
       .select("name goal city startDate endDate");
-      if(!campaigns)
-      res.status(404).send('No campaigns in your city')
+    if (!campaigns) res.status(404).send("No campaigns in your city");
     res.status(200).send(campaigns);
   } catch (err) {
     next(err);
@@ -121,7 +120,8 @@ const button = async (req, res) => {
         accessToken: accessToken,
       },
     });
-    const rsvpLink = `http://localhost:5000/rsvp/${campaign.id}/${email}`;
+    const frontendURL = process.env.FRONTEND_URL || "http://localhost:3000";
+    const rsvpLink = `${frontendURL}/rsvp/${campaign.id}/${email}`;
     const mailOptions = {
       from: "Fundraiser <meghnakha18@gmail.com>",
       to: `${email}`,
@@ -140,17 +140,18 @@ const button = async (req, res) => {
     };
 
     const result = await transport.sendMail(mailOptions);
-    res.status(200).json({result,successful:true});
+    res.status(200).json({ result, successful: true });
   } catch (error) {
     // Handle any errors that occur during the RSVP process
     console.error(error);
-    res.status(500).json({ message:error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 const getMyEvents = async (req, res, next) => {
   try {
     const campaigns = await Campaign.find({
-      attendees: { $elemMatch: { email: req.user.email } },endDate:{$lt:new Date()}
+      attendees: { $elemMatch: { email: req.user.email } },
+      endDate: { $lt: new Date() },
     }).select("name goal startDate endDate");
     res.status(200).json(campaigns);
   } catch (err) {
@@ -159,9 +160,9 @@ const getMyEvents = async (req, res, next) => {
 };
 const rsvped = async (req, res, next) => {
   try {
-    const campaignId = req.params.campaignId;
-    const email = req.params.email;
-    // find the campaign by id
+    const campaignId = req.body.campaignId;
+    const email = req.body.email;
+
     const campaign = await Campaign.findById(campaignId);
     const user = await User.findOne({ email: email }).orFail();
     if (!campaign) {
@@ -169,21 +170,30 @@ const rsvped = async (req, res, next) => {
       return;
     }
 
-    // add the attendee to the attendees array
+    const isAlreadyAttending = campaign.attendees.some(
+      (attendee) => attendee.email === email
+    );
+    if (isAlreadyAttending) {
+      res.status(200).send("Email is already attending");
+      return;
+    }
+
     campaign.attendees.push({
       name: user.firstname + " " + user.lastName,
       email: email,
     });
     campaign.save();
-    res.send("RSVP confirmed");
+    res.status(201).json({ campaign: campaign.name });
   } catch (err) {
     next(err);
   }
 };
+
 const getAttendedEvents = async (req, res, next) => {
   try {
     const attendedCampaigns = await Campaign.find({
-      attendees: { $elemMatch: { email: req.user.email } },endDate:{$gt:new Date()}
+      attendees: { $elemMatch: { email: req.user.email } },
+      endDate: { $gt: new Date() },
     }).select("name goal startDate endDate");
 
     res.status(200).json(attendedCampaigns);
@@ -200,5 +210,5 @@ module.exports = {
   button,
   rsvped,
   getMyEvents,
-  getAttendedEvents
+  getAttendedEvents,
 };

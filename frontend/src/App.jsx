@@ -24,6 +24,7 @@ import MyFundraisersPage from "./pages/user/MyFundraisersPage";
 import MyProfilePage from "./pages/user/MyProfilePage";
 import FoodPageComponent from "./pages/FoodPageComponent";
 import ItemPageComponent from "./pages/ItemPageComponent";
+import ThankYouPage from "./pages/ThankYouPage";
 export default function App() {
   return (
     <>
@@ -36,7 +37,7 @@ export default function App() {
         <Route path="/help-fundraiser" element={<HelpFundraiserPage />} />
         <Route path="/campaigns" element={<CampaignsPage />} />
         <Route path="/money-donate" element={<MoneyDonationPage />} />
-
+        <Route path="/rsvp/:cid/:email" element={<ThankYouPage/>}/>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<LoginPage />} />
         {/* user protected routes */}
