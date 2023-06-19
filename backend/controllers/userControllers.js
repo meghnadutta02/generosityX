@@ -14,14 +14,14 @@ const registerUser = async (req, res, next) => {
   try {
     const { firstname, lastName, email, password, phoneNumber } = req.body;
     if (!firstname || !lastName || !email || !password || !phoneNumber)
-     return res.status(400).send("All input fields are required");
+      return res.status(400).send("All input fields are required");
     const hashedPassword = hashPassword(password);
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailRegex.test(email)) {
       return res.status(400).json({ error: "Invalid email format!" });
     }
-    
+
     const userExists = await User.findOne({ email: email });
     if (userExists) {
       res.status(400).json({ error: "User already exists!" });
@@ -31,7 +31,7 @@ const registerUser = async (req, res, next) => {
         lastName,
         email: email.toLowerCase(),
         password: hashedPassword,
-        phoneNumber
+        phoneNumber,
       });
       //cookies are being stored here to see if a user is logged in:
       //They are commonly used for session management, user authentication, personalization, tracking, and other purposes.
@@ -54,13 +54,11 @@ const registerUser = async (req, res, next) => {
         )
         .status(201)
         .json({
-          
-            _id: user._id,
-            name: user.firstname,
-            lastName: user.lastName,
-            email: user.email,
-            isAdmin: user.isAdmin,
-        
+          _id: user._id,
+          name: user.firstname,
+          lastName: user.lastName,
+          email: user.email,
+          isAdmin: user.isAdmin,
         });
     }
   } catch (err) {
@@ -71,8 +69,10 @@ const loginUser = async (req, res, next) => {
   try {
     const { email, password, doNotLogout } = req.body;
     if (!email || !password)
-      res.status(400).json({error:"All input fields are required"});
+      res.status(400).json({ error: "All input fields are required" });
+      
     const user = await User.findOne({ email: email }).orFail();
+
     if (user && comparePasswords(password, user.password)) {
       let cookieParams = {
         httpOnly: true,
@@ -97,22 +97,25 @@ const loginUser = async (req, res, next) => {
         )
         .status(200)
         .json({
-        
-            _id: user._id,
-            name: user.firstname,
-            lastName: user.lastName,
-            email: user.email,
-            isAdmin: user.isAdmin,
-            doNotLogout
-          }
-        );
+          _id: user._id,
+          name: user.firstname,
+          lastName: user.lastName,
+          email: user.email,
+          isAdmin: user.isAdmin,
+          doNotLogout,
+        });
     } else {
-      res.status(401).json({error:"Wrong Credentials"});
+      res.status(401).json({ error: "Wrong Credentials" });
     }
   } catch (err) {
-    next(err);
+    if (err.name === "DocumentNotFoundError") {
+      res.status(400).json({ error: "Account does not exist, please sign up" });
+    } else {
+      next(err);
+    }
   }
 };
+;
 //for the form
 const updateUserProfile = async (req, res, next) => {
   try {
@@ -151,4 +154,10 @@ const getUserProfile = async (req, res, next) => {
     next(err);
   }
 };
-module.exports={getUsers,registerUser,loginUser,getUserProfile,updateUserProfile}
+module.exports = {
+  getUsers,
+  registerUser,
+  loginUser,
+  getUserProfile,
+  updateUserProfile,
+};

@@ -1,7 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 //get user from localStorage
-const user = JSON.parse(localStorage.getItem("user")) || JSON.parse(sessionStorage.getItem("user"));
+const user =
+  JSON.parse(localStorage.getItem("user")) ||
+  JSON.parse(sessionStorage.getItem("user"));
 const initialState = {
   user: user ? user : null,
   isError: false,
@@ -36,24 +38,21 @@ export const logout = createAsyncThunk("auth/logout", async () => {
   await axios.get("/api/logout");
   const localUser = localStorage.getItem("user");
   const sessionUser = sessionStorage.getItem("user");
-  if(localUser)
-    localStorage.removeItem("user");
-  else if(sessionUser)
-    sessionStorage.removeItem("user");
+  if (localUser) localStorage.removeItem("user");
+  else if (sessionUser) sessionStorage.removeItem("user");
   return null;
 });
 export const login = createAsyncThunk("auth/login", async (user, thunkAPI) => {
   try {
-    const { data } =await axios.post("/api/users/login", user);
+    const { data } = await axios.post("/api/users/login", user);
     if (user.doNotLogout) {
-      await localStorage.setItem("user", JSON.stringify(data));
-    }
-    else
-    await sessionStorage.setItem("user", JSON.stringify(data));
+      localStorage.setItem("user", JSON.stringify(data));
+    } else sessionStorage.setItem("user", JSON.stringify(data));
     return data;
   } catch (err) {
     var msg;
-    if (err.response.status === 401 ||err.response.status === 400) msg = err.response.data.error;
+    if (err.response.status === 401 || err.response.status === 400)
+      msg = err.response.data.error;
     else
       msg =
         (err.response && err.response.data && err.response.data.error) ||
@@ -106,9 +105,8 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.message = action.payload; //err message
         state.user = null;
-      })
+      });
   },
-  },
-);
+});
 export const { reset } = authSlice.actions;
 export const authReducer = authSlice.reducer;

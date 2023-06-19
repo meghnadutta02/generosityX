@@ -25,19 +25,32 @@ import MyProfilePage from "./pages/user/MyProfilePage";
 import FoodPageComponent from "./pages/FoodPageComponent";
 import ItemPageComponent from "./pages/ItemPageComponent";
 import ThankYouPage from "./pages/ThankYouPage";
+import AdminDashboard from "./components/AdminDashboard";
 export default function App() {
+  let admin = false;
+
+  const userFromLocalStorage = localStorage.getItem("user");
+  const userFromSessionStorage = sessionStorage.getItem("user");
+
+  if (userFromLocalStorage) {
+    const user = JSON.parse(userFromLocalStorage);
+    admin = user.isAdmin;
+  } else if (userFromSessionStorage) {
+    const user = JSON.parse(userFromSessionStorage);
+    admin = user.isAdmin;
+  }
   return (
     <>
       {" "}
-      <Navbar />
+      {admin ?<AdminDashboard/> :<Navbar />}
       <ScrollToTop />
-      <Chatbot />
+      {!admin && <Chatbot />}
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/help-fundraiser" element={<HelpFundraiserPage />} />
         <Route path="/campaigns" element={<CampaignsPage />} />
         <Route path="/money-donate" element={<MoneyDonationPage />} />
-        <Route path="/rsvp/:cid/:email" element={<ThankYouPage/>}/>
+        <Route path="/rsvp/:cid/:email" element={<ThankYouPage />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<LoginPage />} />
         {/* user protected routes */}
@@ -46,8 +59,8 @@ export default function App() {
           <Route path="/food-donate" element={<FoodDonationPage />} />
           <Route path="/my-events" element={<MyEventsPage />} />
           <Route path="/campaigns/:id" element={<CampaignDetailsPage />} />
-          <Route path="/item/:pid" element={<ItemPageComponent/>}/>
-          <Route path="/food/:pid" element={<FoodPageComponent/>}/>
+          <Route path="/item/:pid" element={<ItemPageComponent />} />
+          <Route path="/food/:pid" element={<FoodPageComponent />} />
           <Route path="/my-donations" element={<MyDonationsPage />} />
           <Route path="/my-fundraisers" element={<MyFundraisersPage />} />
           <Route path="/create-fundraiser" element={<CreateFundraiserPage />} />
