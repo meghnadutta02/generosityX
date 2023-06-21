@@ -47,7 +47,8 @@ const LoginPageComponent = () => {
 
   useEffect(() => {
     if (isError) toast.error(message);
-    if (isSuccess || user) navigate("/");
+    if (isSuccess || (user && !user.isAdmin)) navigate("/");
+    else if(isSuccess || (user && user.isAdmin)) navigate("/admin/fundraisers");
     dispatch(reset());
   }, [user, isError, message, isSuccess, dispatch, navigate]);
 
@@ -115,11 +116,7 @@ const LoginPageComponent = () => {
             )}
             Login
           </Button>
-          {/* {error && (
-            <Typography variant="body1" color="error" align="center" sx={{ mt: 2 }}>
-              {error}
-            </Typography>
-          )} */}
+        
         </Box>
       </Paper>
     </Container>

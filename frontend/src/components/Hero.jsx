@@ -1,7 +1,8 @@
-import React from "react";
+import * as React from "react";
 import { Link } from "react-router-dom";
 import { Link as ScrolLink } from "react-scroll";
 function Hero() {
+
   return (
     <div className="border border-red-200">
       <section className="relative bg-[url(https://images.unsplash.com/photo-1556484687-30636164638b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80)] bg-cover bg-center bg-no-repeat">

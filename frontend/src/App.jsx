@@ -1,5 +1,6 @@
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
+import { useEffect } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CampaignDetailsPage from "./pages/CampaignDetailsPage";
@@ -25,26 +26,25 @@ import MyProfilePage from "./pages/user/MyProfilePage";
 import FoodPageComponent from "./pages/FoodPageComponent";
 import ItemPageComponent from "./pages/ItemPageComponent";
 import ThankYouPage from "./pages/ThankYouPage";
-import AdminDashboard from "./components/AdminDashboard";
+import { useSelector } from "react-redux";
+import UnverifiedFundraisers from "./components/Admin/UnverifiedFundraisers";
+import { useState } from "react";
 export default function App() {
-  let admin = false;
+  const { user } = useSelector((state) => state.auth);
+  const [admin, setAdmin] = useState(false);
 
-  const userFromLocalStorage = localStorage.getItem("user");
-  const userFromSessionStorage = sessionStorage.getItem("user");
-
-  if (userFromLocalStorage) {
-    const user = JSON.parse(userFromLocalStorage);
-    admin = user.isAdmin;
-  } else if (userFromSessionStorage) {
-    const user = JSON.parse(userFromSessionStorage);
-    admin = user.isAdmin;
-  }
+  useEffect(() => {
+    if (user) {
+      if (user.isAdmin) setAdmin(true);
+      else if (!user.isAdmin) setAdmin(false);
+    }
+  }, [user]);
   return (
     <>
       {" "}
-      {admin ?<AdminDashboard/> :<Navbar />}
+      {(!admin || !user) && <Navbar />}
       <ScrollToTop />
-      {!admin && <Chatbot />}
+      <Chatbot />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/help-fundraiser" element={<HelpFundraiserPage />} />
@@ -69,6 +69,12 @@ export default function App() {
             element={<FundraiserDetailsPage />}
           />
           <Route path="/my-profile" element={<MyProfilePage />} />
+        </Route>
+        <Route element={<ProtectedRoutes admin={true} />}>
+          <Route
+            path="/admin/fundraisers"
+            element={<UnverifiedFundraisers />}
+          />
         </Route>
       </Routes>
       <ToastContainer />

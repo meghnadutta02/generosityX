@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, {  useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+
 import {
   FaLinkedin,
   FaFacebook,
@@ -14,9 +14,9 @@ import { HiOutlineMail } from "react-icons/hi";
 import { Link as ScrolLink } from "react-scroll";
 import { logout, reset } from "../redux/authSlice";
 export default function Navbar() {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+  
   const [nav, setNav] = useState(false);
   const handleClick = () => setNav(!nav);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -24,11 +24,11 @@ export default function Navbar() {
   const handleDropdownToggle = () => {
     setShowDropdown(!showDropdown);
   };
-
+  
   return (
     <>
       {/* Sidebar */}
-      <div className=" md:flex fixed flex-col top-[35%] right-0 z-10">
+      <div className=" md:flex fixed flex-col top-[35%] right-0 z-10" >
         <ul>
           <li className="w-[160px] h-[60px] flex justify-between items-center mr-[-100px] hover:ml-[-100px] duration-300 bg-blue-600 px-4">
             <a
@@ -68,7 +68,7 @@ export default function Navbar() {
       </div>
 
       {/* Navbar */}
-      <div className="bg-teal-700 shadow fixed z-10 w-full border-b-2 border-black drop-shadow-lg">
+      <div className="bg-teal-700 shadow fixed z-10 w-full border-b-2 border-black drop-shadow-lg" >
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between py-4">
             <Link to="/">

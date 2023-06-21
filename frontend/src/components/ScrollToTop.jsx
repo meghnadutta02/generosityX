@@ -49,7 +49,7 @@ const ScrollToTop = () => {
           />
         </svg>
       </div>
-      <p className="text-black">scroll up</p>
+      
     </>
   );
 };
