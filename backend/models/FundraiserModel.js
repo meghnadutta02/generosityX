@@ -20,6 +20,7 @@ const fundraiserSchema = new mongoose.Schema(
       required: true,
       default: 0,
     },
+    user: { email: { type: String } },
     creator: {
       name: {
         type: String,
@@ -38,7 +39,7 @@ const fundraiserSchema = new mongoose.Schema(
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: MoneyDonation,
-        default:null
+        default: null,
       },
     ],
     endDate: {
@@ -47,10 +48,8 @@ const fundraiserSchema = new mongoose.Schema(
     },
     image: [
       {
-        path: {
-          type: String,
-          required: false,
-        },
+        path: { type: String, required: false },
+        public_id:{type:String,required:false}
       },
     ],
     //certifications
@@ -58,7 +57,7 @@ const fundraiserSchema = new mongoose.Schema(
       type: Boolean,
       required: true,
       default: false,
-    }
+    },
   },
   { timestamps: true }
 );

@@ -29,6 +29,7 @@ import ThankYouPage from "./pages/ThankYouPage";
 import { useSelector } from "react-redux";
 import UnverifiedFundraisers from "./components/Admin/UnverifiedFundraisers";
 import { useState } from "react";
+import DeleteFundRaiser from "./pages/user/DeleteFundRaiser";
 export default function App() {
   const { user } = useSelector((state) => state.auth);
   const [admin, setAdmin] = useState(false);
@@ -67,6 +68,10 @@ export default function App() {
           <Route
             path="/help-fundraiser/:id"
             element={<FundraiserDetailsPage />}
+          />
+          <Route
+            path="/delete-fundraiser/:id"
+            element={<DeleteFundRaiser />}
           />
           <Route path="/my-profile" element={<MyProfilePage />} />
         </Route>

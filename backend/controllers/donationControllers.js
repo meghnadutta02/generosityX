@@ -213,28 +213,6 @@ const donate = async (req, res, next) => {
   }
 };
 
-const deleteItemImage = async (req, res, next) => {
-  try {
-    const imagePath = decodeURIComponent(req.params.imagePath);
-    const path = require("path");
-    const finalPath =
-      path.resolve(__dirname, "../../frontend/public") + imagePath;
-    const fs = require("fs");
-
-    fs.unlink(finalPath, (err) => {
-      res.status(500).send(err);
-    });
-
-    await DonateItem.findOneAndUpdate(
-      { _id: req.params.id, user: req.user._id },
-      { $pull: { images: imagePath } },
-      { new: true }
-    ).orFail();
-    return res.end();
-  } catch (err) {
-    next(err);
-  }
-};
 const getDonationDetails = async (req, res, next) => {
   try {
     const donationId = req.params.id;
@@ -264,7 +242,6 @@ module.exports = {
   food,
   deleteProduct,
   getDonationDetails,
-  deleteItemImage,
   requestPayment,
   item,
   imageUpload,

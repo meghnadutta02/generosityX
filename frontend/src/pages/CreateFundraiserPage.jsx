@@ -30,7 +30,7 @@ export default function CreateFundraiserPage() {
     }
 
     const validationErrors = [];
-    console.log(imagesTable);
+   
     imagesTable.forEach((image) => {
       if (image.size > 2097152) {
         validationErrors.push("Size too large (above 2 MB)");

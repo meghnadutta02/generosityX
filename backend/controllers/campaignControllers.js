@@ -1,5 +1,4 @@
 const Campaign = require("../models/CampaignModel");
-// *Useful for getting environment vairables
 require("dotenv").config();
 const getCampaigns = async (req, res, next) => {
   let select = {};
