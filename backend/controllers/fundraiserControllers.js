@@ -51,7 +51,7 @@ oauth2Client.setCredentials({
 });
 const rejectFundraiser = async (req, res, next) => {
   try {
-    const { reason } = req.body;
+    const  {reason}  = req.body;
     if (!reason) {
       return res.status(400).send("Please state reason");
     }
@@ -77,7 +77,7 @@ const rejectFundraiser = async (req, res, next) => {
       from: "Fundraiser <meghnakha18@gmail.com>",
       to: email,
       subject: "Fundraiser Rejection",
-      text: `Dear Fundraiser Creator,\n\nWe regret to inform you that your fundraiser has been rejected due to the following reason:\n\n${reason}\n\nTry again with valid documents.If you have any further questions or concerns, please contact us at your convenience.\n\nBest regards,\nThe Fundraiser Team`,
+      text: `Dear Fundraiser Creator,\n\nWe regret to inform you that your fundraiser has been rejected due to the following reason:\n\n${reason}\n\nTry again.If you have any further questions or concerns, please contact us at your convenience.\n\nBest regards,\nThe Fundraiser Team`,
     };
 
     const result = await transport.sendMail(mailOptions);
@@ -198,7 +198,11 @@ const verifyFundraiser = async (req, res, next) => {
       from: "Fundraiser <meghnakha18@gmail.com>",
       to: email,
       subject: "Fundraiser Verification",
-      text: `Dear Fundraiser Creator,\n\nCongratulations! Your fundraiser has been successfully verified.\n\nThank you for making a positive impact through your campaign.\n\nBest regards,\nThe Fundraiser Team`,
+      html: `<p>Dear Fundraiser Creator,</p>
+         <p>Congratulations! Your fundraiser: <strong>${fundraiser.title}</strong> has been successfully verified.</p>
+         <p>Thank you for making a positive impact through your campaign.</p>
+         <p>Best regards,</p>
+         <p>The Fundraiser Team</p>`,
     };
 
     const result = await transport.sendMail(mailOptions);
@@ -211,16 +215,9 @@ const verifyFundraiser = async (req, res, next) => {
 const unverifiedFundraisers = async (req, res, next) => {
   try {
     const fundraisers = await Fundraiser.find({ isVerified: false })
+    .sort({ createdAt: -1 })
       .populate("donations", "-user -comments -createdAt -updatedAt -__v")
-      .sort({ goalAmount: -1 })
       .orFail();
-
-    fundraisers.map((fundraiser) => {
-      fundraiser.donations.map((donation) => {
-        fundraiser.currentAmount += donation.amount;
-      });
-      fundraiser.save();
-    });
     res.status(200).json({
       fundraisers: fundraisers,
     });
@@ -237,5 +234,6 @@ module.exports = {
   uploadImage,
   myFundraisers,
   deleteFundRaiser,
+  rejectFundraiser,
   unverifiedFundraisers,
 };
