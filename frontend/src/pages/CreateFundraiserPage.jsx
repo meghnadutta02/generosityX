@@ -26,7 +26,7 @@ export default function CreateFundraiserPage() {
     if (Array.isArray(images)) {
       imagesTable = images;
     } else {
-      imagesTable.push(images); //if we assign directly, imagesTable will become a string
+      imagesTable.push(images); 
     }
 
     const validationErrors = [];

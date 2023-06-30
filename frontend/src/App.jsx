@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import { useEffect } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import OngoingCampaigns from "./components/Admin/OngoingCampaigns";
 import CampaignDetailsPage from "./pages/CampaignDetailsPage";
 import ItemDonationPage from "./pages/ItemDonationPage";
 import FoodDonationPage from "./pages/FoodDonationPage";
@@ -30,6 +31,8 @@ import { useSelector } from "react-redux";
 import UnverifiedFundraisers from "./components/Admin/UnverifiedFundraisers";
 import { useState } from "react";
 import DeleteFundRaiser from "./pages/user/DeleteFundRaiser";
+import VerifiedFundraisers from "./components/Admin/VerifiedFundraisers"
+import CreateCampaign from "./components/Admin/CreateCampaign";
 export default function App() {
   const { user } = useSelector((state) => state.auth);
   const [admin, setAdmin] = useState(false);
@@ -77,9 +80,22 @@ export default function App() {
         </Route>
         <Route element={<ProtectedRoutes admin={true} />}>
           <Route
-            path="/admin/fundraisers"
+            path="/admin/fundraisers/unverified"
             element={<UnverifiedFundraisers />}
           />
+           <Route
+            path="/admin/fundraisers/verified"
+            element={<VerifiedFundraisers />}
+          />
+          <Route
+            path="/admin/campaigns/ongoing"
+            element={<OngoingCampaigns />}
+          />
+          <Route
+            path="/admin/campaigns/create-new"
+            element={<CreateCampaign />}
+          />
+         
         </Route>
       </Routes>
       <ToastContainer />

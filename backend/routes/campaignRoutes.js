@@ -1,7 +1,7 @@
 const express=require("express");
 const router=express.Router();
 const {verifyIfLoggedIn,verifyIfAdmin}=require("../middleware/verifyAuthToken");
-const {getCampaigns,getRecentCampaigns,getCampaignById,createCampaigns,button,getMyEvents,getAttendedEvents}=require("../controllers/campaignControllers")
+const {getCampaigns,getRecentCampaigns,getCampaignById,uploadImage,createCampaigns,button,getMyEvents,getAttendedEvents, deleteCampaign}=require("../controllers/campaignControllers")
 
 router.get("/search",getCampaigns);
 router.get("/recent",getRecentCampaigns);
@@ -12,5 +12,7 @@ router.get("/attendedEvents",getAttendedEvents)
 router.post("/attend/:id",button);
 
 router.use(verifyIfAdmin)
+router.post("/upload",uploadImage);
+router.delete("/delete/:id",deleteCampaign);
 router.post("/create",createCampaigns);
 module.exports=router;

@@ -8,7 +8,11 @@ const campaignSchema = new mongoose.Schema(
     address: { type: String, required: true },
     startDate: { type: Date, required: true },
     endDate: { type: Date, required: true },
-    image: { type: String, required: true },
+    image: 
+      {
+        path: { type: String, required: false },
+        public_id:{type:String,required:false}
+      },
     goal: { type: String, required: true },
     organizer: { type: String, required: true },
     contactEmail: { type: String, required: true },

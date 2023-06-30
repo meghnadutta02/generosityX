@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import ListSubheader from '@mui/material/ListSubheader';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -26,8 +27,7 @@ export default function Sidebar() {
 
   return (
     <List
-      sx={{ width: '100%', maxWidth: 360, bgcolor: '#c2e8e5'
-         }} // Set the sidebar background color
+      sx={{ width: '100%', maxWidth: 360, bgcolor: '#c2e8e5' }}
       component="nav"
       aria-labelledby="nested-list-subheader"
       subheader={
@@ -35,70 +35,79 @@ export default function Sidebar() {
           component="div"
           id="nested-list-subheader"
           sx={{
-            bgcolor: '#50a6a0', 
-            
-            fontSize: '120%', 
-            paddingLeft: '16px', 
+            bgcolor: '#50a6a0',
+            fontSize: '120%',
+            paddingLeft: '16px',
           }}
         >
-    
-            Admin Dashboard
-         
+          Admin Dashboard
         </ListSubheader>
       }
     >
+     
+        <ListItemButton onClick={handleClick}>
+          <ListItemText primary="Fundraisers" />
+          {open ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton>
       
-      
-      <ListItemButton onClick={handleClick}>
-        <ListItemText primary="Fundraisers" />
-        {open ? <ExpandLess /> : <ExpandMore />}
-      </ListItemButton>
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <ListItemButton
-            sx={{ pl: 4 }}
-            selected={selectedPage === 'Verified'} // Highlight the selected page
-            onClick={() => handlePageClick('Verified')}
-          >
-            <ListItemText primary="Verified" />
-          </ListItemButton>
-          <ListItemButton
-            sx={{ pl: 4 }}
-            selected={selectedPage === 'Unverified'} 
-            onClick={() => handlePageClick('Unverified')}
-          >
-            <ListItemText primary="Unverified" />
-          </ListItemButton>
+          <Link to="/admin/fundraisers/verified">
+            <ListItemButton
+              sx={{ pl: 4 }}
+              selected={selectedPage === 'Verified'} // Highlight the selected page
+              onClick={() => handlePageClick('Verified')}
+            >
+              <ListItemText primary="Verified" />
+            </ListItemButton>
+          </Link>
+          <Link to="/admin/fundraisers/unverified">
+            <ListItemButton
+              sx={{ pl: 4 }}
+              selected={selectedPage === 'Unverified'}
+              onClick={() => handlePageClick('Unverified')}
+            >
+              <ListItemText primary="Unverified" />
+            </ListItemButton>
+          </Link>
         </List>
       </Collapse>
-      <ListItemButton onClick={handleClick1}>
-        <ListItemText primary="Campaigns" />
-        {open1 ? <ExpandLess /> : <ExpandMore />}
-      </ListItemButton>
+      
+        <ListItemButton onClick={handleClick1}>
+          <ListItemText primary="Campaigns" />
+          {open1 ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton>
+      
       <Collapse in={open1} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <ListItemButton
-            sx={{ pl: 4 }}
-            selected={selectedPage === 'Create new'} // Highlight the selected page
-            onClick={() => handlePageClick('Create new')}
-          >
-            <ListItemText primary="Create new" />
-          </ListItemButton>
-          <ListItemButton
-            sx={{ pl: 4 }}
-            selected={selectedPage === 'Ongoing'} 
-            onClick={() => handlePageClick('Ongoing')}
-          >
-            <ListItemText primary="Ongoing" />
-          </ListItemButton>
+          <Link to="/admin/campaigns/create-new">
+            <ListItemButton
+              sx={{ pl: 4 }}
+              selected={selectedPage === 'Create new'} // Highlight the selected page
+              onClick={() => handlePageClick('Create new')}
+            >
+              <ListItemText primary="Create new" />
+            </ListItemButton>
+          </Link>
+          <Link to="/admin/campaigns/ongoing">
+            <ListItemButton
+              sx={{ pl: 4 }}
+              selected={selectedPage === 'Ongoing'}
+              onClick={() => handlePageClick('Ongoing')}
+            >
+              <ListItemText primary="Ongoing" />
+            </ListItemButton>
+          </Link>
         </List>
       </Collapse>
-      <ListItemButton
-        selected={selectedPage === 'Users'} // Highlight the selected page
-        onClick={() => handlePageClick('Users')}
-      >
-        <ListItemText primary="Users" />
-      </ListItemButton>
+      <Link to="/admin/users">
+        <ListItemButton
+          selected={selectedPage === 'Users'} // Highlight the selected page
+          onClick={() => handlePageClick('Users')}
+        >
+          <ListItemText primary="Users" />
+        </ListItemButton>
+      </Link>
     </List>
   );
 }

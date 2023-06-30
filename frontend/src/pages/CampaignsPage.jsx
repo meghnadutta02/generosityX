@@ -58,7 +58,7 @@ export default function CampaignsPage() {
     const fetchData = async () => {
       let url = "/api/campaigns/search";
       if (selectedCity) {
-        url = `/api/campaigns/search/?city=${selectedCity}`;
+        url = `/api/campaigns/search?city=${selectedCity}`;
       }
       try {
         const result = await axios.get(url);
