@@ -1,11 +1,33 @@
 const User = require("../models/UserModel");
-const Review = require("../models/ReviewModel");
+
 const { hashPassword, comparePasswords } = require("../utils/hashPassword");
 const { generateAuthToken } = require("../utils/generateAuthToken");
 const getUsers = async (req, res, next) => {
   try {
-    const users = await User.find({}).select("-password").orFail();
-    return res.json(users);
+    let searchQuery = req.query.search || "";
+    let query = {};
+    if (searchQuery) {
+      query = {
+        $or: [
+          { firstName: { $regex: new RegExp(searchQuery, "i") } },
+          { lastName: { $regex: new RegExp(searchQuery, "i") } },
+          { email: { $regex: new RegExp(searchQuery, "i") } },
+        ],
+      };
+      
+    }
+    const users = await User.find(query).select("-password").orFail();
+    return res.json({ users: users });
+  } catch (err) {
+    next(err);
+  }
+};
+const makeAdmin= async (req, res, next) => {
+  try {
+    let id = req.params.id 
+   
+    const user = await User.findOneAndUpdate({_id:id},{isAdmin:true}).orFail();
+    return res.status(201).json({successful:true });
   } catch (err) {
     next(err);
   }
@@ -70,7 +92,7 @@ const loginUser = async (req, res, next) => {
     const { email, password, doNotLogout } = req.body;
     if (!email || !password)
       res.status(400).json({ error: "All input fields are required" });
-      
+
     const user = await User.findOne({ email: email }).orFail();
 
     if (user && comparePasswords(password, user.password)) {
@@ -115,7 +137,6 @@ const loginUser = async (req, res, next) => {
     }
   }
 };
-;
 //for the form
 const updateUserProfile = async (req, res, next) => {
   try {
@@ -158,6 +179,7 @@ module.exports = {
   getUsers,
   registerUser,
   loginUser,
+  makeAdmin,
   getUserProfile,
   updateUserProfile,
 };

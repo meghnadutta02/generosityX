@@ -2,6 +2,7 @@ import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import { useEffect } from "react";
 import { ToastContainer } from "react-toastify";
+import { useDispatch } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 import OngoingCampaigns from "./components/Admin/OngoingCampaigns";
 import CampaignDetailsPage from "./pages/CampaignDetailsPage";
@@ -30,19 +31,37 @@ import ThankYouPage from "./pages/ThankYouPage";
 import { useSelector } from "react-redux";
 import UnverifiedFundraisers from "./components/Admin/UnverifiedFundraisers";
 import { useState } from "react";
+import { logout, reset } from "./redux/authSlice";
 import DeleteFundRaiser from "./pages/user/DeleteFundRaiser";
-import VerifiedFundraisers from "./components/Admin/VerifiedFundraisers"
+import VerifiedFundraisers from "./components/Admin/VerifiedFundraisers";
 import CreateCampaign from "./components/Admin/CreateCampaign";
+import UserPage from "./components/Admin/UserPage";
 export default function App() {
   const { user } = useSelector((state) => state.auth);
   const [admin, setAdmin] = useState(false);
-
+  const dispatch = useDispatch();
   useEffect(() => {
     if (user) {
       if (user.isAdmin) setAdmin(true);
       else if (!user.isAdmin) setAdmin(false);
     }
   }, [user]);
+  // const checkCookieExpiration = () => {
+  //   const cookieName = "access_token";
+
+  //   const cookieValue = document.cookie
+  //     .split("; ")
+  //     .find((row) => row.startsWith(`${cookieName}=`));
+
+  //   if (!cookieValue) {
+  //     dispatch(logout());
+  //     dispatch(reset());
+  //     return;
+  //   }
+  // };
+
+  // setInterval(checkCookieExpiration, 2000);
+
   return (
     <>
       {" "}
@@ -72,10 +91,7 @@ export default function App() {
             path="/help-fundraiser/:id"
             element={<FundraiserDetailsPage />}
           />
-          <Route
-            path="/delete-fundraiser/:id"
-            element={<DeleteFundRaiser />}
-          />
+          <Route path="/delete-fundraiser/:id" element={<DeleteFundRaiser />} />
           <Route path="/my-profile" element={<MyProfilePage />} />
         </Route>
         <Route element={<ProtectedRoutes admin={true} />}>
@@ -83,7 +99,7 @@ export default function App() {
             path="/admin/fundraisers/unverified"
             element={<UnverifiedFundraisers />}
           />
-           <Route
+          <Route
             path="/admin/fundraisers/verified"
             element={<VerifiedFundraisers />}
           />
@@ -95,7 +111,7 @@ export default function App() {
             path="/admin/campaigns/create-new"
             element={<CreateCampaign />}
           />
-         
+          <Route path="/admin/users" element={<UserPage />} />
         </Route>
       </Routes>
       <ToastContainer />

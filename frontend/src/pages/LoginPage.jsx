@@ -48,7 +48,7 @@ const LoginPageComponent = () => {
   useEffect(() => {
     if (isError) toast.error(message);
     if (isSuccess || (user && !user.isAdmin)) navigate("/");
-    else if(isSuccess || (user && user.isAdmin)) navigate("/admin/fundraisers");
+    else if(isSuccess || (user && user.isAdmin)) navigate("/admin/fundraisers/verified");
     dispatch(reset());
   }, [user, isError, message, isSuccess, dispatch, navigate]);
 
