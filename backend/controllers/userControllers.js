@@ -124,7 +124,8 @@ const loginUser = async (req, res, next) => {
           lastName: user.lastName,
           email: user.email,
           isAdmin: user.isAdmin,
-          doNotLogout,
+          doNotLogout
+
         });
     } else {
       res.status(401).json({ error: "Wrong Credentials" });

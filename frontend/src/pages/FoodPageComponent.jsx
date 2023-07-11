@@ -58,7 +58,7 @@ export default function FoodPageComponent(props) {
                   Approximate number of people it can feed: {food.quantity}
                 </strong>
                 <p>Description: {food.description}</p>
-                { id && <Button variant="contained"className="mt-3" onClick={handleDelete}>
+                { id && <Button variant="contained" className="mt-3" onClick={handleDelete}>
                   Cancel
                 </Button>}
               </div>

@@ -102,7 +102,10 @@ export default function CampaignDetailsPage(props) {
                [ border-[1px] border-solid border-white border-opacity-30 ]
                [ shadow-black/70 shadow-2xl ]"
           >
-            {campaign.image}
+          <div  className="mx-auto w-5/6 flex justify-center">
+          <img src={campaign.image && campaign.image.path} alt="campaign image"/>
+          </div>
+            
             <div className="flex my-8 justify-center">
               <Button
                 variant="contained"

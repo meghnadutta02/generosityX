@@ -179,7 +179,6 @@ function OngoingCampaigns() {
                             )}
                           </Grid>
                         </Grid>
-
                         <Grid item xs={12} md={6} paddingX="1.5%">
                           <Card>
                             <CardHeader
@@ -217,15 +216,16 @@ function OngoingCampaigns() {
                                     )}
                                   </span>
                                   <span>
-                                   From:{" "}
+                                    From:{" "}
                                     {campaign.startDate
                                       .replaceAll("-", "/")
                                       .substring(5, 10)}
-                                     
-                                    <span className="ml-3">To:{" "}
-                                    {campaign.endDate
-                                      .replaceAll("-", "/")
-                                      .substring(5, 10)}</span>
+                                    <span className="ml-3">
+                                      To:{" "}
+                                      {campaign.endDate
+                                        .replaceAll("-", "/")
+                                        .substring(5, 10)}
+                                    </span>
                                   </span>
                                 </div>
                               </Typography>

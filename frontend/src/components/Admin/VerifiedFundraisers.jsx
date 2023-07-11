@@ -56,7 +56,7 @@ function VerifiedFundraisers() {
   };
 
   return (
-    <div style={{ minHeight: "80vh" }}>
+    <div style={{ minHeight: "75vh" }}>
       <Grid
         container
         sx={{
@@ -175,7 +175,7 @@ function VerifiedFundraisers() {
                                 src={fundraiser.image[0].path}
                                 alt="Fundraiser Cover"
                                 style={{
-                                  maxHeight: "300px",
+                                  maxHeight: "270px",
                                   objectFit: "contain",
                                   width: "100%",
                                 }}
@@ -286,15 +286,13 @@ function VerifiedFundraisers() {
               onClose={handleModalClose}
               sx={{
                 display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
+                justifyContent:"center",
+                alignItems:"center"
               }}
             >
               <Box
                 sx={{
                   outline: 0,
-                  maxWidth: "70%",
-                  maxHeight: "70%",
                   width: "auto",
                   height: "auto",
                 }}
@@ -305,6 +303,8 @@ function VerifiedFundraisers() {
                   style={{
                     width: "100%",
                     height: "100%",
+                    maxHeight:"80vh",
+                    maxWidth:"80vw",
                     objectFit: "contain",
                   }}
                 />

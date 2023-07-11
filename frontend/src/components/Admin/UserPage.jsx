@@ -50,11 +50,9 @@ function UserPage() {
     };
   }, [search]);
 
-  const makeAdmin = async(user) => {
-    const {data}=await axios.put(`/api/users/${user._id}`)
-    if(data && data.successful)
-    toast.success(`${user.email} is now an admin`)
-    
+  const makeAdmin = async (user) => {
+    const { data } = await axios.put(`/api/users/${user._id}`);
+    if (data && data.successful) toast.success(`${user.email} is now an admin`);
   };
 
   const handleSearch = (event) => {
@@ -79,7 +77,15 @@ function UserPage() {
         </Grid>
         <Grid item xs={12} md={9} style={{ marginLeft: "4%" }}>
           {isLoading ? (
-            <CircularProgress />
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <CircularProgress />
+            </div>
           ) : (
             <>
               <TextField
