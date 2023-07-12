@@ -44,11 +44,20 @@ export const logout = createAsyncThunk("auth/logout", async () => {
 });
 export const login = createAsyncThunk("auth/login", async (user, thunkAPI) => {
   try {
-    const { data } = await axios.post("/api/users/login", user);
-    if (user.doNotLogout) {
-      localStorage.setItem("user", JSON.stringify(data));
-    } else sessionStorage.setItem("user", JSON.stringify(data));
-    return data;
+    const response = await axios.post("/api/users/login", user);
+    if (response.status === 200) {
+      if (user.doNotLogout) {
+        const date = new Date();
+        date.setDate(date.getDate() + 7);
+        date.setSeconds(date.getSeconds() - 7);
+        const userData = {
+          ...response.data,
+          expDate: date.getTime(),
+        };
+        localStorage.setItem("user", JSON.stringify(userData));
+      } else sessionStorage.setItem("user", JSON.stringify(response.data));
+      return response.data;
+    }
   } catch (err) {
     var msg;
     if (err.response.status === 401 || err.response.status === 400)

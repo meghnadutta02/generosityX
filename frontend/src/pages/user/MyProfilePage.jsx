@@ -5,7 +5,7 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-
+import axios from "axios";
 const MyProfilePage = () => {
   const [editing, setEditing] = useState(false);
   const [name, setName] = useState("");
@@ -16,18 +16,14 @@ const MyProfilePage = () => {
   const [profileImage, setProfileImage] = useState("");
 
   useEffect(() => {
-    const storedProfile = localStorage.getItem("profile");
+    const getProfile = async () => {
+      const user =
+        JSON.parse(localStorage.getItem("user")) ||
+        JSON.parse(sessionStorage.getItem("user"));
+      await axios.get(`api/users/profile/${user._id}`);
+    };
 
-    if (storedProfile) {
-      const { name, age, email, address, contact, profileImage } =
-        JSON.parse(storedProfile);
-      setName(name);
-      setAge(age);
-      setEmail(email);
-      setAddress(address);
-      setContact(contact);
-      setProfileImage(profileImage);
-    }
+    getProfile();
   }, []);
 
   useEffect(() => {

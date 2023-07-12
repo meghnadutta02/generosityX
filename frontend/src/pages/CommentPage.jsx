@@ -58,7 +58,7 @@ export default function CommentPage({ loaded }) {
                         <Typography sx={{ display: 'inline' }} component="span" variant="body2" color="text.primary">
                           {donation.name}
                         </Typography>
-                        {` donated $${donation.amount}`}
+                        {` donated $${donation.amount.toLocaleString("en-US")}`}
                       </React.Fragment>
                     }
                   />

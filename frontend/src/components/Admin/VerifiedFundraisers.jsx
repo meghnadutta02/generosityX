@@ -7,10 +7,6 @@ import {
   Box,
   Card,
   CardHeader,
-  Button,
-  Radio,
-  RadioGroup,
-  FormControlLabel,
   Alert,
 } from "@mui/material";
 import AdminNavbar from "./AdminNavbar";
@@ -18,66 +14,16 @@ import axios from "axios";
 import Sidebar from "./Sidebar";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
-import { toast } from "react-toastify";
 
-function UnverifiedFundraisers() {
+function VerifiedFundraisers() {
   const [selectedProofImage, setSelectedProofImage] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [fundraisers, setFundraisers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const [isRejectSelected, setIsRejectSelected] = useState(false);
-  const [reason, setReason] = useState("");
-  const [selectedFundraiser, setSelectedFundraiser] = useState("");
-
-  const handleReject = (id) => {
-    setIsRejectSelected(true);
-    setSelectedFundraiser(id);
-  };
-  const handleAccept = async (id) => {
-    const promise = axios.put(`/api/fundraisers/admin/verify/${id}`);
-
-    toast.promise(promise, {
-      pending: "Accepting fundraiser...",
-      success: `Fundraiser ${id} accepted`,
-      error: "Error accepting fundraiser",
-    });
-    const result = await promise;
-    if (result.status === 201) {
-      setFundraisers((prevFundraisers) =>
-        prevFundraisers.filter((fundraiser) => fundraiser._id !== id)
-      );
-    }
-  };
-
-  const handleReject1 = async (id) => {
-    try {
-      const promise = axios.post(`/api/fundraisers/admin/reject/${id}`, {
-        reason: reason,
-      });
-
-      toast.promise(promise, {
-        pending: "Rejecting fundraiser...",
-        success: `Fundraiser ${id} rejected`,
-        error: "Error rejecting fundraiser",
-      });
-      const response = await promise;
-
-      if (response.status === 200) {
-        setFundraisers((prevFundraisers) =>
-          prevFundraisers.filter((fundraiser) => fundraiser._id !== id)
-        );
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  const handleRejectReasonChange = (event) => {
-    setReason(event.target.value);
-  };
   useEffect(() => {
     const fetchData = async () => {
-      let url = "/api/fundraisers/admin/unverified";
+      let url = "/api/fundraisers";
       try {
         const result = await axios.get(url);
         setFundraisers(result.data.fundraisers);
@@ -92,7 +38,7 @@ function UnverifiedFundraisers() {
 
     const interval = setInterval(() => {
       fetchData();
-    }, 12000);
+    }, 20000);
 
     return () => {
       clearInterval(interval);
@@ -110,7 +56,7 @@ function UnverifiedFundraisers() {
   };
 
   return (
-    <div style={{ minHeight: "80vh" }}>
+    <div style={{ minHeight: "75vh" }}>
       <Grid
         container
         sx={{
@@ -138,9 +84,7 @@ function UnverifiedFundraisers() {
               <div className="carousel-wrapper" style={{ padding: "0 1.7%" }}>
                 {fundraisers.length === 0 && (
                   <Alert severity="info" sx={{ fontSize: "larger" }}>
-                    <strong>
-                      No fundraisers pending to be verified.Check Later!
-                    </strong>
+                    <strong>No active fundraisers!</strong>
                   </Alert>
                 )}
                 <Carousel
@@ -231,7 +175,7 @@ function UnverifiedFundraisers() {
                                 src={fundraiser.image[0].path}
                                 alt="Fundraiser Cover"
                                 style={{
-                                  maxHeight: "300px",
+                                  maxHeight: "270px",
                                   objectFit: "contain",
                                   width: "100%",
                                 }}
@@ -291,9 +235,12 @@ function UnverifiedFundraisers() {
                                 gutterBottom
                                 style={{ padding: "5px" }}
                               >
-                                Target: $
-                                {fundraiser.goalAmount.toLocaleString("en-US")}
+                              <div style={{display:"flex",justifyContent:"space-between"}}>
+                                <span>Target: ${fundraiser.goalAmount.toLocaleString("en-US")}</span>
+                                <span> Funds raised: ${fundraiser.currentAmount.toLocaleString("en-US")}</span>
+                                </div>
                               </Typography>
+
                               <Typography
                                 variant="body2"
                                 gutterBottom
@@ -328,115 +275,6 @@ function UnverifiedFundraisers() {
                             </div>
                           </Card>
                         </Grid>
-                        <Grid item xs={12} md={12} style={{ marginTop: "2%" }}>
-                          <Button
-                            variant="contained"
-                            color="success"
-                            onClick={() => {
-                              handleAccept(fundraiser._id);
-                            }}
-                            style={{
-                              marginRight: "2%",
-                              display:
-                                isRejectSelected &&
-                                fundraiser._id === selectedFundraiser &&
-                                "none",
-                            }}
-                          >
-                            Accept
-                          </Button>
-                          <Button
-                            variant="contained"
-                            color="error"
-                            onClick={() => {
-                              handleReject(fundraiser._id);
-                            }}
-                            style={{
-                              display:
-                                isRejectSelected &&
-                                fundraiser._id === selectedFundraiser &&
-                                "none",
-                            }}
-                          >
-                            Reject
-                          </Button>
-                          {isRejectSelected &&
-                            fundraiser._id === selectedFundraiser && (
-                              <Grid container>
-                                <Grid item xs={6} md={6}>
-                                  <RadioGroup
-                                    name="rejectReason"
-                                    value={reason}
-                                    onChange={handleRejectReasonChange}
-                                    style={{ marginTop: "1rem" }}
-                                  >
-                                    <FormControlLabel
-                                      value="The fundraiser may lack proper and sufficient proof to support its claims or legitimacy. The proof images provided are unclear, incomplete, or do not adequately substantiate the cause or need for fundraising."
-                                      control={<Radio />}
-                                      label="Insufficient or Inadequate Proof"
-                                    />
-                                    <FormControlLabel
-                                      value=" The fundraiser may involve misrepresentation or fraudulent activities. The proof images provided raise suspicions or doubts about the authenticity or accuracy of the fundraiser's claims, purpose, or intended use of funds.
-"
-                                      control={<Radio />}
-                                      label="Misrepresentation or Fraud"
-                                    />
-                                    <FormControlLabel
-                                      value="The fundraiser does not comply with relevant legal requirements, such as licensing, permits, or regulations. The proof images indicate that the fundraiser may be engaging in activities that are illegal or not authorized by the appropriate authorities."
-                                      control={<Radio />}
-                                      label="Non-Compliance with Legal Requirements"
-                                    />
-                                  </RadioGroup>
-                                </Grid>
-                                <Grid item xs={6} md={6}>
-                                  <RadioGroup
-                                    name="rejectReason"
-                                    value={reason}
-                                    onChange={handleRejectReasonChange}
-                                    style={{ marginTop: "1rem" }}
-                                  >
-                                    <FormControlLabel
-                                      value=" The fundraiser duplicates or overlaps with existing fundraisers or campaigns on the platform. The proof images show similarities or indicate that the fundraiser does not offer a unique or distinct value proposition compared to other ongoing campaigns."
-                                      control={<Radio />}
-                                      label="Duplication or Overlapping"
-                                    />
-                                    <FormControlLabel
-                                      value="The proof images submitted by the fundraiser contain inappropriate or illegal content. This includes images promoting violence, hate speech, discrimination, or any activities that contravene local laws or regulations."
-                                      control={<Radio />}
-                                      label="Inappropriate Content or Illegal Activities"
-                                    />
-                                    <FormControlLabel
-                                      value="The fundraiser's description, details, or proof images contain incomplete or inconsistent information. There are missing or contradictory elements that make it difficult to assess the fundraiser's credibility or understand its purpose and intended impact.
-
-"
-                                      control={<Radio />}
-                                      label="Incomplete or Inconsistent Information"
-                                    />
-                                  </RadioGroup>
-                                </Grid>
-                                <Button
-                                  variant="contained"
-                                  color="primary"
-                                  onClick={() => {
-                                    setIsRejectSelected(false);
-                                  }}
-                                  style={{ marginTop: "1%" ,marginRight:"2%"}}
-                                >
-                                  Go Back
-                                </Button>
-                                <Button
-                                  variant="contained"
-                                  color="error"
-                                  onClick={() => {
-                                    handleReject1(fundraiser._id);
-                                  }}
-                                  style={{ marginTop: "1%" }}
-                                >
-                                  Reject
-                                </Button>
-                              </Grid>
-                            )}
-                        </Grid>
                       </Grid>
                     </div>
                   ))}
@@ -448,15 +286,13 @@ function UnverifiedFundraisers() {
               onClose={handleModalClose}
               sx={{
                 display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
+                justifyContent:"center",
+                alignItems:"center"
               }}
             >
               <Box
                 sx={{
                   outline: 0,
-                  maxWidth: "70%",
-                  maxHeight: "70%",
                   width: "auto",
                   height: "auto",
                 }}
@@ -467,6 +303,8 @@ function UnverifiedFundraisers() {
                   style={{
                     width: "100%",
                     height: "100%",
+                    maxHeight:"80vh",
+                    maxWidth:"80vw",
                     objectFit: "contain",
                   }}
                 />
@@ -479,4 +317,4 @@ function UnverifiedFundraisers() {
   );
 }
 
-export default UnverifiedFundraisers;
+export default VerifiedFundraisers;

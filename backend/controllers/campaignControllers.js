@@ -1,11 +1,19 @@
 const Campaign = require("../models/CampaignModel");
 require("dotenv").config();
+const cloudinary=require("cloudinary").v2;
+
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key:process.env.CLOUD_API ,
+  api_secret: process.env.CLOUD_SECRET
+});
 const getCampaigns = async (req, res, next) => {
   let select = {};
+  const currentDate = new Date();
   let searchQuery = req.query.city || "";
   let query = {};
   if (searchQuery) {
-    query = { $text: { $search: searchQuery } };
+    query = { $text: { $search: searchQuery }, endDate: { $gte: currentDate } };
     select = {
       score: { $meta: "textScore" },
     };
@@ -13,16 +21,37 @@ const getCampaigns = async (req, res, next) => {
   try {
     const campaigns = await Campaign.find(query, select)
       .sort({ score: -1 })
-      .orFail()
-      .select("name goal city startDate endDate");
+      .orFail();
     if (!campaigns) res.status(404).send("No campaigns in your city");
     res.status(200).send(campaigns);
   } catch (err) {
     next(err);
   }
 };
+const deleteCampaign = async (req, res, next) => {
+  try {
+    const campaign = await Campaign.findByIdAndDelete({
+      _id: req.params.id,
+    }).orFail();
 
-//can only be created by admins
+    await new Promise((resolve, reject) => {
+      cloudinary.uploader.destroy(campaign.image.public_id, (err, result) => {
+        if (err) {
+          console.error(err);
+          res.status(500).json({ message: err.message });
+        } else {
+          resolve();
+        }
+      });
+    });
+
+    res.status(201).json({ successful: true, cloud: true });
+  } catch (err) {
+    next(err);
+  }
+};
+
+
 const createCampaigns = async (req, res, next) => {
   try {
     const {
@@ -32,7 +61,6 @@ const createCampaigns = async (req, res, next) => {
       address,
       startDate,
       endDate,
-      image,
       goal,
       organizer,
       contactEmail,
@@ -44,9 +72,8 @@ const createCampaigns = async (req, res, next) => {
       description,
       city,
       address,
-      startDate,
-      endDate,
-      image,
+      startDate: new Date(startDate),
+      endDate: new Date(endDate),
       goal,
       organizer,
       contactEmail,
@@ -54,12 +81,23 @@ const createCampaigns = async (req, res, next) => {
     });
 
     const savedCampaign = await campaign.save();
-    res.status(201).json(savedCampaign);
+    res.status(201).json({ id: savedCampaign._id });
   } catch (error) {
     next(err);
   }
 };
-
+const uploadImage = async (req, res, next) => {
+  try {
+    const id = req.query.id;
+    const fundraiser = await Campaign.findById(id).orFail();
+    fundraiser.image.path = req.body.url;
+    fundraiser.image.public_id = req.body.public_id;
+    await fundraiser.save();
+    res.status(201).json({campaign:fundraiser});
+  } catch (err) {
+    next(err);
+  }
+};
 const getRecentCampaigns = async (req, res) => {
   try {
     const campaigns = await Campaign.find({})
@@ -208,6 +246,8 @@ module.exports = {
   createCampaigns,
   button,
   rsvped,
+  uploadImage,
+  deleteCampaign,
   getMyEvents,
   getAttendedEvents,
 };

@@ -1,8 +1,12 @@
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import { useEffect } from "react";
-import { ToastContainer } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
+import { logout, reset } from "./redux/authSlice"
+import OngoingCampaigns from "./components/Admin/OngoingCampaigns";
 import CampaignDetailsPage from "./pages/CampaignDetailsPage";
 import ItemDonationPage from "./pages/ItemDonationPage";
 import FoodDonationPage from "./pages/FoodDonationPage";
@@ -22,7 +26,7 @@ import Register from "./pages/RegisterPage";
 import MyEventsPage from "./pages/user/MyEventsPage";
 import MyDonationsPage from "./pages/user/MyDonationsPage";
 import MyFundraisersPage from "./pages/user/MyFundraisersPage";
-import MyProfilePage from "./pages/user/MyProfilePage";
+
 import FoodPageComponent from "./pages/FoodPageComponent";
 import ItemPageComponent from "./pages/ItemPageComponent";
 import ThankYouPage from "./pages/ThankYouPage";
@@ -30,16 +34,40 @@ import { useSelector } from "react-redux";
 import UnverifiedFundraisers from "./components/Admin/UnverifiedFundraisers";
 import { useState } from "react";
 import DeleteFundRaiser from "./pages/user/DeleteFundRaiser";
+import VerifiedFundraisers from "./components/Admin/VerifiedFundraisers";
+import CreateCampaign from "./components/Admin/CreateCampaign";
+import UserPage from "./components/Admin/UserPage";
 export default function App() {
   const { user } = useSelector((state) => state.auth);
   const [admin, setAdmin] = useState(false);
-
+  const dispatch = useDispatch();
+  const navigate=useNavigate();
   useEffect(() => {
     if (user) {
       if (user.isAdmin) setAdmin(true);
       else if (!user.isAdmin) setAdmin(false);
     }
   }, [user]);
+  setInterval(function () {
+    if (localStorage.getItem("user")) {
+      const userData = JSON.parse(localStorage.getItem("user"));
+      const expirationTime = userData.expDate;
+      const admin=userData.isAdmin
+      if (expirationTime < new Date().getTime()) {
+        localStorage.removeItem("user");
+        dispatch(logout());
+        dispatch(reset());
+        if(admin)
+        {
+          navigate("/");
+        }
+        toast.info("Session has expired. Please Log in again.", {
+          autoClose: 1500,
+        });
+      }
+    }
+  }, 2500);
+
   return (
     <>
       {" "}
@@ -69,17 +97,27 @@ export default function App() {
             path="/help-fundraiser/:id"
             element={<FundraiserDetailsPage />}
           />
-          <Route
-            path="/delete-fundraiser/:id"
-            element={<DeleteFundRaiser />}
-          />
-          <Route path="/my-profile" element={<MyProfilePage />} />
+          <Route path="/delete-fundraiser/:id" element={<DeleteFundRaiser />} />
+          
         </Route>
         <Route element={<ProtectedRoutes admin={true} />}>
           <Route
-            path="/admin/fundraisers"
+            path="/admin/fundraisers/unverified"
             element={<UnverifiedFundraisers />}
           />
+          <Route
+            path="/admin/fundraisers/verified"
+            element={<VerifiedFundraisers />}
+          />
+          <Route
+            path="/admin/campaigns/ongoing"
+            element={<OngoingCampaigns />}
+          />
+          <Route
+            path="/admin/campaigns/create-new"
+            element={<CreateCampaign />}
+          />
+          <Route path="/admin/users" element={<UserPage />} />
         </Route>
       </Routes>
       <ToastContainer />

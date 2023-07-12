@@ -13,6 +13,7 @@ import {
 import { HiOutlineMail } from "react-icons/hi";
 import { Link as ScrolLink } from "react-scroll";
 import { logout, reset } from "../redux/authSlice";
+import { Divider } from "@mui/material";
 export default function Navbar() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
@@ -121,9 +122,9 @@ export default function Navbar() {
               <div className="relative">
                 <button
                   onClick={handleDropdownToggle}
-                  className="flex items-center text-white hover:text-amber-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white rounded-full p-1"
+                  className="flex items-center text-white hover:text-amber-400 focus:outline-none ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 ring-white rounded-full border-black p-2"
                 >
-                  <FaUser className="sm:block hidden w-6 h-6" />
+                 <div className="text-sm"> {user.name.charAt(0) + user.lastName.charAt(0)}</div>
                 </button>
                 {showDropdown && (
                   <div
@@ -132,6 +133,8 @@ export default function Navbar() {
                     aria-orientation="vertical"
                     aria-labelledby="user-menu"
                   >
+                 <div className="p-1 bg-gray-200 shadow-md">{user.name+" "+user.lastName}</div>
+                 
                     <Link
                       to="/my-fundraisers"
                       className="block p-1 hover:bg-gray-300"
@@ -153,13 +156,7 @@ export default function Navbar() {
                     >
                       My Events
                     </Link>
-                    <Link
-                      to="/my-profile"
-                      className="block p-1 hover:bg-gray-300"
-                      role="menuitem"
-                    >
-                      My Profile
-                    </Link>
+                    
                     <button
                       onClick={() => {
                         dispatch(logout());
