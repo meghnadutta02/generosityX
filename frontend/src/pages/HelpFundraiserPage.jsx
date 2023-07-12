@@ -35,7 +35,7 @@ export default function HelpFundraiserPage() {
   return (
     <div
       style={{ minHeight: "70vh" }}
-      className="container p-16 py-24 lg:px-60 fundraiser-mesh "
+      className=" p-16 py-24 lg:px-60 fundraiser-mesh "
     >
       <h2 className="text-4xl font-bold text-center mb-8">
         Help these fundraisers
@@ -95,7 +95,12 @@ export default function HelpFundraiserPage() {
                   new Date(fundraiser.endDate) <= futureDate && (
                     <Alert
                       severity="warning"
-                      sx={{ padding: "0.5%", backgroundColor: "transparent",display:"flex",justifyContent:"center"}}
+                      sx={{
+                        padding: "0.5%",
+                        backgroundColor: "transparent",
+                        display: "flex",
+                        justifyContent: "center",
+                      }}
                     >
                       Deadline is approaching!
                     </Alert>
