@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Alert, AlertTitle } from "@mui/material";
 import { useParams } from "react-router-dom";
 import CommentPage from "./CommentPage";
-import {toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 export default function MoneyDonationPage(props) {
   const { id } = useParams();
@@ -29,18 +29,15 @@ export default function MoneyDonationPage(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { amount } = data;
-    if (amount < 10 ) {
+    if (amount < 10) {
       toast.error("Minimum donation amount is $10");
       return;
-    }
-    else if(amount > 10000)
-    {
+    } else if (amount > 10000) {
       toast.error("Maximum donation amount is $10,000");
       return;
     }
     setSubmit(true);
   };
-  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -95,7 +92,20 @@ export default function MoneyDonationPage(props) {
     };
 
     confirmPayment();
-  }, [clientSecret,id]);
+  }, [clientSecret, id]);
+
+  const cardElementOptions = {
+    style: {
+      base: {
+        border: "1px solid black",
+        fontSize: "16px",
+        color: "red",
+        "::placeholder": {
+          color: "gray",
+        },
+      },
+    },
+  };
 
   return (
     <div>
@@ -136,7 +146,7 @@ export default function MoneyDonationPage(props) {
                     Enter amount to contritbute
                   </label>
 
-                  <div className="flex mt-2 rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                  <div className="flex mt-2 bg-gray-100 rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
                     <input
                       type="number"
                       name="amount"
@@ -165,7 +175,7 @@ export default function MoneyDonationPage(props) {
                       onChange={handleChange}
                       value={data.comments}
                       rows={3}
-                      className="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:py-1.5 sm:text-lg sm:leading-6"
+                      className="block w-full rounded-md bg-gray-100 border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:py-1.5 sm:text-lg sm:leading-6"
                       defaultValue={""}
                     />
                   </div>
@@ -177,7 +187,7 @@ export default function MoneyDonationPage(props) {
               <h2 className="text-2xl font-semibold leading-7 text-gray-900">
                 Personal Information
               </h2>
-              <div className="mt-10 grid grid-cols-1 gap-y-8 gap-x-6 sm:grid-cols-6">
+              <div className="mt-4 grid grid-cols-1 gap-y-8 gap-x-6 sm:grid-cols-6">
                 <div className="sm:col-span-3">
                   <label
                     htmlFor="first-name"
@@ -241,15 +251,15 @@ export default function MoneyDonationPage(props) {
             </div>
           </div>
           {/* Payment Method section */}
-          <div className="pb-4">
+          <div className="pb-4 mt-4">
             <h2 className="text-2xl font-semibold leading-7 text-gray-900">
-              Payment Method
+              <u>Payment Method</u>
             </h2>
-            <div className="mt-10">
-              <div>
-                <p>Card Details</p>
-                {/* Card Element */}
-                <CardElement />
+            <div className="mt-8 mx-4">
+              <p className="text-xl my-2">Card Details</p>
+              {/* Card Element */}
+              <div className="bg-gray-200 border-2 border-green-800 rounded-md p-2">
+                <CardElement options={cardElementOptions} />
               </div>
             </div>
           </div>
