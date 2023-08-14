@@ -103,7 +103,7 @@ const getRecentCampaigns = async (req, res) => {
     const campaigns = await Campaign.find({})
       .sort({ createdAt: "desc" })
       .limit(5)
-      .select("name goal city startDate endDate");
+      .select("name goal city startDate endDate image");
     res.json(campaigns);
   } catch (err) {
     console.error(err);
@@ -184,6 +184,44 @@ const button = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+const contact = async (req, res) => {
+  try {
+    const { name, email, message } = req.body;
+
+    const accessToken = await oauth2Client.getAccessToken();
+    const transport = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        type: "OAuth2",
+        user: "meghnakha18@gmail.com",
+        clientId: process.env.CLIENT_ID,
+        clientSecret: process.env.CLIENT_SECRET,
+        refreshToken: process.env.refreshToken,
+        accessToken: accessToken,
+      },
+    });
+
+    const mailOptions = {
+      from: "Fundraiser <meghnakha18@gmail.com>",
+      to: "meghnadutta02@gmail.com", 
+      subject: "New Contact Message",
+      html: `
+        <h3>New Contact Message</h3>
+        <p>Name: ${name}</p>
+        <p>Email: ${email}</p>
+        <p>Message: ${message}</p>
+      `,
+    };
+
+    const result = await transport.sendMail(mailOptions);
+    res.status(200).json({ result, successful: true });
+  } catch (error) {
+    
+    console.error(error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
 const getMyEvents = async (req, res, next) => {
   try {
     const campaigns = await Campaign.find({
@@ -243,6 +281,7 @@ module.exports = {
   getCampaigns,
   getRecentCampaigns,
   getCampaignById,
+  contact,
   createCampaigns,
   button,
   rsvped,

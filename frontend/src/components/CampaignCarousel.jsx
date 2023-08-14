@@ -9,31 +9,38 @@ export default function CampaignCarousel() {
     const fetchData = async () => {
       let url = "/api/campaigns/recent";
       const result = await axios.get(url);
+
       setCampaigns(result.data);
+
     };
     fetchData();
+
   }, []);
 
   return (
     <>
-      <div name="campaigns" className="py-8">
+      {campaigns && campaigns.length > 0 && <div name="campaigns" className="py-8">
         <h2 className="text-4xl font-bold  inline border-b-4 border-blue-600 tracking-tight text-gray-900">
           Upcoming Campaigns
+
         </h2>
 
         <div className="mt-6 p-8 flex overflow-x-auto">
           {campaigns.map((campaign) => (
             <div
-              className="bg-orange-200 rounded-md mr-4 border-2 border-black min-h-50 shadow-lg shadow-blue-600 hover:scale-110 transition ease-in-out delay-50"
+              className="bg-orange-200 rounded-md mr-4   min-h-50 shadow-md overflow-hidden shadow-orange-300 hover:scale-110 transition ease-in-out delay-50 h-[320px] w-[270px] "
               key={campaign._id}
             >
               <Link to={`/campaigns/${campaign._id}`}>
                 <div className="h-40 flex justify-center">
-                  <img
-                    src={campaign.image}
-                    alt="Campaign image"
-                    className="h-full object-cover object-center"
-                  />
+
+                  {campaign.image && campaign.image.path && (
+                    <img
+                      src={campaign.image.path}
+                      alt="Campaign image"
+                      className="h-full w-full object-cover object-center"
+                    />
+                  )}
                 </div>
                 <div className="mx-4 px-4">
                   <h3 className="text-lg font-bold">{campaign.name}</h3>
@@ -51,7 +58,7 @@ export default function CampaignCarousel() {
             </div>
           ))}
         </div>
-      </div>
+      </div>}
       <div className="flex justify-center mb-24">
         <Link to="/campaigns">
           <div className="text-sm font-medium hover:bg-pink-300 border-2 border-red-400 rounded-md p-2">

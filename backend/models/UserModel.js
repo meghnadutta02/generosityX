@@ -42,6 +42,9 @@ const userSchema = new mongoose.Schema(
       required: true,
       default: false,
     },
+    pfp:{
+      type:String
+    }
   },
   { timestamps: true }
 );

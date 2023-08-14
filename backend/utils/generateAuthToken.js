@@ -4,6 +4,6 @@ const generateAuthToken = (_id, name, lastName, email, isAdmin,doNotLogout) => {
     { _id, name, lastName, email, isAdmin },
     process.env.JWT_SECRET_KEY,
     { expiresIn: doNotLogout ? "7d" : "7h" }
-  ); //7 hours
+  );
 };
 module.exports={generateAuthToken};

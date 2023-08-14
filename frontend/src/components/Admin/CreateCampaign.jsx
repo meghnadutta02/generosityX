@@ -238,7 +238,7 @@ function CreateCampaign() {
                         
                           <div className="carousel-cover-image">
                             <img
-                              src={campaign.image.path}
+                              src={campaign.image.path.path}
                               alt="Campaign Cover"
                               style={{
                                 maxHeight: "300px",

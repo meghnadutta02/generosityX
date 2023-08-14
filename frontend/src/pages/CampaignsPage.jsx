@@ -152,7 +152,7 @@ export default function CampaignsPage() {
                   <Link to={`/campaigns/${campaign._id}`}>
                     <div className="h-40 flex justify-center">
                       <img
-                        src={campaign.image}
+                        src={campaign.image.path}
                         alt="Campaign image"
                         className="h-full object-cover object-center"
                       />

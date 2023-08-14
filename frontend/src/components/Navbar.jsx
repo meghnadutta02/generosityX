@@ -122,7 +122,7 @@ export default function Navbar() {
               <div className="relative">
                 <button
                   onClick={handleDropdownToggle}
-                  className="flex items-center text-white hover:text-amber-400 focus:outline-none ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 ring-white rounded-full border-black p-2"
+                  className="flex items-center text-white hover:text-amber-400 focus:outline-none ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 ring-white rounded-full p-3 border-black "
                 >
                  <div className="text-sm"> {user.name.charAt(0) + user.lastName.charAt(0)}</div>
                 </button>
