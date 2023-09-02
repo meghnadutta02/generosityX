@@ -4,6 +4,7 @@ import { CircularProgress, Button, Alert } from "@mui/material";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import { useParams } from "react-router";
+import { toast } from "react-toastify";
 
 export default function ItemPageComponent() {
   const { id } = useParams();
@@ -30,8 +31,10 @@ export default function ItemPageComponent() {
 
   const handleDelete = async () => {
     try {
-      const { data } = await axios.delete(`/api/fundraisers/delete/${id}`);
-      if (data.successful) {
+      const response = await axios.delete(`/api/fundraisers/delete/${id}`);
+      if(response.status===401)
+        toast.error("Unauthorized access!")
+      if (response.data.successful) {
         setDeletionSuccess(true);
       }
     } catch (error) {

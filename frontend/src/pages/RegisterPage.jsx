@@ -37,16 +37,17 @@ const Register = () => {
     if (isSuccess || user) navigate("/");
     dispatch(reset());
   }, [user, isError, message, isSuccess, dispatch, navigate]);
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => 
+  {
     e.preventDefault();
     if (userData.password !== userData.confirmPassword) {
       setError("Passwords do not match.");
       return;
     }
-
     try {
-      await dispatch(register(userData));
+      dispatch(register(userData));
     } catch (err) {
+      console.log(err)
       setError(err.message || "An error occurred. Please try again.");
     }
   };

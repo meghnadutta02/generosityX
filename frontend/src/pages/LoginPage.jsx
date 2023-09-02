@@ -39,7 +39,7 @@ const LoginPageComponent = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await dispatch(login(formData));
+      dispatch(login(formData));
     } catch (err) {
       setError(err.message || "An error occurred. Please try again.");
     }

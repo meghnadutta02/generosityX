@@ -150,9 +150,15 @@ const myFundraisers = async (req, res, next) => {
 };
 const deleteFundRaiser = async (req, res, next) => {
   try {
-    const fundraiser = await Fundraiser.findByIdAndDelete({
+
+    const fundraiser = await Fundraiser.findById({
       _id: req.params.id,
     }).orFail();
+    if (req.user.email != fundraiser.creator.email) {
+      return res.status(401).send("Unauthorized!")
+
+    }
+    await Fundraiser.deleteOne({ _id: req.params.id });
     await Promise.all(
       fundraiser.image.map(
         (image) =>
@@ -160,17 +166,18 @@ const deleteFundRaiser = async (req, res, next) => {
             cloudinary.uploader.destroy(image.public_id, (err, result) => {
               if (err) {
                 console.error(err);
-                reject({ error: err }); 
+                reject({ error: err });
               } else {
-                resolve(); 
+                resolve();
               }
             });
           })
       )
     ).catch((error) => {
-      res.status(500).json({ message: error.error }); 
-    }).then(()=> res.status(201).json({ successful: true, cloud: true }));
-   
+      res.status(500).json({ message: error.error });
+    })
+    res.status(201).json({ successful: true, cloud: true });
+
   } catch (err) {
     next(err);
   }

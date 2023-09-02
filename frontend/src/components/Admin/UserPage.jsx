@@ -60,7 +60,7 @@ function UserPage() {
   };
 
   return (
-    <div style={{ minHeight: "80vh" }}>
+    <div style={{ minHeight: "80vh" ,paddingTop: "100px" }}>
       <Grid
         container
         sx={{
@@ -69,9 +69,9 @@ function UserPage() {
           },
         }}
       >
-        <Grid item xs={12}>
+        {/* <Grid item xs={12}>
           <AdminNavbar />
-        </Grid>
+        </Grid> */}
         <Grid item xs={12} md={2}>
           <Sidebar />
         </Grid>

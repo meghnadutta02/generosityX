@@ -43,7 +43,7 @@ function OngoingCampaigns() {
   }, []);
 
   return (
-    <div style={{ minHeight: "80vh" }}>
+    <div style={{ minHeight: "80vh" ,paddingTop: "100px" }}>
       <Grid
         container
         sx={{
@@ -52,9 +52,9 @@ function OngoingCampaigns() {
           },
         }}
       >
-        <Grid item xs={12}>
+        {/* <Grid item xs={12}>
           <AdminNavbar />
-        </Grid>
+        </Grid> */}
         <Grid item xs={12} md={2}>
           <Sidebar />
         </Grid>
@@ -159,7 +159,7 @@ function OngoingCampaigns() {
                           <Grid item xs={12} md={9}>
                             <div className="carousel-cover-image">
                               <img
-                                src={campaign.image.path.path}
+                                src={campaign.image.path}
                                 alt="Campaign Cover"
                                 style={{
                                   maxHeight: "300px",

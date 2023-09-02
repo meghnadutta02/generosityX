@@ -56,7 +56,7 @@ function VerifiedFundraisers() {
   };
 
   return (
-    <div style={{ minHeight: "75vh" }}>
+    <div style={{ minHeight: "75vh" ,paddingTop: "100px" }}>
       <Grid
         container
         sx={{
@@ -65,9 +65,9 @@ function VerifiedFundraisers() {
           },
         }}
       >
-        <Grid item xs={12}>
+        {/* <Grid item xs={12}>
           <AdminNavbar />
-        </Grid>
+        </Grid> */}
         <Grid item xs={12} md={2}>
           <Sidebar />
         </Grid>

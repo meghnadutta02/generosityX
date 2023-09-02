@@ -38,29 +38,18 @@ import VerifiedFundraisers from "./components/Admin/VerifiedFundraisers";
 import CreateCampaign from "./components/Admin/CreateCampaign";
 import UserPage from "./components/Admin/UserPage";
 export default function App() {
-  const { user } = useSelector((state) => state.auth);
   const [admin, setAdmin] = useState(false);
   const dispatch = useDispatch();
-  const navigate=useNavigate();
-  useEffect(() => {
-    if (user) {
-      if (user.isAdmin) setAdmin(true);
-      else if (!user.isAdmin) setAdmin(false);
-    }
-  }, [user]);
+  const navigate = useNavigate();
+
   setInterval(function () {
     if (localStorage.getItem("user")) {
       const userData = JSON.parse(localStorage.getItem("user"));
       const expirationTime = userData.expDate;
-      const admin=userData.isAdmin
       if (expirationTime < new Date().getTime()) {
         localStorage.removeItem("user");
         dispatch(logout());
         dispatch(reset());
-        if(admin)
-        {
-          navigate("/");
-        }
         toast.info("Session has expired. Please Log in again.", {
           autoClose: 1500,
         });
@@ -71,7 +60,7 @@ export default function App() {
   return (
     <>
       {" "}
-      {(!admin || !user) && <Navbar />}
+      <Navbar />
       <ScrollToTop />
       <Chatbot />
       <Routes>
@@ -98,7 +87,7 @@ export default function App() {
             element={<FundraiserDetailsPage />}
           />
           <Route path="/delete-fundraiser/:id" element={<DeleteFundRaiser />} />
-          
+
         </Route>
         <Route element={<ProtectedRoutes admin={true} />}>
           <Route

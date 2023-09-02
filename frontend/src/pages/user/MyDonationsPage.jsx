@@ -33,7 +33,7 @@ export default function MyDonationsPage() {
   }, []);
 
   return (
-    <div className=" py-16 px-4 sm:px-6 lg:px-8" style={{ minHeight: "80vh" }}>
+    <div className=" py-16 px-4 sm:px-6 lg:px-8" style={{ minHeight: "90vh" }}>
       {isLoading ? (
         <div className="flex mt-20 justify-center">
           <CircularProgress />
