@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";import Logo from "../assets/generosityLogo.png";
+import { useNavigate } from "react-router-dom";
+import Logo from "../assets/generosityLogo.png";
 
 import {
   FaLinkedin,
@@ -9,7 +10,7 @@ import {
   FaTwitter,
   FaBars,
   FaTimes,
-  FaUser
+  FaUser,
 } from "react-icons/fa";
 import { HiOutlineMail } from "react-icons/hi";
 import { Link as ScrolLink } from "react-scroll";
@@ -138,9 +139,10 @@ export default function Navbar() {
                   <div className="relative">
                     <button
                       onClick={handleDropdownToggle}
-                      className="flex items-center text-white hover:text-amber-400 ">
+                      className="flex items-center text-white hover:text-amber-400 "
+                    >
                       <div className="text-2xl mr-2">
-                        <FaUser/>
+                        <FaUser />
                       </div>
                     </button>
                     {showDropdown && (
@@ -180,7 +182,7 @@ export default function Navbar() {
                           onClick={() => {
                             dispatch(logout());
                             dispatch(reset());
-                            navigate("/")
+                            navigate("/");
                           }}
                           className="block w-full text-left p-1 hover:bg-indigo-500 hover:text-white"
                         >
@@ -261,7 +263,7 @@ export default function Navbar() {
                 onClick={() => {
                   dispatch(logout());
                   dispatch(reset());
-                  navigate("/")
+                  navigate("/");
                 }}
                 className="border px-4 py-2 rounded-lg hover:text-amber-400 hover:border-purple-600"
               >
@@ -283,4 +285,3 @@ export default function Navbar() {
     </>
   );
 }
-export default Navbar;
