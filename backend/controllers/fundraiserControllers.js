@@ -1,9 +1,9 @@
 require("dotenv").config();
-const cloudinary=require("cloudinary").v2;
+const cloudinary = require("cloudinary").v2;
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
-  api_key:process.env.CLOUD_API ,
+  api_key: process.env.CLOUD_API,
   api_secret: process.env.CLOUD_SECRET
 });
 const Fundraiser = require("../models/FundraiserModel");
@@ -51,7 +51,7 @@ oauth2Client.setCredentials({
 });
 const rejectFundraiser = async (req, res, next) => {
   try {
-    const  {reason}  = req.body;
+    const { reason } = req.body;
     if (!reason) {
       return res.status(400).send("Please state reason");
     }
@@ -130,7 +130,7 @@ const uploadImage = async (req, res, next) => {
   try {
     const id = req.query.id;
     const fundraiser = await Fundraiser.findById(id).orFail();
-    fundraiser.image.push({ path: req.body.url,public_id:req.body.public_id });
+    fundraiser.image.push({ path: req.body.url, public_id: req.body.public_id });
 
     await fundraiser.save();
     res.status(201).send("Images uploaded and fundraiser created");
@@ -150,9 +150,15 @@ const myFundraisers = async (req, res, next) => {
 };
 const deleteFundRaiser = async (req, res, next) => {
   try {
-    const fundraiser = await Fundraiser.findByIdAndDelete({
+
+    const fundraiser = await Fundraiser.findById({
       _id: req.params.id,
     }).orFail();
+    if (req.user.email != fundraiser.creator.email) {
+      return res.status(401).send("Unauthorized!")
+
+    }
+    await Fundraiser.deleteOne({ _id: req.params.id });
     await Promise.all(
       fundraiser.image.map(
         (image) =>
@@ -160,15 +166,18 @@ const deleteFundRaiser = async (req, res, next) => {
             cloudinary.uploader.destroy(image.public_id, (err, result) => {
               if (err) {
                 console.error(err);
-                res.status(500).json({ message: err.message });
+                reject({ error: err });
               } else {
                 resolve();
               }
             });
           })
       )
-    );
+    ).catch((error) => {
+      res.status(500).json({ message: error.error });
+    })
     res.status(201).json({ successful: true, cloud: true });
+
   } catch (err) {
     next(err);
   }
@@ -215,7 +224,7 @@ const verifyFundraiser = async (req, res, next) => {
 const unverifiedFundraisers = async (req, res, next) => {
   try {
     const fundraisers = await Fundraiser.find({ isVerified: false })
-    .sort({ createdAt: -1 })
+      .sort({ createdAt: -1 })
       .populate("donations", "-user -comments -createdAt -updatedAt -__v")
       .orFail();
     res.status(200).json({

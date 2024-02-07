@@ -103,6 +103,7 @@ export default function CampaignDetailsPage(props) {
                [ shadow-black/70 shadow-2xl ]"
           >
           <div  className="mx-auto w-5/6 flex justify-center">
+         
           <img src={campaign.image && campaign.image.path} alt="campaign image"/>
           </div>
             

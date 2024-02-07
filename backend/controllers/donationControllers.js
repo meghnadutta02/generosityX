@@ -2,12 +2,12 @@ require("dotenv").config();
 const stripe = require("stripe")(
   "sk_test_51NERLdSFxAjVW5eEGmmD0prvR7tqz32KyK8OtR33zPfHyuGCBR7C21XeRk59y7Y86FQ7NxnCcWPJm5F8knbhnTni00Ki3nUhuH"
 );
-const cloudinary=require("cloudinary").v2;
+const cloudinary = require("cloudinary").v2;
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
-  api_key:process.env.CLOUD_API ,
-  api_secret: process.env.CLOUD_SECRET
+  api_key: process.env.CLOUD_API,
+  api_secret: process.env.CLOUD_SECRET,
 });
 const DonateFood = require("../models/DonateFoodModel");
 const DonateItem = require("../models/DonateItemModel");
@@ -65,7 +65,9 @@ const requestPayment = async (req, res, next) => {
 };
 const item = async (req, res, next) => {
   try {
-    const itemdonation = await DonateItem.findOne({ _id: req.params.id }).orFail();
+    const itemdonation = await DonateItem.findOne({
+      _id: req.params.id,
+    }).orFail();
     res.status(200).json(itemdonation);
   } catch (err) {
     next(err);
@@ -73,7 +75,9 @@ const item = async (req, res, next) => {
 };
 const food = async (req, res, next) => {
   try {
-    const fooddonation = await DonateFood.findOne({ _id: req.params.id }).orFail();
+    const fooddonation = await DonateFood.findOne({
+      _id: req.params.id,
+    }).orFail();
     res.status(200).json(fooddonation);
   } catch (err) {
     next(err);
@@ -82,43 +86,50 @@ const food = async (req, res, next) => {
 const deleteProduct = async (req, res, next) => {
   try {
     if (req.query.type === "food") {
-      const fooddonation = await DonateFood.findByIdAndDelete({ _id: req.params.id }).orFail();
-      await Promise.all(fooddonation.images.map((image) =>
-        new Promise((resolve, reject) => {
-          console.log(image.public_id);
-          cloudinary.uploader.destroy(image.public_id, (err, result) => {
-            if (err) {
-              console.error(err);
-              res.status(500).json({message: err.message });
-            } else {
-              resolve();
-            }
-          });
-        })
-      ));
+      const fooddonation = await DonateFood.findByIdAndDelete({
+        _id: req.params.id,
+      }).orFail();
+      await Promise.all(
+        fooddonation.images.map(
+          (image) =>
+            new Promise((resolve, reject) => {
+              cloudinary.uploader.destroy(image.public_id, (err, result) => {
+                if (err) {
+                  console.error(err);
+                  res.status(500).json({ message: err.message });
+                } else {
+                  resolve();
+                }
+              });
+            })
+        )
+      );
       res.status(201).json({ successful: true, cloud: true });
     } else if (req.query.type === "item") {
-      const itemdonation = await DonateItem.findByIdAndDelete({ _id: req.params.id }).orFail();
-      await Promise.all(itemdonation.images.map((image) =>
-        new Promise((resolve, reject) => {
-          cloudinary.uploader.destroy(image.public_id, (err, result) => {
-            if (err) {
-              console.error(err);
-              res.status(500).json({message: err.message });
-            } else {
-              resolve();
-            }
-          });
-        })
-      ));
+      const itemdonation = await DonateItem.findByIdAndDelete({
+        _id: req.params.id,
+      }).orFail();
+      await Promise.all(
+        itemdonation.images.map(
+          (image) =>
+            new Promise((resolve, reject) => {
+              cloudinary.uploader.destroy(image.public_id, (err, result) => {
+                if (err) {
+                  console.error(err);
+                  res.status(500).json({ message: err.message });
+                } else {
+                  resolve();
+                }
+              });
+            })
+        )
+      );
       res.status(201).json({ successful: true, cloud: true });
     }
   } catch (err) {
     next(err);
   }
 };
-
-
 
 const donateMoney = async (req, res, next) => {
   try {
@@ -149,12 +160,12 @@ const imageUpload = async (req, res, next) => {
     const id = req.params.id;
     if (type === "item") {
       const item = await DonateItem.findById(id).orFail();
-      item.images.push({path:req.body.url,public_id:req.body.public_id});
+      item.images.push({ path: req.body.url, public_id: req.body.public_id });
       await item.save();
       res.status(201).json({ item: item });
-    } else if(type === "food")  {
+    } else if (type === "food") {
       const food = await DonateFood.findById(id).orFail();
-      food.images.push({path:req.body.url,public_id:req.body.public_id});
+      food.images.push({ path: req.body.url, public_id: req.body.public_id });
       await food.save();
       res.status(201).json({ food: food });
     }
@@ -185,7 +196,7 @@ const donate = async (req, res, next) => {
       } catch (err) {
         next(err);
       }
-    } else if(req.query.type === "food") {
+    } else if (req.query.type === "food") {
       try {
         const { quantity, description, city, country, postal, state, street } =
           req.body;
@@ -203,7 +214,7 @@ const donate = async (req, res, next) => {
         donation.pickupAddress.state = state;
         donation.pickupAddress.street = street;
         donation.save();
-        res.status(201).json({id: donation._id});
+        res.status(201).json({ id: donation._id });
       } catch (err) {
         next(err);
       }

@@ -18,8 +18,9 @@ export const register = createAsyncThunk(
   async (userData, thunkAPI) => {
     try {
       const res = await axios.post("/api/users/register", userData);
+      
       if (res.data) {
-        localStorage.setItem("user", JSON.stringify(res.data));
+        sessionStorage.setItem("user", JSON.stringify(res.data));
       }
       return res.data;
     } catch (err) {
@@ -36,10 +37,12 @@ export const register = createAsyncThunk(
 );
 export const logout = createAsyncThunk("auth/logout", async () => {
   await axios.get("/api/logout");
+ 
   const localUser = localStorage.getItem("user");
   const sessionUser = sessionStorage.getItem("user");
   if (localUser) localStorage.removeItem("user");
   else if (sessionUser) sessionStorage.removeItem("user");
+ 
   return null;
 });
 export const login = createAsyncThunk("auth/login", async (user, thunkAPI) => {

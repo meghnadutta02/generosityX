@@ -26,40 +26,7 @@ const MyProfilePage = () => {
     getProfile();
   }, []);
 
-  useEffect(() => {
-    const profile = {
-      name,
-      age,
-      email,
-      address,
-      contact,
-      profileImage,
-    };
-
-    localStorage.setItem("profile", JSON.stringify(profile));
-  }, [name, age, email, address, contact, profileImage]);
-
-  const handleEdit = () => {
-    setEditing(true);
-  };
-
-  const handleUpdate = () => {
-    // Here you can perform any necessary validation or API calls to update the profile data
-    setEditing(false);
-  };
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-
-    reader.onloadend = () => {
-      setProfileImage(reader.result);
-    };
-
-    if (file) {
-      reader.readAsDataURL(file);
-    }
-  };
+  
 
   return (
     <div className="container min-h-full py-16 lg:px-48">

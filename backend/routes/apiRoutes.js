@@ -18,6 +18,7 @@ app.get("/get-token", (req, res) => {
     return res.status(401).send("Unauthorized. Invalid Token");
   }
 });
+
 app.use("/fundraisers", fundraiserRoutes);
 app.use("/campaigns", campaignRoutes);
 app.use("/donations", donationRoutes);
