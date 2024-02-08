@@ -14,7 +14,6 @@ const getUsers = async (req, res, next) => {
           { email: { $regex: new RegExp(searchQuery, "i") } },
         ],
       };
-      
     }
     const users = await User.find(query).select("-password").orFail();
     return res.json({ users: users });
@@ -22,12 +21,15 @@ const getUsers = async (req, res, next) => {
     next(err);
   }
 };
-const makeAdmin= async (req, res, next) => {
+const makeAdmin = async (req, res, next) => {
   try {
-    let id = req.params.id 
-   
-    const user = await User.findOneAndUpdate({_id:id},{isAdmin:true}).orFail();
-    return res.status(201).json({successful:true });
+    let id = req.params.id;
+
+    const user = await User.findOneAndUpdate(
+      { _id: id },
+      { isAdmin: true }
+    ).orFail();
+    return res.status(201).json({ successful: true });
   } catch (err) {
     next(err);
   }
@@ -71,7 +73,7 @@ const registerUser = async (req, res, next) => {
           {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
+            sameSite: "none",
           }
         )
         .status(201)
@@ -99,7 +101,7 @@ const loginUser = async (req, res, next) => {
       let cookieParams = {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
+        sameSite: "none",
       };
       if (doNotLogout) {
         cookieParams = { ...cookieParams, maxAge: 1000 * 60 * 60 * 24 * 7 };
@@ -124,8 +126,7 @@ const loginUser = async (req, res, next) => {
           lastName: user.lastName,
           email: user.email,
           isAdmin: user.isAdmin,
-          doNotLogout
-
+          doNotLogout,
         });
     } else {
       res.status(401).json({ error: "Wrong Credentials" });
