@@ -61,7 +61,9 @@ function CreateCampaign() {
   const [id, setId] = useState("");
   const handleDelete = async () => {
     try {
-      const { data } = await axios.delete(`/api/campaigns/delete/${id}`);
+      const { data } = await axios.delete(
+        `https://generosityx-backend.onrender.com/api/campaigns/delete/${id}`
+      );
       if (data.successful) {
         setDeletionSuccess(true);
       }
@@ -129,7 +131,10 @@ function CreateCampaign() {
         setIsLoading(true);
 
         try {
-          const { data } = await axios.post("/api/campaigns/create", formData);
+          const { data } = await axios.post(
+            "https://generosityx-backend.onrender.com/api/campaigns/create",
+            formData
+          );
           if (data && data.id) {
             cloudinaryApiRequest(data.id, images);
             setId(data.id);
@@ -145,7 +150,8 @@ function CreateCampaign() {
   }, [submit]);
 
   const cloudinaryApiRequest = (productId, image) => {
-    const url = "https://api.cloudinary.com/v1_1/dsjmm6114/image/upload";
+    const url =
+      "https:/https://generosityx-backend.onrender.com/api.cloudinary.com/v1_1/dsjmm6114/image/upload";
     const formData = new FormData();
     formData.append("file", image);
     formData.append("upload_preset", "chz1skwr");
@@ -158,7 +164,8 @@ function CreateCampaign() {
       .then(async (data) => {
         try {
           const response = await axios.post(
-            "/api/campaigns/upload?id=" + productId,
+            "https://generosityx-backend.onrender.com/api/campaigns/upload?id=" +
+              productId,
             data
           );
           if (response.status === 201) {
@@ -182,7 +189,7 @@ function CreateCampaign() {
   };
 
   return (
-    <div style={{ minHeight: "80vh" ,paddingTop: "100px" }}>
+    <div style={{ minHeight: "80vh", paddingTop: "100px" }}>
       <Grid
         container
         sx={{
@@ -214,7 +221,11 @@ function CreateCampaign() {
                 <Alert severity="info" sx={{ fontSize: "larger" }}>
                   <strong>
                     Campaign deleted!{" "}
-                    <a href="#" style={{textDecoration:"underline"}} onClick={() => window.location.reload()}>
+                    <a
+                      href="#"
+                      style={{ textDecoration: "underline" }}
+                      onClick={() => window.location.reload()}
+                    >
                       Create
                     </a>{" "}
                     another
@@ -235,21 +246,18 @@ function CreateCampaign() {
                   >
                     <Grid container>
                       <Grid item xs={12} md={6}>
-                        
-                          <div className="carousel-cover-image">
-                            <img
-                              src={campaign.image.path}
-                              alt="Campaign Cover"
-                              style={{
-                                maxHeight: "300px",
-                                objectFit: "contain",
-                                width: "100%",
-                              marginBottom:"4%"
-                              }}
-                            />
-                          </div>
-                      
-                        
+                        <div className="carousel-cover-image">
+                          <img
+                            src={campaign.image.path}
+                            alt="Campaign Cover"
+                            style={{
+                              maxHeight: "300px",
+                              objectFit: "contain",
+                              width: "100%",
+                              marginBottom: "4%",
+                            }}
+                          />
+                        </div>
                       </Grid>
                       <Grid item xs={12} md={6}>
                         <Card>
@@ -353,14 +361,18 @@ function CreateCampaign() {
                       </Grid>
                     </Grid>
                   </Box>
-                  <div className="mt-3" style={{display:"flex",justifyContent:"flex-end"}}><Button
-                            variant="contained"
-                            color="error"
-                            onClick={handleDelete}
-                          >
-                            Delete
-                          </Button></div>
-                  
+                  <div
+                    className="mt-3"
+                    style={{ display: "flex", justifyContent: "flex-end" }}
+                  >
+                    <Button
+                      variant="contained"
+                      color="error"
+                      onClick={handleDelete}
+                    >
+                      Delete
+                    </Button>
+                  </div>
                 </>
               )}
             </div>

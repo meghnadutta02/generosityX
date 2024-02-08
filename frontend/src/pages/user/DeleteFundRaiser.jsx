@@ -15,7 +15,9 @@ export default function ItemPageComponent() {
   useEffect(() => {
     const getItem = async () => {
       try {
-        const response = await axios.get(`/api/fundraisers/getOne/${id}`);
+        const response = await axios.get(
+          `https://generosityx-backend.onrender.com/api/fundraisers/getOne/${id}`
+        );
         const { data } = response;
 
         if (data) {
@@ -31,9 +33,10 @@ export default function ItemPageComponent() {
 
   const handleDelete = async () => {
     try {
-      const response = await axios.delete(`/api/fundraisers/delete/${id}`);
-      if(response.status===401)
-        toast.error("Unauthorized access!")
+      const response = await axios.delete(
+        `https://generosityx-backend.onrender.com/api/fundraisers/delete/${id}`
+      );
+      if (response.status === 401) toast.error("Unauthorized access!");
       if (response.data.successful) {
         setDeletionSuccess(true);
       }
@@ -45,11 +48,17 @@ export default function ItemPageComponent() {
   return (
     <div style={{ minHeight: "80vh" }}>
       {loading ? (
-        <div className="flex justify-center items-center" style={{ height: "100vh" }}>
+        <div
+          className="flex justify-center items-center"
+          style={{ height: "100vh" }}
+        >
           <CircularProgress />
         </div>
       ) : (
-        <div className="flex p-4 flex-col lg:flex-row" style={{ padding: "10%" }}>
+        <div
+          className="flex p-4 flex-col lg:flex-row"
+          style={{ padding: "10%" }}
+        >
           {item && (
             <>
               {deletionSuccess ? (
@@ -57,10 +66,10 @@ export default function ItemPageComponent() {
                   severity="info"
                   sx={{
                     width: "60%",
-                    
+
                     margin: "auto",
-                    marginTop:"9%",
-                    fontSize:"130%"
+                    marginTop: "9%",
+                    fontSize: "130%",
                   }}
                 >
                   The fundraiser has been deleted.
@@ -74,9 +83,14 @@ export default function ItemPageComponent() {
                       Target: ${item.goalAmount.toLocaleString("en-US")}
                     </p>
                     <p className="mt-1 text-lg text-gray-800">
-                      Deadline: {item.endDate.replaceAll("-", "/").substring(5, 10)}
+                      Deadline:{" "}
+                      {item.endDate.replaceAll("-", "/").substring(5, 10)}
                     </p>
-                    <Button variant="contained" className="mt-3" onClick={handleDelete}>
+                    <Button
+                      variant="contained"
+                      className="mt-3"
+                      onClick={handleDelete}
+                    >
                       Delete
                     </Button>
                   </div>

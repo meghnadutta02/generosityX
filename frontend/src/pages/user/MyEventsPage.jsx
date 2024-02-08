@@ -12,8 +12,12 @@ export default function MyEventsPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get("/api/campaigns/myevents");
-        const res = await axios.get("/api/campaigns/attendedEvents");
+        const { data } = await axios.get(
+          "https://generosityx-backend.onrender.com/api/campaigns/myevents"
+        );
+        const res = await axios.get(
+          "https://generosityx-backend.onrender.com/api/campaigns/attendedEvents"
+        );
         if (res.data) setAEvents(res.data);
         if (data) setEvents(data);
       } catch (err) {
@@ -32,7 +36,7 @@ export default function MyEventsPage() {
     >
       <h2 className="text-4xl font-bold">Upcoming Campaigns</h2>
       {isLoading ? (
-        <div className=" flex justify-center" style={{margin:"10%"}}>
+        <div className=" flex justify-center" style={{ margin: "10%" }}>
           <div className="flex items-center">
             <CircularProgress />
           </div>

@@ -11,7 +11,9 @@ export default function MyFundraisersPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get("/api/fundraisers/myfundraisers");
+        const { data } = await axios.get(
+          "https://generosityx-backend.onrender.com/api/fundraisers/myfundraisers"
+        );
         if (data) setEvents(data);
       } catch (err) {
         toast.error(err.message);
@@ -24,7 +26,7 @@ export default function MyFundraisersPage() {
 
   const verifiedFundraisers = events.filter((event) => event.isVerified);
   const unverifiedFundraisers = events.filter((event) => !event.isVerified);
-  const date=new Date();
+  const date = new Date();
   return (
     <div
       style={{ minHeight: "90vh", paddingTop: "100px" }}
@@ -67,7 +69,13 @@ export default function MyFundraisersPage() {
                               </Alert>
                             )}
 
-                            <Link to={new Date(event.endDate) < new Date() ? "#" : `/help-fundraiser/${event._id}`}>
+                            <Link
+                              to={
+                                new Date(event.endDate) < new Date()
+                                  ? "#"
+                                  : `/help-fundraiser/${event._id}`
+                              }
+                            >
                               <div className="h-40 flex justify-center">
                                 <img
                                   src={event.image[0].path}

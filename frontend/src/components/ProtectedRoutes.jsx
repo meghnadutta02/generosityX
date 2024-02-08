@@ -10,7 +10,9 @@ const ProtectedRoutes = ({ admin }) => {
   useEffect(() => {
     const fetchToken = async () => {
       try {
-        const { data } = await axios.get("/api/get-token");
+        const { data } = await axios.get(
+          "https://generosityx-backend.onrender.com/api/get-token"
+        );
         if (data.token) {
           setIsAuth(true);
           setIsAdmin(data.isAdmin);
@@ -27,7 +29,11 @@ const ProtectedRoutes = ({ admin }) => {
   }, []);
 
   if (isAuth === null) {
-    return <div className="flex justify-center"><CircularProgress/></div>; 
+    return (
+      <div className="flex justify-center">
+        <CircularProgress />
+      </div>
+    );
   }
 
   if (!isAuth || (admin && !isAdmin)) {

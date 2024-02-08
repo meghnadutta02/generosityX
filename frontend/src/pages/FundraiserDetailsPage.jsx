@@ -26,7 +26,7 @@ export default function FundraiserDetailsPage() {
 
   useEffect(() => {
     const fetchData = async () => {
-      let url = `/api/fundraisers/getOne/${id}`;
+      let url = `https://generosityx-backend.onrender.com/api/fundraisers/getOne/${id}`;
       const result = await axios.get(url);
 
       setFundraiser(result.data);

@@ -23,7 +23,7 @@ function VerifiedFundraisers() {
 
   useEffect(() => {
     const fetchData = async () => {
-      let url = "/api/fundraisers";
+      let url = "https://generosityx-backend.onrender.com/api/fundraisers";
       try {
         const result = await axios.get(url);
         setFundraisers(result.data.fundraisers);
@@ -56,7 +56,7 @@ function VerifiedFundraisers() {
   };
 
   return (
-    <div style={{ minHeight: "75vh" ,paddingTop: "100px" }}>
+    <div style={{ minHeight: "75vh", paddingTop: "100px" }}>
       <Grid
         container
         sx={{
@@ -235,9 +235,25 @@ function VerifiedFundraisers() {
                                 gutterBottom
                                 style={{ padding: "5px" }}
                               >
-                              <div style={{display:"flex",justifyContent:"space-between"}}>
-                                <span>Target: ${fundraiser.goalAmount.toLocaleString("en-US")}</span>
-                                <span> Funds raised: ${fundraiser.currentAmount.toLocaleString("en-US")}</span>
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                  }}
+                                >
+                                  <span>
+                                    Target: $
+                                    {fundraiser.goalAmount.toLocaleString(
+                                      "en-US"
+                                    )}
+                                  </span>
+                                  <span>
+                                    {" "}
+                                    Funds raised: $
+                                    {fundraiser.currentAmount.toLocaleString(
+                                      "en-US"
+                                    )}
+                                  </span>
                                 </div>
                               </Typography>
 
@@ -286,8 +302,8 @@ function VerifiedFundraisers() {
               onClose={handleModalClose}
               sx={{
                 display: "flex",
-                justifyContent:"center",
-                alignItems:"center"
+                justifyContent: "center",
+                alignItems: "center",
               }}
             >
               <Box
@@ -303,8 +319,8 @@ function VerifiedFundraisers() {
                   style={{
                     width: "100%",
                     height: "100%",
-                    maxHeight:"80vh",
-                    maxWidth:"80vw",
+                    maxHeight: "80vh",
+                    maxWidth: "80vw",
                     objectFit: "contain",
                   }}
                 />

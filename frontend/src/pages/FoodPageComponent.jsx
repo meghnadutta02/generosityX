@@ -10,15 +10,19 @@ export default function FoodPageComponent(props) {
   const { pid } = useParams();
   const [food, setFood] = useState(null);
   const [loading, setLoading] = useState(true);
-  const dependancy=id?id:pid;
+  const dependancy = id ? id : pid;
   useEffect(() => {
     const getFood = async () => {
       try {
         let response;
         if (!id) {
-          response = await axios.get(`/api/donations/food/${pid}`);
+          response = await axios.get(
+            `https://generosityx-backend.onrender.com/api/donations/food/${pid}`
+          );
         } else {
-          response = await axios.get(`/api/donations/food/${id}`);
+          response = await axios.get(
+            `https://generosityx-backend.onrender.com/api/donations/food/${id}`
+          );
         }
         const { data } = response;
 
@@ -35,9 +39,10 @@ export default function FoodPageComponent(props) {
 
   const handleDelete = async () => {
     try {
-      const{data} =await axios.delete(`/api/donations/delete/${id}?type=food`);
-      if(data.successful)
-        props.delete();
+      const { data } = await axios.delete(
+        `https://generosityx-backend.onrender.com/api/donations/delete/${id}?type=food`
+      );
+      if (data.successful) props.delete();
     } catch (error) {
       console.error(error);
     }
@@ -58,9 +63,15 @@ export default function FoodPageComponent(props) {
                   Approximate number of people it can feed: {food.quantity}
                 </strong>
                 <p>Description: {food.description}</p>
-                { id && <Button variant="contained" className="mt-3" onClick={handleDelete}>
-                  Cancel
-                </Button>}
+                {id && (
+                  <Button
+                    variant="contained"
+                    className="mt-3"
+                    onClick={handleDelete}
+                  >
+                    Cancel
+                  </Button>
+                )}
               </div>
               {food.images && food.images.length > 0 ? (
                 <ImageList

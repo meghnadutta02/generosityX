@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { CircularProgress,Button} from "@mui/material";
+import { CircularProgress, Button } from "@mui/material";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import { useParams } from "react-router";
@@ -15,14 +15,16 @@ export default function ItemPageComponent(props) {
       try {
         let response;
         if (!id) {
-          
-          response = await axios.get(`/api/donations/item/${pid}`);
-          
+          response = await axios.get(
+            `https://generosityx-backend.onrender.com/api/donations/item/${pid}`
+          );
         } else {
-          response = await axios.get(`/api/donations/item/${id}`);
+          response = await axios.get(
+            `https://generosityx-backend.onrender.com/api/donations/item/${id}`
+          );
         }
         const { data } = response;
-       
+
         if (data) {
           setItem(data);
           setLoading(false);
@@ -32,32 +34,42 @@ export default function ItemPageComponent(props) {
       }
     };
     getItem();
-  }, [id,pid]);
+  }, [id, pid]);
   const handleDelete = async () => {
     try {
-      const{data} =await axios.delete(`/api/donations/delete/${id}?type=item`);
-      if(data.successful)
-        props.delete();
+      const { data } = await axios.delete(
+        `https://generosityx-backend.onrender.com/api/donations/delete/${id}?type=item`
+      );
+      if (data.successful) props.delete();
     } catch (error) {
       console.error(error);
     }
   };
   return (
-    <div style={{minHeight:"70vh"}}>
+    <div style={{ minHeight: "70vh" }}>
       {loading ? (
         <div className="mt-4 flex justify-center" style={{ paddingTop: "10%" }}>
           <CircularProgress />
         </div>
       ) : (
-        <div className="flex p-4 flex-col lg:flex-row" style={{ padding: "10%" }}>
+        <div
+          className="flex p-4 flex-col lg:flex-row"
+          style={{ padding: "10%" }}
+        >
           {item && (
             <>
               <div className="bg-white rounded-lg p-4 mb-auto md:mx-4 text-2xl">
                 <strong>Item : {item.category}</strong>
                 <p>Description : {item.description}</p>
-                { id && <Button variant="contained" className="mt-3" onClick={handleDelete}>
-                  Cancel
-                </Button>}
+                {id && (
+                  <Button
+                    variant="contained"
+                    className="mt-3"
+                    onClick={handleDelete}
+                  >
+                    Cancel
+                  </Button>
+                )}
               </div>
               {item.images && item.images.length > 0 ? (
                 <ImageList

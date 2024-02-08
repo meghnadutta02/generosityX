@@ -27,8 +27,9 @@ function UserPage() {
   useEffect(() => {
     const fetchData = async () => {
       let url;
-      if (search) url = `/api/users?search=${search}`;
-      else url = "/api/users";
+      if (search)
+        url = `https://generosityx-backend.onrender.com/api/users?search=${search}`;
+      else url = "https://generosityx-backend.onrender.com/api/users";
       try {
         const result = await axios.get(url);
         setUsers(result.data.users);
@@ -51,7 +52,9 @@ function UserPage() {
   }, [search]);
 
   const makeAdmin = async (user) => {
-    const { data } = await axios.put(`/api/users/${user._id}`);
+    const { data } = await axios.put(
+      `https://generosityx-backend.onrender.com/api/users/${user._id}`
+    );
     if (data && data.successful) toast.success(`${user.email} is now an admin`);
   };
 
@@ -60,7 +63,7 @@ function UserPage() {
   };
 
   return (
-    <div style={{ minHeight: "80vh" ,paddingTop: "100px" }}>
+    <div style={{ minHeight: "80vh", paddingTop: "100px" }}>
       <Grid
         container
         sx={{

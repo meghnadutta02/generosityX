@@ -19,7 +19,7 @@ function OngoingCampaigns() {
 
   useEffect(() => {
     const fetchData = async () => {
-      let url = "/api/campaigns/search";
+      let url = "https://generosityx-backend.onrender.com/api/campaigns/search";
       try {
         const result = await axios.get(url);
         setCampaigns(result.data);
@@ -43,7 +43,7 @@ function OngoingCampaigns() {
   }, []);
 
   return (
-    <div style={{ minHeight: "80vh" ,paddingTop: "100px" }}>
+    <div style={{ minHeight: "80vh", paddingTop: "100px" }}>
       <Grid
         container
         sx={{

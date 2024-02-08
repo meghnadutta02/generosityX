@@ -1,7 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { useForm } from "react-hook-form";
-import {toast} from "react-toastify"
+import { toast } from "react-toastify";
 function Contact() {
   const {
     register,
@@ -16,16 +16,19 @@ function Contact() {
 
     if (isValid) {
       const formData = getValues();
-      console.log(formData)
+      console.log(formData);
       try {
-        const promise = axios.post("/api/campaigns/contact", formData);
+        const promise = axios.post(
+          "https://generosityx-backend.onrender.com/api/campaigns/contact",
+          formData
+        );
         toast.promise(promise, {
           pending: "Submitting message...",
           success: `We will get back to to you shortly`,
           error: "Error sending message",
         });
         const response = await promise;
-        if (response.status===200) reset();
+        if (response.status === 200) reset();
       } catch (error) {
         toast.error("An error occurred while submitting the form:", error);
       }
