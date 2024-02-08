@@ -11,7 +11,7 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <div className=" text-3xl font-bold custom-mesh">
+      <div className=" text-3xl font-bold">
         <div className="mx-auto lg:py-4 px-4 sm:py-8 sm:px-6 lg:w-full lg:px-32 ">
           <CampaignCarousel />
           <FundRaiserGrid />

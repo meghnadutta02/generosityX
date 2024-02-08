@@ -1,7 +1,7 @@
-const ObjectId=require("mongodb").ObjectId;
+const ObjectId = require("mongodb").ObjectId;
 const fundraisers = [
   {
-    _id:new ObjectId("64214bc9ce4062ec41233960"),
+    _id: new ObjectId("64214bc9ce4062ec41233960"),
     title: "Support Our School",
     description: "Help fund new equipment for our school's sports teams",
     goalAmount: 10000,
@@ -12,7 +12,7 @@ const fundraisers = [
       phoneNumber: "123-456-7890",
     },
     donations: ["641ea7034c371df75d4ba1c9"],
-    endDate: "2023-08-30T00:00:00.000Z",
+    endDate: "2024-08-30T00:00:00.000Z",
     image: [
       {
         path: "/images/school.jpg",
@@ -22,7 +22,7 @@ const fundraisers = [
     comments: [],
   },
   {
-    _id:new ObjectId("64214bc9ce4062ec41233962"),
+    _id: new ObjectId("64214bc9ce4062ec41233962"),
     title: "Help Fight Hunger",
     description: "Support local food banks and help those in need",
     goalAmount: 5000,
@@ -33,7 +33,7 @@ const fundraisers = [
       phoneNumber: "123-456-7890",
     },
     donations: ["641ea7034c371df75d4ba1c7"],
-    endDate: "2023-09-22T00:00:00.000Z",
+    endDate: "2024-09-22T00:00:00.000Z",
     image: [
       {
         path: "/images/food.jpg",
@@ -43,41 +43,40 @@ const fundraisers = [
     comments: [],
   },
   {
-    _id:new ObjectId("64214bc9ce4062ec41233964"),
+    _id: new ObjectId("64214bc9ce4062ec41233964"),
     title: "Help John Get His Tumor Removed",
-    description: "John needs to undergo a surgery to remove a tumor. Let's help him raise the funds for the procedure.",
+    description:
+      "John needs to undergo a surgery to remove a tumor. Let's help him raise the funds for the procedure.",
     goalAmount: 95000,
     currentAmount: 0,
     creator: {
       name: "John Smith",
       email: "johnsmith@example.com",
-      phoneNumber: "123-456-7890"
+      phoneNumber: "123-456-7890",
     },
-    donations: [
-      "641ea7034c371df75d4ba1c6"
-    ],
-    endDate: "2023-10-22T00:00:00.000Z",
+    donations: ["641ea7034c371df75d4ba1c6"],
+    endDate: "2024-10-22T00:00:00.000Z",
     image: [
       {
-        path: "/images/tumor.jpg"
-      }
+        path: "/images/tumor.jpg",
+      },
     ],
     isVerified: true,
     comments: [],
   },
   {
-    _id:new ObjectId("64214bc9ce4062ec41233966"),
+    _id: new ObjectId("64214bc9ce4062ec41233966"),
     title: "Support Mental Health",
     description: "Raise awareness and funds for mental health research",
     goalAmount: 8000,
-    currentAmount:0,
+    currentAmount: 0,
     creator: {
       name: "Alice Lee",
       email: "alicelee@example.com",
       phoneNumber: "123-456-7890",
     },
     donations: ["641ea7034c371df75d4ba1c8"],
-    endDate: "2023-11-05T00:00:00.000Z",
+    endDate: "2024-11-05T00:00:00.000Z",
     image: [
       {
         path: "/images/mental-health.jpg",
@@ -93,20 +92,20 @@ const fundraisers = [
     goalAmount: 50000,
     currentAmount: 0,
     creator: {
-    name: "David Jones",
-    email: "davidjones@example.com",
-    phoneNumber: "123-456-7890"
+      name: "David Jones",
+      email: "davidjones@example.com",
+      phoneNumber: "123-456-7890",
     },
     donations: ["641ea7034c371df75d4ba1c9"],
-    endDate: "2023-06-04T00:00:00.000Z",
+    endDate: "2024-06-04T00:00:00.000Z",
     image: [
-    {
-    path: "/images/school-in-africa.jpg"
-    }
+      {
+        path: "/images/school-in-africa.jpg",
+      },
     ],
     isVerified: true,
-    comments: []
-    },
+    comments: [],
+  },
   //   {
   //   _id: new ObjectId("64214bc9ce4062ec41233968"),
   //   title: "Support Local Food Banks",
@@ -119,7 +118,7 @@ const fundraisers = [
   //   phoneNumber: "123-456-7890"
   //   },
   //   donations: [],
-  //   endDate: "2023-10-31T00:00:00.000Z",
+  //   endDate: "2024-10-31T00:00:00.000Z",
   //   image: [
   //   {
   //   path: "/images/food-bank.jpg"

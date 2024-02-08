@@ -26,11 +26,11 @@ export default function CreateFundraiserPage() {
     if (Array.isArray(images)) {
       imagesTable = images;
     } else {
-      imagesTable.push(images); 
+      imagesTable.push(images);
     }
 
     const validationErrors = [];
-   
+
     imagesTable.forEach((image) => {
       if (image.size > 2097152) {
         validationErrors.push("Size too large (above 2 MB)");
@@ -188,7 +188,7 @@ export default function CreateFundraiserPage() {
     setCoverImage(null);
   };
   return (
-    <div className="px-8 py-24 md:py-28 md:px-16 lg:px-40 relative create-fundraiser-bg">
+    <div className="px-8 py-24 md:py-28 md:px-16 lg:px-40 relative">
       {isLoading ? (
         <div
           style={{ minHeight: "40vh", paddingTop: "100px" }}

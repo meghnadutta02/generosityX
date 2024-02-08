@@ -225,7 +225,7 @@ export default function ItemDonationPage() {
   };
 
   return (
-    <div className="pt-28 p-8 lg:px-32 donate-bg">
+    <div className="pt-28 p-8 lg:px-32">
       {isLoading1 ? (
         <div
           style={{ minHeight: "40vh", paddingTop: "100px" }}
@@ -277,9 +277,8 @@ export default function ItemDonationPage() {
                         className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-black placeholder:text-black focus:ring-0 sm:text-md sm:leading-6"
                         value={formData.category}
                         onChange={handleChange}
-                       
                       >
-                      <option value="">Select a category</option>
+                        <option value="">Select a category</option>
                         <option value="clothes">Clothes</option>
                         <option value="books">Books</option>
                         <option value="electronics">Electronics</option>

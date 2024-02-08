@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
-import { logout, reset } from "./redux/authSlice"
+import { logout, reset } from "./redux/authSlice";
 import OngoingCampaigns from "./components/Admin/OngoingCampaigns";
 import CampaignDetailsPage from "./pages/CampaignDetailsPage";
 import ItemDonationPage from "./pages/ItemDonationPage";
@@ -63,52 +63,59 @@ export default function App() {
       <Navbar />
       <ScrollToTop />
       <Chatbot />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/help-fundraiser" element={<HelpFundraiserPage />} />
-        <Route path="/campaigns" element={<CampaignsPage />} />
-        <Route path="/money-donate" element={<MoneyDonationPage />} />
-        <Route path="/rsvp/:cid/:email" element={<ThankYouPage />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<LoginPage />} />
-        {/* user protected routes */}
-        <Route element={<ProtectedRoutes admin={false} />}>
-          <Route path="/items-donate" element={<ItemDonationPage />} />
-          <Route path="/food-donate" element={<FoodDonationPage />} />
-          <Route path="/my-events" element={<MyEventsPage />} />
-          <Route path="/campaigns/:id" element={<CampaignDetailsPage />} />
-          <Route path="/item/:pid" element={<ItemPageComponent />} />
-          <Route path="/food/:pid" element={<FoodPageComponent />} />
-          <Route path="/my-donations" element={<MyDonationsPage />} />
-          <Route path="/my-fundraisers" element={<MyFundraisersPage />} />
-          <Route path="/create-fundraiser" element={<CreateFundraiserPage />} />
-          <Route
-            path="/help-fundraiser/:id"
-            element={<FundraiserDetailsPage />}
-          />
-          <Route path="/delete-fundraiser/:id" element={<DeleteFundRaiser />} />
-
-        </Route>
-        <Route element={<ProtectedRoutes admin={true} />}>
-          <Route
-            path="/admin/fundraisers/unverified"
-            element={<UnverifiedFundraisers />}
-          />
-          <Route
-            path="/admin/fundraisers/verified"
-            element={<VerifiedFundraisers />}
-          />
-          <Route
-            path="/admin/campaigns/ongoing"
-            element={<OngoingCampaigns />}
-          />
-          <Route
-            path="/admin/campaigns/create-new"
-            element={<CreateCampaign />}
-          />
-          <Route path="/admin/users" element={<UserPage />} />
-        </Route>
-      </Routes>
+      <div className="custom-mesh">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/help-fundraiser" element={<HelpFundraiserPage />} />
+          <Route path="/campaigns" element={<CampaignsPage />} />
+          <Route path="/money-donate" element={<MoneyDonationPage />} />
+          <Route path="/rsvp/:cid/:email" element={<ThankYouPage />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<LoginPage />} />
+          {/* user protected routes */}
+          <Route element={<ProtectedRoutes admin={false} />}>
+            <Route path="/items-donate" element={<ItemDonationPage />} />
+            <Route path="/food-donate" element={<FoodDonationPage />} />
+            <Route path="/my-events" element={<MyEventsPage />} />
+            <Route path="/campaigns/:id" element={<CampaignDetailsPage />} />
+            <Route path="/item/:pid" element={<ItemPageComponent />} />
+            <Route path="/food/:pid" element={<FoodPageComponent />} />
+            <Route path="/my-donations" element={<MyDonationsPage />} />
+            <Route path="/my-fundraisers" element={<MyFundraisersPage />} />
+            <Route
+              path="/create-fundraiser"
+              element={<CreateFundraiserPage />}
+            />
+            <Route
+              path="/help-fundraiser/:id"
+              element={<FundraiserDetailsPage />}
+            />
+            <Route
+              path="/delete-fundraiser/:id"
+              element={<DeleteFundRaiser />}
+            />
+          </Route>
+          <Route element={<ProtectedRoutes admin={true} />}>
+            <Route
+              path="/admin/fundraisers/unverified"
+              element={<UnverifiedFundraisers />}
+            />
+            <Route
+              path="/admin/fundraisers/verified"
+              element={<VerifiedFundraisers />}
+            />
+            <Route
+              path="/admin/campaigns/ongoing"
+              element={<OngoingCampaigns />}
+            />
+            <Route
+              path="/admin/campaigns/create-new"
+              element={<CreateCampaign />}
+            />
+            <Route path="/admin/users" element={<UserPage />} />
+          </Route>
+        </Routes>
+      </div>
       <ToastContainer />
       <ToastContainer />
       <Footer />

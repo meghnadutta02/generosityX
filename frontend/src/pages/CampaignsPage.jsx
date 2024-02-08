@@ -81,10 +81,7 @@ export default function CampaignsPage() {
     setCurrentPage(value);
   };
   return (
-    <div
-      style={{ minHeight: "70vh" }}
-      className=" pt-10 relative bg-[url(https://img.freepik.com/free-vector/sketches-modern-city-background_23-2147556600.jpg?w=740&t=st=1680546909~exp=1680547509~hmac=dd976456aa5dddd4d07e0ed31480b8a92ed472851ab9b91a49b48f2851f1899b)]"
-    >
+    <div style={{ minHeight: "70vh" }} className=" pt-10 ">
       <div className="lg:px-24 inset-0 bg-white/75 sm:bg-transparent sm:bg-gradient-to-b sm:from-white/60 sm:to-white/25">
         <h2 className="text-4xl text-center font-bold tracking-tight text-gray-900 m-8 pt-12">
           Campaigns

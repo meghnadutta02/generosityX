@@ -66,7 +66,7 @@ export default function CampaignDetailsPage(props) {
       : "";
 
   return (
-    <div className="pt-24 bg-[url(https://img.freepik.com/free-vector/sketches-modern-city-background_23-2147556600.jpg?w=740&t=st=1680546909~exp=1680547509~hmac=dd976456aa5dddd4d07e0ed31480b8a92ed472851ab9b91a49b48f2851f1899b)] bg-center bg-cover bg-no-repeat fixed;">
+    <div className="pt-24 ">
       <h2 className="text-4xl font-bold my-8 text-center">
         <span className="p-4 shadow-lg shadow-gray-300 rounded ">
           {campaign.name}
@@ -102,11 +102,13 @@ export default function CampaignDetailsPage(props) {
                [ border-[1px] border-solid border-white border-opacity-30 ]
                [ shadow-black/70 shadow-2xl ]"
           >
-          <div  className="mx-auto w-5/6 flex justify-center">
-         
-          <img src={campaign.image && campaign.image.path} alt="campaign image"/>
-          </div>
-            
+            <div className="mx-auto w-5/6 flex justify-center">
+              <img
+                src={campaign.image && campaign.image.path}
+                alt="campaign image"
+              />
+            </div>
+
             <div className="flex my-8 justify-center">
               <Button
                 variant="contained"

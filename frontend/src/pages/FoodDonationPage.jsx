@@ -6,7 +6,7 @@ import { Alert, CircularProgress } from "@mui/material";
 import { toast } from "react-toastify";
 import FoodPageComponent from "./FoodPageComponent";
 import DeletionPage from "./DeletionPage";
-import "../App.css"
+import "../App.css";
 export default function FoodDonationPage() {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -23,11 +23,10 @@ export default function FoodDonationPage() {
     state: "",
     street: "",
   });
-  const [deleted,setDeleted]=useState(false);
-  const handleDelete=()=>
-  {
-    setDeleted(true)
-  }
+  const [deleted, setDeleted] = useState(false);
+  const handleDelete = () => {
+    setDeleted(true);
+  };
   const [id, setId] = useState("");
   const imageValidate = (images) => {
     let imagesTable = [];
@@ -150,7 +149,6 @@ export default function FoodDonationPage() {
         })
         .then(async (data) => {
           try {
-            
             const response = await axios.post(
               `/api/donations/image/${productId}?type=food`,
               data
@@ -216,7 +214,7 @@ export default function FoodDonationPage() {
   };
 
   return (
-    <div className="container p-28 lg:px-60  donate-bg">
+    <div className="container p-28 lg:px-60">
       {isLoading1 ? (
         <div
           style={{ minHeight: "40vh", paddingTop: "100px" }}
@@ -229,15 +227,21 @@ export default function FoodDonationPage() {
           style={{ minHeight: "40vh" }}
           className="container p-16 py-10 lg:px-50"
         >
-          {!deleted?<><Alert severity="info" sx={{ fontSize: "larger" }}>
-            <strong>Food donation successful!</strong>
-            <br />
-          </Alert>
-          <FoodPageComponent id={id} delete={handleDelete} /></>:<DeletionPage />}
+          {!deleted ? (
+            <>
+              <Alert severity="info" sx={{ fontSize: "larger" }}>
+                <strong>Food donation successful!</strong>
+                <br />
+              </Alert>
+              <FoodPageComponent id={id} delete={handleDelete} />
+            </>
+          ) : (
+            <DeletionPage />
+          )}
         </div>
       ) : (
-        <form className="relative " style={{minHeight:"70vh"}}>
-        <div className="space-y-12 p-12 bg-teal-100 rounded-lg bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-50 border-2 border-gray-800 shadow-xl shadow-black">
+        <form className="relative " style={{ minHeight: "70vh" }}>
+          <div className="space-y-12 p-12 bg-teal-100 rounded-lg bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-50 border-2 border-gray-800 shadow-xl shadow-black">
             <div className="border-b border-black/10 pb-12">
               <h1 className="text-center font-bold text-4xl">
                 Contribute Food
@@ -258,7 +262,10 @@ export default function FoodDonationPage() {
                     <p className="text-sm mb-1 text-gray-500">
                       Approximate number of people the food can feed:
                     </p>
-                    <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-black focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md"  style={{background:"white"}}>
+                    <div
+                      className="flex rounded-md shadow-sm ring-1 ring-inset ring-black focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md"
+                      style={{ background: "white" }}
+                    >
                       <select
                         required
                         name="quantity"

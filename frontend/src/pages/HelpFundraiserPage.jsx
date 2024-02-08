@@ -33,10 +33,7 @@ export default function HelpFundraiserPage() {
   futureDate.setDate(futureDate.getDate() + 5);
 
   return (
-    <div
-      style={{ minHeight: "70vh" }}
-      className=" p-16 py-24 lg:px-60 fundraiser-mesh "
-    >
+    <div style={{ minHeight: "70vh" }} className=" p-16 py-24 lg:px-60">
       <h2 className="text-4xl font-bold text-center mb-8">
         Help these fundraisers
       </h2>
@@ -47,7 +44,7 @@ export default function HelpFundraiserPage() {
       ) : (
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {fundraisers.map((fundraiser) => (
-            <div className="rounded-3xl border-red-500 shadow-lg shadow-red-700">
+            <div className="rounded-3xl border-red-500 shadow-lg shadow-gray-400">
               <Card
                 sx={{ maxWidth: 345, borderRadius: "10px" }}
                 className="h-full p-4"
@@ -67,7 +64,7 @@ export default function HelpFundraiserPage() {
                 />
                 <CardMedia
                   component="img"
-                  height="194"
+                  style={{ height: "92px" }}
                   image={fundraiser.image[0].path}
                   alt="Fundraiser image"
                 />
@@ -83,11 +80,13 @@ export default function HelpFundraiserPage() {
                 <CardActions disableSpacing>
                   <Link
                     to={`/help-fundraiser/${fundraiser._id}`}
-                    className=" bg-blue-300 rounded-xl hover:scale-110 transition ease-in-out delay-100 mx-auto"
+                    className=" bg-blue-300 rounded-md hover:scale-110 transition ease-in-out delay-100 mx-auto"
                   >
                     <IconButton aria-label="add to favorites">
                       <PaymentsIcon />
-                      <span className="text-base ml-2">Contribute</span>
+                      <span className="text-base font-semibold ml-2">
+                        Contribute
+                      </span>
                     </IconButton>
                   </Link>
                 </CardActions>
