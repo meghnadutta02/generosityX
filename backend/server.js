@@ -2,7 +2,7 @@ const express = require("express");
 const fileUpload = require("express-fileupload");
 const cookieParser = require("cookie-parser");
 const app = express();
-
+const cors = require("cors");
 app.use(express.json()); // for parsing application/json
 //no need of installing bodyparser separately
 app.use(fileUpload()); //to upload files
