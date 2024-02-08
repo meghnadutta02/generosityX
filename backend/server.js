@@ -10,6 +10,8 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: ["http://localhost:3000", "https://generosityx.onrender.com"],
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true, // Allow cookies to be sent
   })
 );
 const apiRoutes = require("./routes/apiRoutes");
