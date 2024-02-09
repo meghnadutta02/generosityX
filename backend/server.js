@@ -9,9 +9,21 @@ app.use(fileUpload()); //to upload files
 app.use(cookieParser());
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://generosityx.onrender.com"],
+    origin: [
+      "http://localhost:3000",
+      "https://generosityx.onrender.com",
+      "https://generosityx.app",
+      "https://www.generosityx.app/",
+    ],
+    Headers: true,
+    exposedHeaders: "Set-Cookie",
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true, // Allow cookies to be sent
+    allowedHeaders: [
+      "Access-Control-Allow-Origin",
+      "Content-Type",
+      "Authorization",
+    ],
   })
 );
 const apiRoutes = require("./routes/apiRoutes");
