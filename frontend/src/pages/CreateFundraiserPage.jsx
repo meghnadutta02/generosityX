@@ -126,7 +126,10 @@ export default function CreateFundraiserPage() {
         setIsLoading(true);
 
         try {
-          const { data } = await axios.post("/api/fundraisers", formData);
+          const { data } = await axios.post(
+            "https://server.generosityx.app/api/fundraisers",
+            formData
+          );
           if (data && data.id) {
             cloudinaryApiRequest(data.id, images);
           }
@@ -147,7 +150,8 @@ export default function CreateFundraiserPage() {
   };
 
   const cloudinaryApiRequest = (productId, images) => {
-    const url = "https://api.cloudinary.com/v1_1/dsjmm6114/image/upload";
+    const url =
+      "https:/https://server.generosityx.app/api.cloudinary.com/v1_1/dsjmm6114/image/upload";
 
     images.forEach((image) => {
       const formData = new FormData();
@@ -164,7 +168,8 @@ export default function CreateFundraiserPage() {
         .then(async (data) => {
           try {
             const response = await axios.post(
-              "/api/fundraisers/upload?id=" + productId,
+              "https://server.generosityx.app/api/fundraisers/upload?id=" +
+                productId,
               data
             );
             if (response.status === 201) {

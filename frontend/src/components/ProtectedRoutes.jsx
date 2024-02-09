@@ -10,7 +10,9 @@ const ProtectedRoutes = ({ admin }) => {
   useEffect(() => {
     const fetchToken = async () => {
       try {
-        const { data } = await axios.get("/api/get-token");
+        const { data } = await axios.get(
+          "https://server.generosityx.app/api/get-token"
+        );
         if (data.token) {
           setIsAuth(true);
           setIsAdmin(data.isAdmin);

@@ -43,7 +43,7 @@ export default function MoneyDonationPage(props) {
     const fetchData = async () => {
       if (submit) {
         try {
-          const url = `/api/donations/request/money/${id}`;
+          const url = `https://server.generosityx.app/api/donations/request/money/${id}`;
           const response = await axios.post(url, data);
           setClientSecret(response.data.clientSecret);
         } catch (error) {
@@ -74,7 +74,7 @@ export default function MoneyDonationPage(props) {
           setFailed(true);
         } else {
           // Payment succeeded
-          const url = `/api/donations/donate/money/${id}`;
+          const url = `https://server.generosityx.app/api/donations/donate/money/${id}`;
           const response = await axios.post(url, data);
           console.log("Payment succeeded:", response.data);
           setDonated(true);

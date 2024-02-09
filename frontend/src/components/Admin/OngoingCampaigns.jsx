@@ -19,7 +19,7 @@ function OngoingCampaigns() {
 
   useEffect(() => {
     const fetchData = async () => {
-      let url = "/api/campaigns/search";
+      let url = "https://server.generosityx.app/api/campaigns/search";
       try {
         const result = await axios.get(url);
         setCampaigns(result.data);

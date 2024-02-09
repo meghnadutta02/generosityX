@@ -33,7 +33,9 @@ export default function CampaignDetailsPage(props) {
     setIsLoading(true);
 
     try {
-      const { data } = await axios.post(`/api/campaigns/attend/${id}`);
+      const { data } = await axios.post(
+        `https://server.generosityx.app/api/campaigns/attend/${id}`
+      );
       if (data.successful) {
         setAlertOpen(true);
         setButtonText("Submitted");
@@ -50,7 +52,7 @@ export default function CampaignDetailsPage(props) {
 
   useEffect(() => {
     const fetchData = async () => {
-      let url = `/api/campaigns/getOne/${id}`;
+      let url = `https://server.generosityx.app/api/campaigns/getOne/${id}`;
       const result = await axios.get(url);
       setCampaign(result.data);
     };

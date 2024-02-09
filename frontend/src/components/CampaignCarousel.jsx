@@ -7,7 +7,7 @@ export default function CampaignCarousel() {
 
   useEffect(() => {
     const fetchData = async () => {
-      let url = "/api/campaigns/recent";
+      let url = "https://server.generosityx.app/api/campaigns/recent";
       const result = await axios.get(url);
 
       setCampaigns(result.data);

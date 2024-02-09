@@ -12,8 +12,12 @@ export default function MyEventsPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get("/api/campaigns/myevents");
-        const res = await axios.get("/api/campaigns/attendedEvents");
+        const { data } = await axios.get(
+          "https://server.generosityx.app/api/campaigns/myevents"
+        );
+        const res = await axios.get(
+          "https://server.generosityx.app/api/campaigns/attendedEvents"
+        );
         if (res.data) setAEvents(res.data);
         if (data) setEvents(data);
       } catch (err) {

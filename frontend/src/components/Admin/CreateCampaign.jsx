@@ -61,7 +61,9 @@ function CreateCampaign() {
   const [id, setId] = useState("");
   const handleDelete = async () => {
     try {
-      const { data } = await axios.delete(`/api/campaigns/delete/${id}`);
+      const { data } = await axios.delete(
+        `https://server.generosityx.app/api/campaigns/delete/${id}`
+      );
       if (data.successful) {
         setDeletionSuccess(true);
       }
@@ -129,7 +131,10 @@ function CreateCampaign() {
         setIsLoading(true);
 
         try {
-          const { data } = await axios.post("/api/campaigns/create", formData);
+          const { data } = await axios.post(
+            "https://server.generosityx.app/api/campaigns/create",
+            formData
+          );
           if (data && data.id) {
             cloudinaryApiRequest(data.id, images);
             setId(data.id);
@@ -145,7 +150,8 @@ function CreateCampaign() {
   }, [submit]);
 
   const cloudinaryApiRequest = (productId, image) => {
-    const url = "https://api.cloudinary.com/v1_1/dsjmm6114/image/upload";
+    const url =
+      "https:/https://server.generosityx.app/api.cloudinary.com/v1_1/dsjmm6114/image/upload";
     const formData = new FormData();
     formData.append("file", image);
     formData.append("upload_preset", "chz1skwr");
@@ -158,7 +164,8 @@ function CreateCampaign() {
       .then(async (data) => {
         try {
           const response = await axios.post(
-            "/api/campaigns/upload?id=" + productId,
+            "https://server.generosityx.app/api/campaigns/upload?id=" +
+              productId,
             data
           );
           if (response.status === 201) {

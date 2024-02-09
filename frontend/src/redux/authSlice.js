@@ -17,8 +17,11 @@ export const register = createAsyncThunk(
   "auth/register",
   async (userData, thunkAPI) => {
     try {
-      const res = await axios.post("/api/users/register", userData);
-      
+      const res = await axios.post(
+        "https://server.generosityx.app/api/users/register",
+        userData
+      );
+
       if (res.data) {
         sessionStorage.setItem("user", JSON.stringify(res.data));
       }
@@ -36,18 +39,21 @@ export const register = createAsyncThunk(
   }
 );
 export const logout = createAsyncThunk("auth/logout", async () => {
-  await axios.get("/api/logout");
- 
+  await axios.get("https://server.generosityx.app/api/logout");
+
   const localUser = localStorage.getItem("user");
   const sessionUser = sessionStorage.getItem("user");
   if (localUser) localStorage.removeItem("user");
   else if (sessionUser) sessionStorage.removeItem("user");
- 
+
   return null;
 });
 export const login = createAsyncThunk("auth/login", async (user, thunkAPI) => {
   try {
-    const response = await axios.post("/api/users/login", user);
+    const response = await axios.post(
+      "https://server.generosityx.app/api/users/login",
+      user
+    );
     if (response.status === 200) {
       if (user.doNotLogout) {
         const date = new Date();

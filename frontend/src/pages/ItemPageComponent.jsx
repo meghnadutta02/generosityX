@@ -15,9 +15,13 @@ export default function ItemPageComponent(props) {
       try {
         let response;
         if (!id) {
-          response = await axios.get(`/api/donations/item/${pid}`);
+          response = await axios.get(
+            `https://server.generosityx.app/api/donations/item/${pid}`
+          );
         } else {
-          response = await axios.get(`/api/donations/item/${id}`);
+          response = await axios.get(
+            `https://server.generosityx.app/api/donations/item/${id}`
+          );
         }
         const { data } = response;
 
@@ -34,7 +38,7 @@ export default function ItemPageComponent(props) {
   const handleDelete = async () => {
     try {
       const { data } = await axios.delete(
-        `/api/donations/delete/${id}?type=item`
+        `https://server.generosityx.app/api/donations/delete/${id}?type=item`
       );
       if (data.successful) props.delete();
     } catch (error) {

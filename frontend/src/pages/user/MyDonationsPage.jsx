@@ -18,7 +18,9 @@ export default function MyDonationsPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get("/api/donations");
+        const { data } = await axios.get(
+          "https://server.generosityx.app/api/donations"
+        );
         setMoneyDonations(data.moneydonations);
         setFoodDonations(data.fooddonations);
         setItemDonations(data.itemdonations);

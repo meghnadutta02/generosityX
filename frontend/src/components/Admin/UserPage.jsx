@@ -27,8 +27,9 @@ function UserPage() {
   useEffect(() => {
     const fetchData = async () => {
       let url;
-      if (search) url = `/api/users?search=${search}`;
-      else url = "/api/users";
+      if (search)
+        url = `https://server.generosityx.app/api/users?search=${search}`;
+      else url = "https://server.generosityx.app/api/users";
       try {
         const result = await axios.get(url);
         setUsers(result.data.users);
@@ -51,7 +52,9 @@ function UserPage() {
   }, [search]);
 
   const makeAdmin = async (user) => {
-    const { data } = await axios.put(`/api/users/${user._id}`);
+    const { data } = await axios.put(
+      `https://server.generosityx.app/api/users/${user._id}`
+    );
     if (data && data.successful) toast.success(`${user.email} is now an admin`);
   };
 

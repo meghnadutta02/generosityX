@@ -35,7 +35,9 @@ function UnverifiedFundraisers() {
     setSelectedFundraiser(id);
   };
   const handleAccept = async (id) => {
-    const promise = axios.put(`/api/fundraisers/admin/verify/${id}`);
+    const promise = axios.put(
+      `https://server.generosityx.app/api/fundraisers/admin/verify/${id}`
+    );
 
     toast.promise(promise, {
       pending: "Accepting fundraiser...",
@@ -52,9 +54,12 @@ function UnverifiedFundraisers() {
 
   const handleReject1 = async (id) => {
     try {
-      const promise = axios.post(`/api/fundraisers/admin/reject/${id}`, {
-        reason: reason,
-      });
+      const promise = axios.post(
+        `https://server.generosityx.app/api/fundraisers/admin/reject/${id}`,
+        {
+          reason: reason,
+        }
+      );
 
       toast.promise(promise, {
         pending: "Rejecting fundraiser...",
@@ -77,7 +82,8 @@ function UnverifiedFundraisers() {
   };
   useEffect(() => {
     const fetchData = async () => {
-      let url = "/api/fundraisers/admin/unverified";
+      let url =
+        "https://server.generosityx.app/api/fundraisers/admin/unverified";
       try {
         const result = await axios.get(url);
         setFundraisers(result.data.fundraisers);

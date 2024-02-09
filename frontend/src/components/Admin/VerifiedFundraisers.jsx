@@ -23,7 +23,7 @@ function VerifiedFundraisers() {
 
   useEffect(() => {
     const fetchData = async () => {
-      let url = "/api/fundraisers";
+      let url = "https://server.generosityx.app/api/fundraisers";
       try {
         const result = await axios.get(url);
         setFundraisers(result.data.fundraisers);
