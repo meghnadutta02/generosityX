@@ -63,7 +63,7 @@ export default function App() {
       <Navbar />
       <ScrollToTop />
       <Chatbot />
-      <div className="custom-mesh">
+      <div className="custom-mesh min-h-screen">
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/help-fundraiser" element={<HelpFundraiserPage />} />

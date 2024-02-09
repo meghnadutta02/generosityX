@@ -74,6 +74,7 @@ const registerUser = async (req, res, next) => {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
             sameSite: "none",
+            domain: ".generosityx.app",
           }
         )
         .status(201)
@@ -102,6 +103,7 @@ const loginUser = async (req, res, next) => {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "none",
+        domain: ".generosityx.app",
       };
       if (doNotLogout) {
         cookieParams = { ...cookieParams, maxAge: 1000 * 60 * 60 * 24 * 7 };

@@ -13,7 +13,7 @@ app.use(
       "http://localhost:3000",
       "https://generosityx.onrender.com",
       "https://generosityx.app",
-      "https://www.generosityx.app/",
+      "https://www.generosityx.app",
     ],
     Headers: true,
     exposedHeaders: "Set-Cookie",
@@ -26,6 +26,7 @@ app.use(
     ],
   })
 );
+app.set("trust proxy", 1);
 const apiRoutes = require("./routes/apiRoutes");
 const { rsvped } = require("./controllers/campaignControllers");
 app.post("/rsvp", rsvped);
