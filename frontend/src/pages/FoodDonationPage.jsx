@@ -116,7 +116,7 @@ export default function FoodDonationPage() {
         setIsLoading1(true);
         try {
           const { data } = await axios.post(
-            "https://generosityx-backend.onrender.com/api/donations/donate?type=food",
+            "/api/donations/donate?type=food",
             formData
           );
           setId(data.id);
@@ -133,8 +133,7 @@ export default function FoodDonationPage() {
     createFood();
   }, [submit]);
   const cloudinaryApiRequest = (productId, images) => {
-    const url =
-      "https:/https://generosityx-backend.onrender.com/api.cloudinary.com/v1_1/dsjmm6114/image/upload";
+    const url = "https://api.cloudinary.com/v1_1/dsjmm6114/image/upload";
 
     images.forEach((image) => {
       const formData = new FormData();
@@ -151,7 +150,7 @@ export default function FoodDonationPage() {
         .then(async (data) => {
           try {
             const response = await axios.post(
-              `https://generosityx-backend.onrender.com/api/donations/image/${productId}?type=food`,
+              `/api/donations/image/${productId}?type=food`,
               data
             );
             if (response.status === 201) {
@@ -181,7 +180,7 @@ export default function FoodDonationPage() {
 
           axios
             .get(
-              `https:/https://generosityx-backend.onrender.com/api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=pk.eyJ1IjoiYW5rdXNocm95MDgiLCJhIjoiY2xmeHlydmV5MDV6cDNvbXNqYmM3ejR5bCJ9.Y-mQFNAzEIiDg37errtwOg`
+              `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=pk.eyJ1IjoiYW5rdXNocm95MDgiLCJhIjoiY2xmeHlydmV5MDV6cDNvbXNqYmM3ejR5bCJ9.Y-mQFNAzEIiDg37errtwOg`
             )
             .then((response) => {
               const { features } = response.data;

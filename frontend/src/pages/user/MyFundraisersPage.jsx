@@ -11,9 +11,7 @@ export default function MyFundraisersPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(
-          "https://generosityx-backend.onrender.com/api/fundraisers/myfundraisers"
-        );
+        const { data } = await axios.get("/api/fundraisers/myfundraisers");
         if (data) setEvents(data);
       } catch (err) {
         toast.error(err.message);

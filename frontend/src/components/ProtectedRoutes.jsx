@@ -10,9 +10,7 @@ const ProtectedRoutes = ({ admin }) => {
   useEffect(() => {
     const fetchToken = async () => {
       try {
-        const { data } = await axios.get(
-          "https://generosityx-backend.onrender.com/api/get-token"
-        );
+        const { data } = await axios.get("/api/get-token");
         if (data.token) {
           setIsAuth(true);
           setIsAdmin(data.isAdmin);

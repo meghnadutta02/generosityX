@@ -15,8 +15,8 @@ app.use(
       "https://generosityx.app",
       "https://www.generosityx.app",
     ],
-    Headers: true,
-    exposedHeaders: "Set-Cookie",
+    headers: true,
+    exposedHeaders: ["Set-Cookie"],
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true, // Allow cookies to be sent
     allowedHeaders: [

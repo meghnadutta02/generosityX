@@ -15,9 +15,7 @@ export default function ItemPageComponent() {
   useEffect(() => {
     const getItem = async () => {
       try {
-        const response = await axios.get(
-          `https://generosityx-backend.onrender.com/api/fundraisers/getOne/${id}`
-        );
+        const response = await axios.get(`/api/fundraisers/getOne/${id}`);
         const { data } = response;
 
         if (data) {
@@ -33,9 +31,7 @@ export default function ItemPageComponent() {
 
   const handleDelete = async () => {
     try {
-      const response = await axios.delete(
-        `https://generosityx-backend.onrender.com/api/fundraisers/delete/${id}`
-      );
+      const response = await axios.delete(`/api/fundraisers/delete/${id}`);
       if (response.status === 401) toast.error("Unauthorized access!");
       if (response.data.successful) {
         setDeletionSuccess(true);

@@ -28,7 +28,7 @@ export default function CampaignsPage() {
 
           axios
             .get(
-              `https:/https://generosityx-backend.onrender.com/api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=pk.eyJ1IjoiYW5rdXNocm95MDgiLCJhIjoiY2xmeHlydmV5MDV6cDNvbXNqYmM3ejR5bCJ9.Y-mQFNAzEIiDg37errtwOg`
+              `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=pk.eyJ1IjoiYW5rdXNocm95MDgiLCJhIjoiY2xmeHlydmV5MDV6cDNvbXNqYmM3ejR5bCJ9.Y-mQFNAzEIiDg37errtwOg`
             )
             .then((response) => {
               const { features } = response.data;
@@ -56,9 +56,9 @@ export default function CampaignsPage() {
 
   useEffect(() => {
     const fetchData = async () => {
-      let url = "https://generosityx-backend.onrender.com/api/campaigns/search";
+      let url = "/api/campaigns/search";
       if (selectedCity) {
-        url = `https://generosityx-backend.onrender.com/api/campaigns/search?city=${selectedCity}`;
+        url = `/api/campaigns/search?city=${selectedCity}`;
       }
       try {
         const result = await axios.get(url);

@@ -19,7 +19,7 @@ export default function CommentPage({ loaded }) {
 
   useEffect(() => {
     const fetchData = async () => {
-      let url = `https://generosityx-backend.onrender.com/api/fundraisers/getOne/${id}`;
+      let url = `/api/fundraisers/getOne/${id}`;
       try {
         const result = await axios.get(url);
         setFundraiser(result.data);

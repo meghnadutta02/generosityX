@@ -16,13 +16,9 @@ export default function FoodPageComponent(props) {
       try {
         let response;
         if (!id) {
-          response = await axios.get(
-            `https://generosityx-backend.onrender.com/api/donations/food/${pid}`
-          );
+          response = await axios.get(`/api/donations/food/${pid}`);
         } else {
-          response = await axios.get(
-            `https://generosityx-backend.onrender.com/api/donations/food/${id}`
-          );
+          response = await axios.get(`/api/donations/food/${id}`);
         }
         const { data } = response;
 
@@ -40,7 +36,7 @@ export default function FoodPageComponent(props) {
   const handleDelete = async () => {
     try {
       const { data } = await axios.delete(
-        `https://generosityx-backend.onrender.com/api/donations/delete/${id}?type=food`
+        `/api/donations/delete/${id}?type=food`
       );
       if (data.successful) props.delete();
     } catch (error) {

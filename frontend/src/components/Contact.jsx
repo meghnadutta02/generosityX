@@ -18,10 +18,7 @@ function Contact() {
       const formData = getValues();
       console.log(formData);
       try {
-        const promise = axios.post(
-          "https://generosityx-backend.onrender.com/api/campaigns/contact",
-          formData
-        );
+        const promise = axios.post("/api/campaigns/contact", formData);
         toast.promise(promise, {
           pending: "Submitting message...",
           success: `We will get back to to you shortly`,

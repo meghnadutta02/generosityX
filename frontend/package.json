@@ -1,7 +1,7 @@
 {
   "name": "client",
   "private": true,
-  "proxy": "https://generosityx-backend.onrender.com",
+  "proxy": "https://server.generosityx.app",
   "version": "0.1.0",
   "type": "module",
   "scripts": {

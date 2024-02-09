@@ -15,13 +15,9 @@ export default function ItemPageComponent(props) {
       try {
         let response;
         if (!id) {
-          response = await axios.get(
-            `https://generosityx-backend.onrender.com/api/donations/item/${pid}`
-          );
+          response = await axios.get(`/api/donations/item/${pid}`);
         } else {
-          response = await axios.get(
-            `https://generosityx-backend.onrender.com/api/donations/item/${id}`
-          );
+          response = await axios.get(`/api/donations/item/${id}`);
         }
         const { data } = response;
 
@@ -38,7 +34,7 @@ export default function ItemPageComponent(props) {
   const handleDelete = async () => {
     try {
       const { data } = await axios.delete(
-        `https://generosityx-backend.onrender.com/api/donations/delete/${id}?type=item`
+        `/api/donations/delete/${id}?type=item`
       );
       if (data.successful) props.delete();
     } catch (error) {

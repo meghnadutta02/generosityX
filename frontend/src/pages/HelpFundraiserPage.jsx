@@ -20,7 +20,7 @@ export default function HelpFundraiserPage() {
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
-      let url = "https://generosityx-backend.onrender.com/api/fundraisers";
+      let url = "/api/fundraisers";
       const result = await axios.get(url);
       setFundraisers(result.data.fundraisers);
       setIsLoading(false);
